@@ -1,0 +1,106 @@
+XH
+H 3 areas 24 global symbols
+M pwm8_vout.asm
+A text size 0 flags 0
+dbfile lib/pwm8_vout.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/pwm8_vout.asm
+dbfunc 0 ? 0 I
+dbfile PWM8_Vout.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/PWM8_Vout.inc
+dbfunc 0 ? 0 I
+dbfile lib/pwm8_vout.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+A slc_free_28_pin_feb_16_2013_RAM size 0 flags 20
+A UserModules size 42 flags 0
+dbfile lib/pwm8_vout.asm
+dbfunc 0 ? 0 I
+dbline 2 0
+dbline 5F 3
+dbline 2 4
+dbline 7B 7
+dbline 2 8
+dbline 98 B
+dbline 2 C
+dbline B4 F
+dbline D0 10
+dbline D2 12
+dbline EB 13
+dbline ED 15
+dbline 108 16
+dbline 10A 18
+dbline 12F 19
+dbline 130 1A
+dbline 131 1C
+dbline 2 1D
+dbline 2 20
+dbline 134 22
+dbline 135 24
+dbline 137 25
+dbline 2 28
+dbline 13A 2A
+dbline 13B 2C
+dbline 13C 2E
+dbline 13D 2F
+dbline 13E 31
+dbline 2 33
+dbline 140 35
+dbline 141 37
+dbline 2 39
+dbline 2 3B
+dbline 144 3E
+dbline 145 3F
+dbline 147 41
+S _PWM8_Vout_Start Def0008
+S PWM8_Vout_WritePeriod Def0010
+S PWM8_Vout_EnableInt Def0000
+S _PWM8_Vout_WritePulseWidth Def0013
+S $sb$PWM8_Vout_WritePeriod Def0010
+S $se$PWM8_Vout_WritePeriod Def0013
+S $sb$PWM8_Vout_EnableInt Def0000
+S $se$PWM8_Vout_EnableInt Def0004
+S PWM8_Vout_Stop Def000C
+S bPWM8_Vout_ReadCounter Def0019
+S PWM8_Vout_bReadCounter Def0019
+S $sb$PWM8_Vout_Stop Def000C
+S $se$PWM8_Vout_Stop Def0010
+S _PWM8_Vout_WritePeriod Def0010
+S _PWM8_Vout_EnableInt Def0000
+S $sb$PWM8_Vout_bReadCounter Def0019
+S $se$PWM8_Vout_bReadCounter Def0042
+S PWM8_Vout_DisableInt Def0004
+S bPWM8_Vout_ReadPulseWidth Def0016
+S PWM8_Vout_bReadPulseWidth Def0016
+S $sb$PWM8_Vout_DisableInt Def0004
+S $se$PWM8_Vout_DisableInt Def0008
+S $sb$PWM8_Vout_bReadPulseWidth Def0016
+S _PWM8_Vout_Stop Def000C
+S $se$PWM8_Vout_bReadPulseWidth Def0019
+S PWM8_Vout_Start Def0008
+S PWM8_Vout_WritePulseWidth Def0013
+S _bPWM8_Vout_ReadCounter Def0019
+S _PWM8_Vout_bReadCounter Def0019
+S $sb$PWM8_Vout_Start Def0008
+S $se$PWM8_Vout_Start Def000C
+S $sb$PWM8_Vout_WritePulseWidth Def0013
+S $se$PWM8_Vout_WritePulseWidth Def0016
+S _PWM8_Vout_DisableInt Def0004
+S _bPWM8_Vout_ReadPulseWidth Def0016
+S _PWM8_Vout_bReadPulseWidth Def0016
+T 00 00 43 E1 04 7F 41 E1 FB 7F 43 2B 01 7F 41 2B
+R 00 00 00 02
+T 00 0E FE 7F 60 29 7F 60 2A 7F 5D 2A 7F 4F 5D 2A
+R 00 00 00 02
+T 00 1C 08 41 2B FE 71 10 5D 29 08 62 29 00 70 EF
+R 00 00 00 02
+T 00 2A 5D 28 5D 2A 08 52 00 60 2A 71 10 52 01 60
+R 00 00 00 02
+T 00 38 29 70 EF 43 2B 01 18 38 FE 7F
+R 00 00 00 02

@@ -1,0 +1,28 @@
+XH
+H 3 areas 1 global symbols
+M pwm8_voutint.asm
+A text size 0 flags 0
+dbfile lib/pwm8_voutint.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/pwm8_voutint.asm
+dbfunc 0 ? 0 I
+dbfile PWM8_Vout.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/PWM8_Vout.inc
+dbfunc 0 ? 0 I
+dbfile lib/pwm8_voutint.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+A InterruptRAM size 0 flags 20
+A UserModules size 1 flags 0
+dbfile lib/pwm8_voutint.asm
+dbfunc 0 ? 0 I
+dbline 4C 0
+S _PWM8_Vout_ISR Def0000
+T 00 00 7E
+R 00 00 00 02

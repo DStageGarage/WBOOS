@@ -1,0 +1,575 @@
+XH
+H 2 areas 56 global symbols
+M lcd.asm
+S Port_2_DriveMode_0_SHADE Ref0000
+S Port_2_DriveMode_1_SHADE Ref0000
+S Port_2_Data_SHADE Ref0000
+A text size 0 flags 0
+dbfile lib/lcd.asm
+dbfunc 0 ? 0 I
+dbfile LCD.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/LCD.inc
+dbfunc 0 ? 0 I
+dbfile lib/lcd.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/lcd.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+A UserModules size 2B6 flags 0
+dbfile lib/lcd.asm
+dbfunc 0 ? 0 I
+dbline D0 0
+dbline D1 1
+dbline D2 2
+dbline D3 3
+dbline D4 5
+dbline D5 6
+dbline D7 7
+dbline DA 8
+dbline DB A
+dbline DC B
+dbline DD C
+dbline DE D
+dbline DF F
+dbline E0 10
+dbline 104 22
+dbline 105 23
+dbline 106 24
+dbline 107 25
+dbline 108 26
+dbline 109 27
+dbline 10A 29
+dbline 10B 2B
+dbline 10C 2D
+dbline 10D 2E
+dbline 10E 30
+dbline 10F 32
+dbline 111 34
+dbline 131 35
+dbline 132 36
+dbline 133 38
+dbline 134 39
+dbline 136 3B
+dbline 15A 3C
+dbline 15B 3E
+dbline 15D 40
+dbline 15E 42
+dbline 15F 43
+dbline 162 45
+dbline 182 46
+dbline 184 48
+dbline 185 49
+dbline 186 4A
+dbline 187 4B
+dbline 188 4C
+dbline 189 4D
+dbline 18A 4F
+dbline 18B 51
+dbline 18C 52
+dbline 18D 54
+dbline 18E 55
+dbline 18F 56
+dbline 190 57
+dbline 192 59
+dbline 1B0 5A
+dbline 1B2 5C
+dbline 1B3 5D
+dbline 1B4 5E
+dbline 1B5 5F
+dbline 1B6 60
+dbline 1B7 61
+dbline 1B8 63
+dbline 1B9 65
+dbline 1BA 66
+dbline 1BB 68
+dbline 1BC 69
+dbline 1BD 6A
+dbline 1BE 6B
+dbline 1C0 6D
+dbline 1DD 6E
+dbline 1DF 6F
+dbline 1E0 72
+dbline 1E1 74
+dbline 1E3 76
+dbline 1E4 77
+dbline 1E5 79
+dbline 1E6 7B
+dbline 1E7 7D
+dbline 1E8 7F
+dbline 1E9 81
+dbline 1EA 82
+dbline 1EB 84
+dbline 1EC 86
+dbline 1EE 88
+dbline 20B 89
+dbline 20D 8A
+dbline 20E 8D
+dbline 20F 90
+dbline 210 92
+dbline 212 94
+dbline 213 95
+dbline 214 97
+dbline 215 99
+dbline 216 9B
+dbline 217 9D
+dbline 218 9F
+dbline 219 A0
+dbline 21A A2
+dbline 21B A4
+dbline 21D A6
+dbline 23B A7
+dbline 23D A8
+dbline 23E AB
+dbline 23F AD
+dbline 241 AF
+dbline 242 B2
+dbline 2 B4
+dbline 244 B6
+dbline 2 B8
+dbline 247 BA
+dbline 248 BD
+dbline 249 BF
+dbline 24A C1
+dbline 24C C2
+dbline 24D C3
+dbline 250 C5
+dbline 251 C8
+dbline 252 CA
+dbline 254 CC
+dbline 255 CD
+dbline 256 CE
+dbline 262 D0
+dbline 263 D1
+dbline 264 D4
+dbline 265 D6
+dbline 267 D8
+dbline 268 D9
+dbline 269 DA
+dbline 26B DB
+dbline 26C DE
+dbline 26D E0
+dbline 26F E2
+dbline 270 E3
+dbline 272 E4
+dbline 273 E7
+dbline 274 E9
+dbline 276 EB
+dbline 277 EC
+dbline 279 EE
+dbline 27A F0
+dbline 27B F1
+dbline 27D F3
+dbline 27F F4
+dbline 280 F7
+dbline 2 F9
+dbline 282 FB
+dbline 2 FD
+dbline 284 FF
+dbline 286 100
+dbline 2AD 101
+dbline 2AE 104
+dbline 2AF 107
+dbline 2B1 10A
+dbline 2 10C
+dbline 2B3 10E
+dbline 2B4 110
+dbline 2B5 112
+dbline 2 114
+dbline 2B8 116
+dbline 2B9 118
+dbline 2BA 11A
+dbline 2BB 11C
+dbline 2BD 11E
+dbline 2BE 120
+dbline 2C0 122
+dbline 2C1 124
+dbline 2C3 126
+dbline 2C4 128
+dbline 2C6 12A
+dbline 2C7 12C
+dbline 2C8 12E
+dbline 2CA 130
+dbline 2CB 132
+dbline 2CD 134
+dbline 2CE 136
+dbline 2D0 138
+dbline 2D1 13A
+dbline 2D3 13C
+dbline 2D4 13E
+dbline 2D6 140
+dbline 2D7 142
+dbline 2D8 144
+dbline 2D9 146
+dbline 2DB 148
+dbline 2DC 14A
+dbline 2DD 14C
+dbline 2DE 14E
+dbline 2E0 150
+dbline 2E1 152
+dbline 2E3 154
+dbline 2E4 156
+dbline 2E6 158
+dbline 2E7 15A
+dbline 2E9 15C
+dbline 2EA 15E
+dbline 2EC 160
+dbline 2ED 162
+dbline 2EF 164
+dbline 2F0 166
+dbline 2F2 168
+dbline 2F3 16A
+dbline 2F5 16C
+dbline 316 171
+dbline 317 173
+dbline 318 174
+dbline 319 176
+dbline 31A 177
+dbline 31B 179
+dbline 31D 17A
+dbline 31F 17C
+dbline 33B 17D
+dbline 33C 17F
+dbline 33D 180
+dbline 33F 182
+dbline 367 18B
+dbline 2 18C
+dbline 369 18E
+dbline 2 190
+dbline 36B 192
+dbline 36C 194
+dbline 36D 196
+dbline 36E 198
+dbline 370 19A
+dbline 371 19B
+dbline 373 19D
+dbline 375 19E
+dbline 3AF 19F
+dbline 3B0 1A0
+dbline 3B1 1A2
+dbline 3B2 1A4
+dbline 3B5 1A5
+dbline 3B6 1A8
+dbline 3B7 1AA
+dbline 3B8 1AC
+dbline 3BB 1AE
+dbline 3BC 1B1
+dbline 3BD 1B3
+dbline 3BE 1B5
+dbline 3BF 1B7
+dbline 3C2 1B9
+dbline 3C3 1BB
+dbline 3C6 1BE
+dbline 3C8 1C0
+dbline 3C9 1C2
+dbline 3CA 1C4
+dbline 3F7 1C5
+dbline 3F8 1C6
+dbline 3F9 1C7
+dbline 3FA 1C9
+dbline 3FC 1CB
+dbline 3FE 1CD
+dbline 401 1CE
+dbline 402 1D1
+dbline 403 1D3
+dbline 404 1D5
+dbline 407 1D7
+dbline 408 1DA
+dbline 409 1DC
+dbline 40A 1DE
+dbline 40B 1E0
+dbline 40E 1E2
+dbline 40F 1E4
+dbline 412 1E7
+dbline 414 1E9
+dbline 415 1EB
+dbline 417 1ED
+dbline 448 1EE
+dbline 44A 1F0
+dbline 44B 1F1
+dbline 44C 1F3
+dbline 44D 1F5
+dbline 44E 1F7
+dbline 44F 1FA
+dbline 450 1FC
+dbline 451 1FE
+dbline 453 200
+dbline 454 203
+dbline 456 205
+dbline 457 207
+dbline 458 208
+dbline 459 20B
+dbline 45C 20D
+dbline 45D 210
+dbline 460 212
+dbline 461 214
+dbline 462 215
+dbline 463 216
+dbline 464 218
+dbline 465 21A
+dbline 490 21B
+dbline 491 21C
+dbline 492 21E
+dbline 494 220
+dbline 495 221
+dbline 496 223
+dbline 497 225
+dbline 498 227
+dbline 499 22A
+dbline 49A 22C
+dbline 49B 22E
+dbline 49D 230
+dbline 49E 233
+dbline 4A0 235
+dbline 4A1 237
+dbline 4A2 238
+dbline 4A3 23B
+dbline 4A6 23D
+dbline 4A7 240
+dbline 4AA 242
+dbline 4AB 244
+dbline 4AC 245
+dbline 4AD 246
+dbline 4AE 248
+dbline 4B0 24A
+dbline 4D6 24B
+dbline 4D7 24C
+dbline 4D8 24D
+dbline 4DA 24E
+dbline 4DB 250
+dbline 4DC 252
+dbline 4DF 255
+dbline 4E1 258
+dbline 4E2 25A
+dbline 4E3 25C
+dbline 4E4 25E
+dbline 4E5 260
+dbline 4E7 262
+dbline 4E9 264
+dbline 4EA 266
+dbline 4EB 268
+dbline 4EC 26A
+dbline 4ED 26C
+dbline 4EE 26F
+dbline 4F0 271
+dbline 4F1 272
+dbline 4F2 273
+dbline 4F3 275
+dbline 4F5 277
+dbline 527 286
+dbline 528 287
+dbline 529 289
+dbline 52B 28B
+dbline 52C 28D
+dbline 52D 28F
+dbline 530 292
+dbline 532 295
+dbline 533 297
+dbline 534 29A
+dbline 535 29C
+dbline 536 29E
+dbline 538 2A0
+dbline 53A 2A2
+dbline 53B 2A4
+dbline 53C 2A6
+dbline 53D 2A8
+dbline 53E 2AA
+dbline 53F 2AD
+dbline 541 2AF
+dbline 542 2B1
+dbline 543 2B3
+dbline 545 2B5
+S _LCD_InitVBG Def024B
+S _LCD_PrHexByte Def0022
+S _LCD_PrCString Def0000
+S LCD_Control Def005A
+S LCD_Write_Data Def0046
+S _LCD_WriteData Def0046
+S $sb$LCD_Delay50u Def018B
+S $sb$LCD_Delay50uTimes Def017D
+S $sb$_LCD_DrawVBG Def021B
+S $se$LCD_Delay50u Def019F
+S $se$LCD_Delay50uTimes Def0183
+S $se$_LCD_DrawVBG Def024B
+S _LCD_Init Def0101
+S $sb$LCD_Control Def005A
+S $se$LCD_Control Def006E
+S LCD_Start Def0101
+S LCD_Delay50u_Table Def0183
+S LCD_PrHexInt Def0035
+S LCD_DrawBG Def019F
+S LCD_InitBG Def0286
+S LCD_ROW_OFFSET Def016D
+S $lb$LCD_Delay50u_Table Def0183
+S _LCD_Delay50u Def018B
+S $le$LCD_Delay50u_Table Def018B
+S _LCD_Delay50uTimes Def017D
+S $sb$LCD_Start Def0101
+S $se$LCD_Start Def016D
+S $sb$LCD_PrHexInt Def0035
+S $se$LCD_PrHexInt Def003C
+S $sb$LCD_DrawBG Def019F
+S $lb$LCD_ROW_OFFSET Def016D
+S $se$LCD_DrawBG Def01C5
+S $le$LCD_ROW_OFFSET Def0171
+S $sb$LCD_WDATA_Nibble Def0089
+S LCD_PrString Def003C
+S $sb$LCD_InitBG Def0286
+S $se$LCD_WDATA_Nibble Def00A7
+S $se$LCD_InitBG Def02B6
+S LCD_HEX_STR Def0012
+S _LCD_Control Def005A
+S _LCD_Write_Data Def0046
+S $sb$LCD_Check_Ready Def00A7
+S $sb$LCD_WCNTL_Nibble Def006E
+S $se$LCD_Check_Ready Def0101
+S $se$LCD_WCNTL_Nibble Def0089
+S $lb$LCD_HEX_STR Def0012
+S LCD_Position Def0171
+S $sb$LCD_PrString Def003C
+S $le$LCD_HEX_STR Def0022
+S $se$LCD_PrString Def0046
+S LCD_BG_TYPE1 Def0278
+S LCD_BG_TYPE2 Def027F
+S LCD_DrawVBG Def01EE
+S _LCD_Start Def0101
+S $lb$LCD_BG_TYPE1 Def0278
+S _LCD_PrHexInt Def0035
+S $sb$LCD_Position Def0171
+S LCD_InitVBG Def024B
+S $le$LCD_BG_TYPE1 Def0286
+S $se$LCD_Position Def017D
+S _LCD_DrawBG Def01C5
+S LCD_PrHexByte Def0022
+S _LCD_InitBG Def0286
+S LCD_PrCString Def0000
+S LCD_WriteData Def0046
+S $sb$LCD_DrawVBG Def01EE
+S $se$LCD_DrawVBG Def021B
+S $sb$LCD_InitVBG Def024B
+S $se$LCD_InitVBG Def0278
+S $sb$_LCD_DrawBG Def01C5
+S LCD_Init Def0101
+S $se$_LCD_DrawBG Def01EE
+S $sb$LCD_PrHexByte Def0022
+S _LCD_PrString Def003C
+S $sb$LCD_PrCString Def0000
+S $se$LCD_PrHexByte Def0035
+S $se$LCD_PrCString Def0012
+S $sb$LCD_WriteData Def0046
+S $se$LCD_WriteData Def005A
+S _LCD_Position Def0171
+S LCD_Delay50u Def018B
+S LCD_Delay50uTimes Def017D
+S _LCD_DrawVBG Def021B
+T 00 00 08 10 28 B0 04 20 18 7F 90 3C 20 18 75 DF
+R 00 00 00 01
+T 00 0E F2 74 8F EF 30 31 32 33 34 35 36 37 38 39
+R 00 00 00 01
+T 00 1C 41 42 43 44 45 46 08 67 67 67 67 21 0F FF
+R 00 00 00 01
+T 00 2A E7 90 19 18 21 0F FF E0 90 12 7F 4B 9F EA
+R 00 00 00 01
+T 00 38 5B 9F E7 7F 52 00 A0 06 90 04 75 8F F8 7F
+R 00 00 00 01
+T 00 46 90 5F 08 67 67 67 67 21 0F 90 38 18 21 0F
+R 00 00 00 01
+T 00 54 40 40 40 90 30 7F 90 4B 08 67 67 67 67 21
+R 00 00 00 01
+T 00 62 0F 90 09 18 21 0F 40 40 40 90 01 7F 08 26
+R 00 00 00 01
+T 00 70 00 00 80 51 00 00 60 08 18 21 0F 29 10 2A
+R 00 00 00 01 03 02 00 02 03 06 00 02
+T 00 7C 00 00 60 08 53 00 00 40 21 8F 53 00 00 60
+R 00 00 00 01 03 02 00 02 03 07 00 02 03 0D 00 02
+T 00 87 08 7F 08 26 00 00 80 2E 00 00 20 51 00 00
+R 00 00 00 01 03 06 00 02 03 0A 00 02 03 0E 00 02
+T 00 92 60 08 18 21 0F 29 30 2A 00 00 60 08 53
+R 00 00 00 01 03 0A 00 02
+T 00 9E 00 00 40 21 AF 53 00 00 60 08 7F 08 26
+R 00 00 00 01 03 02 00 02 03 08 00 02
+T 00 A9 00 00 80 51 00 00 60 08 26 00 00 F0 51
+R 00 00 00 01 03 02 00 02 03 06 00 02 03 0B 00 00
+T 00 B3 00 00 71 10 60 08 70 EF 2E 00 00 40 51
+R 00 00 00 01 03 02 00 00 03 0B 00 02
+T 00 BE 00 00 60 08 40 10 57 FF 2E 00 00 50 51
+R 00 00 00 01 03 02 00 02 03 0B 00 02
+T 00 C9 00 00 60 08 40 40 5D 08 08 26 00 00 C0 51
+R 00 00 00 01 03 02 00 02 03 0C 00 02
+T 00 D5 00 00 60 08 40 40 40 2E 00 00 50 51 00 00
+R 00 00 00 01 03 02 00 02 03 0A 00 02 03 0E 00 02
+T 00 E0 60 08 40 40 26 00 00 C0 51 00 00 60 08 18
+R 00 00 00 01 03 07 00 02 03 0B 00 02
+T 00 EC 21 08 A0 04 79 BF D3 20 2E 00 00 7F 51
+R 00 00 00 01 03 0B 00 00
+T 00 F8 00 00 71 10 60 08 70 EF 18 7F 26 00 00 80
+R 00 00 00 01 03 02 00 00 03 0D 00 00
+T 01 04 2E 00 00 7F 26 00 00 80 51 00 00 71 10 60
+R 00 00 00 01 03 03 00 00 03 07 00 01 03 0B 00 00
+T 01 0F 08 51 00 00 60 09 70 EF 50 FA 90 63 50 FA
+R 00 00 00 01 03 04 00 01
+T 01 1C 90 5F 50 03 9F 4C 50 52 90 57 50 03 9F 44
+R 00 00 00 01
+T 01 2A 90 5F 90 5D 90 5B 50 03 9F 3A 50 5A 90 45
+R 00 00 00 01
+T 01 38 50 02 9F 32 50 5A 90 3D 50 08 9F 16 50 5A
+R 00 00 00 01
+T 01 46 90 35 50 01 9F 0E 50 5A 90 2D 50 06 9F 06
+R 00 00 00 01
+T 01 54 50 0E 9F 02 50 2C 9E FE 50 08 9E FA 50 0C
+R 00 00 00 01
+T 01 62 9E F6 50 03 9E F2 50 5A 90 11 7F 80 C0 94
+R 00 00 00 01
+T 01 70 D4 21 03 10 FF F7 4F 03 FF 20 9E DE 7F 90
+R 00 00 00 01
+T 01 7E 0C 78 BF FC 7F 08 19 3A 7C 01 01 01 01 08
+R 00 00 00 01
+T 01 8C 71 10 5D E0 70 EF 21 07 39 05 D0 06 FF E9
+R 00 00 00 01
+T 01 9A 78 BF FE 18 7F 10 59 00 9F CD 20 3D FE 00
+R 00 00 00 01
+T 01 A8 B0 05 50 00 80 11 3D FE 06 D0 07 52 FE 15
+R 00 00 00 01
+T 01 B6 FE 80 06 50 06 17 FE 05 9E 86 7B FF BF E2
+R 00 00 00 01
+T 01 C4 7F 4F 10 52 FD 59 FC 9F A4 20 3D FA 00 B0
+R 00 00 00 01
+T 01 D2 05 50 00 80 11 3D FA 06 D0 07 52 FA 15 FA
+R 00 00 00 01
+T 01 E0 80 06 50 06 17 FA 05 9E 5D 7B FB BF E2 7F
+R 00 00 00 01
+T 01 EE 21 03 08 FF 7A 03 00 9E 63 3D FE 00 B0 05
+R 00 00 00 01
+T 01 FC 50 20 80 13 3D FE 09 D0 09 52 FE 78 56 FE
+R 00 00 00 01
+T 02 0A 00 80 06 17 FE 08 50 07 9E 32 18 78 7B FF
+R 00 00 00 01
+T 02 18 BF D7 7F 4F 52 FD 21 03 08 FF 4A 03 FC 9E
+R 00 00 00 01
+T 02 26 33 3D FA 00 B0 05 50 20 80 13 3D FA 09 D0
+R 00 00 00 01
+T 02 34 09 52 FA 78 56 FA 00 80 06 17 FA 08 50 07
+R 00 00 00 01
+T 02 42 9E 02 18 78 7B FB BF D7 7F 4F 08 08 50 40
+R 00 00 00 01
+T 02 50 9E 08 56 00 01 56 01 08 52 00 3B 01 D0 05
+R 00 00 00 01
+T 02 5E 50 00 80 03 50 FF 9D E0 7B 01 BF EF 77 00
+R 00 00 00 01
+T 02 6C 3D 00 09 BF E5 18 18 50 0C 9D E3 7F 00 10
+R 00 00 00 01
+T 02 7A 18 1C 1E 1F 1F 00 10 08 04 02 01 00 4F 38
+R 00 00 00 01
+T 02 88 03 54 02 50 40 9D CB 56 00 00 56 01 08 52
+R 00 00 00 01
+T 02 96 00 3D 02 00 B0 05 FF DA 80 03 FF DD 9D A2
+R 00 00 00 01
+T 02 A4 7B 01 BF EE 77 00 3D 00 07 BF E4 38 FD 50
+R 00 00 00 01
+T 02 B2 0C 9D A5 7F
+R 00 00 00 01

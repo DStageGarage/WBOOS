@@ -1,0 +1,159 @@
+XH
+H B areas 13 global symbols
+M boot.asm
+S _main Ref0000
+S _ADCINC_ADConversion_ISR Ref0000
+S _PWM8_NB_Out_ISR Ref0000
+S __r0 Ref0000
+S LoadConfigInit Ref0000
+S _PWM8_Heater_ISR Ref0000
+S __bss_end Ref0000
+S __ramareas_end Ref0000
+S _SleepTimer_ISR Ref0000
+S _PWM8_Vout_ISR Ref0000
+S __data_end Ref0000
+A TOP size D4 flags C
+dbfile ./boot.asm
+dbfunc 0 ? 0 I
+dbline 72 0
+dbline 7A 4
+dbline 7E 8
+dbline 82 C
+dbline 86 18
+dbline 8A 1C
+dbline 8D 20
+dbline 8E 23
+dbline 91 24
+dbline 92 27
+dbline 95 28
+dbline 96 2B
+dbline 99 2C
+dbline 9A 2F
+dbline 9E 60
+dbline A1 64
+dbline A2 67
+dbline 2 68
+dbline BB 6A
+dbline 2 6D
+dbline 2 6F
+dbline C6 72
+dbline D1 75
+dbline D2 77
+dbline 2 78
+dbline FC 7B
+dbline FD 7E
+dbline 2 81
+dbline 116 83
+dbline 2 86
+dbline 2 88
+dbline 142 8B
+dbline 143 8E
+dbline 157 91
+dbline 15D 94
+dbline 15E 96
+dbline 160 99
+dbline 161 9C
+dbline 162 9E
+dbline 163 A0
+dbline 165 A2
+dbline 166 A4
+dbline 167 A6
+dbline 169 A9
+dbline 16A AC
+dbline 16B AE
+dbline 16C AF
+dbline 16D B0
+dbline 16E B2
+dbline 16F B3
+dbline 170 B4
+dbline 171 B6
+dbline 2 B8
+dbline 1A4 BA
+dbline 2 BD
+dbline 1B6 BF
+dbline 2 C2
+dbline 1BB C4
+dbline 2 C7
+dbline 1C2 C9
+dbline 1CA CC
+dbline 1CC CF
+dbline 1DC D1
+dbline 1DE D3
+S bGetPowerSetting Def00D1
+S _bGetPowerSetting Def00D1
+S __Start Def0068
+A lit size 0 flags 1
+A idata size 0 flags 1
+S __idata_start Def0000
+A func_lit size 0 flags 2
+S __func_lit_start Def0000
+A psoc_config size 0 flags 0
+A UserModules size 0 flags 0
+A text size 0 flags 0
+S __text_start Def0000
+A data size 0 flags 20
+S __data_start Def0000
+A virtual_registers size 0 flags 20
+A InterruptRAM size 0 flags 20
+A bss size 0 flags 20
+dbfile ./boot.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile ./boot.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8ssc.inc
+dbfunc 0 ? 0 I
+dbfile ./boot.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./boot.asm
+dbfunc 0 ? 0 I
+dbfile .\lib\GlobalParams.inc
+dbfunc 0 ? 0 I
+S __bss_start Def0000
+T 00 00 80 67
+R 00 00 00 00
+T 00 04 30
+R 00 00 00 00
+T 00 08 7E
+R 00 00 00 00
+T 00 0C 7E
+R 00 00 00 00
+T 00 18 7E
+R 00 00 00 00
+T 00 1C 7E
+R 00 00 00 00
+T 00 20 7D 00 00 7E
+R 00 00 00 00 02 03 00 01
+T 00 24 7D 00 00 7E
+R 00 00 00 00 02 03 00 05
+T 00 28 7D 00 00 7E
+R 00 00 00 00 02 03 00 09
+T 00 2C 7D 00 00 7E
+R 00 00 00 00 02 03 00 02
+T 00 60 7E
+R 00 00 00 00
+T 00 64 7D 00 00 7E
+R 00 00 00 00 02 03 00 08
+T 00 68 71 10 62 E3 86 70 EF 62 E3 38 41 FE FB 50
+R 00 00 00 00
+T 00 76 00 00 4E 62 E3 38 55 F8 00 55 F9 00 71 10
+R 00 00 00 00 03 02 00 07
+T 00 83 62 E0 02 70 EF 62 E3 38 62 71 05 62 75 05
+R 00 00 00 00
+T 00 91 7C 00 00 50 00 55 00 00 00 00 3C
+R 00 00 00 00 02 03 00 04 03 08 00 03 01 0A 00 0A
+T 00 9A 00 00 00 00 A0 05 3F 00 00 8F F8 50
+R 00 00 00 00 03 02 00 03 03 04 00 06 03 09 00 03
+T 00 A3 00 00 57 00 00 55 00 00
+R 00 00 00 00 41 02 00 02 01 05 00 02 03 08 00 03
+T 00 A8 00 00 3C 00 00 00 00 A0 0B 08 28 3F
+R 00 00 00 00 01 02 00 07 03 05 00 03 03 07 00 0A
+T 00 B1 00 00 18 75 09 00 8F F2 71 10 43 E3 10 70
+R 00 00 00 00 03 02 00 03
+T 00 BE EF 62 E0 00 71 10 62 E0 02 70 EF 62 E2 00
+R 00 00 00 00
+T 00 CC 7C 00 00 8F FF 50 10 7F
+R 00 00 00 00 02 03 00 00

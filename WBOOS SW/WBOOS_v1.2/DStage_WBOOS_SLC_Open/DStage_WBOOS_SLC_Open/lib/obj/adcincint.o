@@ -1,0 +1,165 @@
+XH
+H 3 areas 15 global symbols
+M adcincint.asm
+A text size 0 flags 0
+dbfile lib/adcincint.asm
+dbfunc 0 ? 0 I
+dbfile ADCINC.inc
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile ADCINC.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/ADCINC.inc
+dbfunc 0 ? 0 I
+dbfile lib/adcincint.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/adcincint.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+A InterruptRAM size D flags 20
+S ADC_Counter Def0008
+S _ADC_IF Def000C
+S _ip_x1 Def000B
+S Ri_Min_x1 Def000A
+S Ri_Max_x1 Def0009
+S _ADCINC_iResult Def0000
+S _ADCINC_fStatus Def0004
+S _ADCINC_fMode Def0006
+S ADCINC_bState Def0005
+S _ADC_Counter Def0008
+S ADCINC_bNumSamples Def0007
+S _Ri_Min_x1 Def000A
+S _Ri_Max_x1 Def0009
+S ADC_IF Def000C
+S _ADCINC_bState Def0005
+S _ADCINC_bNumSamples Def0007
+S ip_x1 Def000B
+S ADCINC_iResult Def0000
+S ADCINC_fStatus Def0004
+S ADCINC_fMode Def0006
+A UserModules size BA flags 0
+dbfile lib/adcincint.asm
+dbfunc 0 ? 0 I
+dbline 6A 0
+dbline 6C 2
+dbline 6D 4
+dbline 6F 5
+dbline 71 8
+dbline 72 A
+dbline 73 B
+dbline 74 D
+dbline 75 F
+dbline 76 11
+dbline 77 13
+dbline 78 14
+dbline 79 17
+dbline 7A 1A
+dbline 3 1B
+dbline 5 1E
+dbline 7E 21
+dbline 7F 22
+dbline 80 24
+dbline 81 26
+dbline 82 28
+dbline 83 2A
+dbline 84 2C
+dbline 85 2D
+dbline 8B 2F
+dbline 8C 32
+dbline 90 34
+dbline 92 36
+dbline 93 38
+dbline 94 39
+dbline A5 3C
+dbline A6 3F
+dbline A7 41
+dbline AE 44
+dbline AF 46
+dbline B0 48
+dbline B2 4A
+dbline B3 4C
+dbline B5 4E
+dbline B6 50
+dbline B8 52
+dbline B9 54
+dbline BD 56
+dbline BE 59
+dbline BF 5C
+dbline C0 5F
+dbline C1 62
+dbline C4 64
+dbline C7 67
+dbline C8 6A
+dbline C9 6D
+dbline CA 70
+dbline CC 73
+dbline D0 75
+dbline D1 78
+dbline D2 7B
+dbline D3 7E
+dbline D4 81
+dbline D8 83
+dbline D9 86
+dbline DA 89
+dbline DB 8C
+dbline DC 8F
+dbline EC 92
+dbline ED 93
+dbline EF 96
+dbline F0 98
+dbline F1 9B
+dbline 2 9E
+dbline 4 A1
+dbline F3 A4
+dbline F5 A5
+dbline F7 A7
+dbline F8 A9
+dbline F9 AC
+dbline 2 AF
+dbline 4 B2
+dbline FB B5
+dbline 3 B6
+dbline FF B9
+S _ADCINC_ADConversion_ISR Def0000
+T 00 00 7A 00 05 C0 02 7E 3C 00 06 00 B0 12 08 5D
+R 00 00 00 02 01 03 00 01 01 09 00 01
+T 00 0C E5 53 00 03 5D E4 53 00 02 18 55 00 06 01
+R 00 00 00 02 01 04 00 01 01 09 00 01 01 0D 00 01
+T 00 17 55 00 05 03 7E 43 86 20 43 87 10 08 5D E5
+R 00 00 00 02 01 03 00 01
+T 00 24 12 00 03 53 00 03 5D E4 1A 00 02 67 6E
+R 00 00 00 02 01 03 00 01 01 06 00 01 01 0B 00 01
+T 00 2E 00 03 06 00 03 80 09 00 39 01 B0 05 78 55
+R 00 00 00 02 01 02 00 01 01 05 00 01
+T 00 3A 00 03 FF 5F 00 01 00 03 53
+R 00 00 00 02 01 02 00 01 01 06 00 01 01 08 00 01
+T 00 40 00 00 55 00 04 01 51 00 08 11 00 A0 0D 11
+R 00 00 00 02 01 02 00 01 01 05 00 01 01 09 00 01
+T 00 4B 01 A0 17 11 01 A0 24 11 01 A0 2E 41 00 FB
+R 00 00 00 02
+T 00 59 5F 00 09 00 01 55 00 08 01 2E
+R 00 00 00 02 01 03 00 01 01 05 00 01 01 08 00 01
+T 00 60 00 0C 02 80 2F 62 60 0F 43 00 04 5F 00 0A
+R 00 00 00 02 01 02 00 01 01 0E 00 01
+T 00 6C 00 01 2E 00 0C 01 55 00 08 02 80 1E 41 00
+R 00 00 00 02 01 02 00 01 01 05 00 01 01 09 00 01
+T 00 77 FB 5F 00 0B 00 01 2E 00 0C 04 55
+R 00 00 00 02 01 04 00 01 01 06 00 01 01 09 00 01
+T 00 7F 00 08 03 80 10 43 00 04 62 60 00 5F 00 0B
+R 00 00 00 02 01 02 00 01 01 0E 00 01
+T 00 8B 00 01 2E 00 0C 04 55 00 08 00 18 3C
+R 00 00 00 02 01 02 00 01 01 05 00 01 01 09 00 01
+T 00 94 00 07 00 B0 0E 55 00 06 00 55 00 05 00 41
+R 00 00 00 02 01 02 00 01 01 08 00 01 01 0C 00 01
+T 00 9F 87 EF 41 86 DF 7E 7A 00 07 A0 0E 55 00 06
+R 00 00 00 02 01 09 00 01 01 0E 00 01
+T 00 AB 00 55 00 05 00 41 87 EF 41 86 DF 7E 41 E1
+R 00 00 00 02 01 04 00 01
+T 00 B8 FE 7E
+R 00 00 00 02

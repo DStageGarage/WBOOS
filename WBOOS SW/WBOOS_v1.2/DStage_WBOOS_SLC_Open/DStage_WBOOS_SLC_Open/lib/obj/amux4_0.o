@@ -1,0 +1,52 @@
+XH
+H 2 areas C global symbols
+M amux4_0.asm
+A text size 0 flags 0
+dbfile lib/amux4_0.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/amux4_0.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfunc 0 ? 0 I
+dbfile lib/amux4_0.asm
+dbfunc 0 ? 0 I
+dbfile ./lib/AMUX4_0.inc
+dbfunc 0 ? 0 I
+A UserModules size 19 flags 0
+dbfile lib/amux4_0.asm
+dbfunc 0 ? 0 I
+dbline 51 0
+dbline 52 2
+dbline 54 4
+dbline 55 5
+dbline 56 7
+dbline 57 8
+dbline 58 9
+dbline 5B B
+dbline 5C C
+dbline 60 D
+dbline 62 F
+dbline 63 11
+dbline 67 13
+dbline 69 15
+dbline 6F 16
+dbline 8B 17
+dbline A7 18
+S AMUX4_0_Stop Def0018
+S $sb$AMUX4_0_Stop Def0018
+S $se$AMUX4_0_Stop Def0019
+S _AMUX4_0_InputSelect Def0000
+S _AMUX4_0_Stop Def0018
+S AMUX4_0_Start Def0017
+S $sb$AMUX4_0_Start Def0017
+S $se$AMUX4_0_Start Def0018
+S _AMUX4_0_Start Def0017
+S AMUX4_0_InputSelect Def0000
+S $sb$AMUX4_0_InputSelect Def0000
+S $se$AMUX4_0_InputSelect Def0017
+T 00 00 21 03 57 00 79 C0 05 64 64 8F FA 4F 08 5D
+R 00 00 00 01
+T 00 0E 60 21 FC 2B 00 60 60 18 7F 7F 7F
+R 00 00 00 01
