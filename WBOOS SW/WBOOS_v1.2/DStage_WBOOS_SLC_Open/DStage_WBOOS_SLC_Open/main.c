@@ -36,20 +36,20 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 #define NB_Out
 
 // define display type and content following these guidlines:
-//   - LCD Lmbda/AFR digits cannot be used at the same time
+//   - LCD Lmbda and AFR digits can be used at the same time but without Lambda/Temperature Graph
 //   - LCD Lambda/Temperature Graph cannot be used at the same time
 //   - LCD Temperature digits can be used together with Lambda/AFR digits
 //   - LED and LCD cannot be used at the same time
 //   - LED AFR and Lambda can be used at the same time and switched with a pin
 //   - comment out #define for unused options
 // #define LCD_Lambda_Graph
-//#define LCD_AFR_digits
-// #define LCD_Lambda_digits
+ #define LCD_AFR_digits
+#define LCD_Lambda_digits
 //#define LCD_Temperature_Graph
-// #define LCD_Temperature_digits
+ #define LCD_Temperature_digits
 //#define DStage_logo
-#define LED_AFR
-#define LED_Lambda
+//#define LED_AFR
+//#define LED_Lambda
 
 // Define port/pin for LED display controller TM1637
 #define DIO_PORT 1
@@ -387,12 +387,17 @@ void main(void)
 	#endif
 	
 	#ifdef LCD_Lambda_digits
-		LCD_Position(0,0);
-		LCD_PrCString("LAM: 0\0");
+		#ifndef LCD_AFR_digits
+			LCD_Position(0,0);
+			LCD_PrCString("LAM: 0\0");
+		#else
+			LCD_Position(1,0);
+			LCD_PrCString("LAM: 0\0");
+		#endif
 	#endif
 	
 	#ifdef LCD_Temperature_digits
-		#ifdef LCD_Lambda_Graph
+		#if defined LCD_Lambda_Graph || (defined LCD_AFR_digits && defined LCD_Lambda_digits)
 			LCD_Position(0,10);
 			LCD_PrCString("T:\0");
 			LCD_Position(0,15);
@@ -549,7 +554,11 @@ void main(void)
 				temp_byte = temp_int;	// code size optimization
 				
 				// Lambda int part	
-				LCD_Position(0,5);
+				#ifndef LCD_AFR_digits
+					LCD_Position(0,5);
+				#else
+					LCD_Position(1,5);
+				#endif
 				if (temp_byte < 120) 	// 120th value is equal to lambda 1.00
 					Lambda_x100 = '0';
 				else
@@ -591,7 +600,7 @@ void main(void)
 				temp_byte = temp_int;	// code size optimization
 	
 				// Temperature hundreds part (7 or 8)	
-				#ifdef LCD_Lambda_Graph
+				#if defined LCD_Lambda_Graph || (defined LCD_AFR_digits && defined LCD_Lambda_digits)
 					LCD_Position(0,12);
 				#else
 					LCD_Position(1,5);

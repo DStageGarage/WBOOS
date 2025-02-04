@@ -5,6 +5,7 @@ You can use the precompiled hex file to program your WBOOS board without a need 
 | :---: | :--- |
 | DStage_WBOOS_LCD_AFR.hex | standard 2x16 LCD display, top row shows AFR and temperature as a digital value, bottom row shows Lambda/AFR as bargraph |
 | DStage_WBOOS_LCD_Lambda.hex | standard 2x16 LCD display, top row shows Lambda and temperature as a digital value, bottom row shows Lambda/AFR as bargraph |
+| DStage_WBOOS_LCD_AFR_Lambda.hex | standard 2x16 LCD display, top row shows AFR and temperature as a digital value, bottom row shows Lambda as a digital value |
 | DStage_WBOOS_LED_AFR.hex | TM1637 based LED 7-segment display module, shows AFR as a digital value |
 | DStage_WBOOS_LED_Lambda.hex | TM1637 based LED 7-segment display module, shows Lambda as a digital value |
 | DStage_WBOOS_LED_AFR_Lambda.hex | TM1637 based LED 7-segment display module, shows AFR or Lambda as a digital value switched witha a pin state |

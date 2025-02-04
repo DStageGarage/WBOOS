@@ -11,9 +11,7 @@ symbol SleepTimer_iGetTickCntr is unused
 symbol SleepTimer_lGetTickCntr is unused
 symbol PWM8_Vout_EnableInt is unused
 symbol PWM8_Vout_Stop is unused
-symbol LCD_Start is unused
 symbol LCD_DrawBG is unused
-symbol LCD_InitBG is unused
 symbol SleepTimer_TickWait is unused
 symbol PWM8_Vout_bReadPulseWidth is unused
 symbol PWM8_NB_Out_EnableInt is unused
@@ -53,11 +51,11 @@ symbol PWM8_Heater_WritePeriod is unused
 symbol PWM8_NB_Out_bReadCounter is unused
 symbol INSAMP_SetGain is unused
 symbol DAC6_VGND_WriteBlind is unused
-800 bytes unused code deleted
-3838 bytes before Code Compression, 2894 after. 3% reduction.
-  ROM 92% full. 3757 out of 4096 bytes used (does not include absolute areas).
-  RAM 29% full. 73 bytes used (does not include stack usage).
+644 bytes unused code deleted
+3555 bytes before Code Compression, 2813 after. 2% reduction.
+  ROM 92% full. 3756 out of 4096 bytes used (does not include absolute areas).
+  RAM 29% full. 72 bytes used (does not include stack usage).
 Built with ICCM8C STD V7.05.00
  
-DStage_WBOOS_SLC_Open - 0 error(s) 0 warning(s) 15:37:34
+DStage_WBOOS_SLC_Open - 0 error(s) 0 warning(s) 18:38:51
 

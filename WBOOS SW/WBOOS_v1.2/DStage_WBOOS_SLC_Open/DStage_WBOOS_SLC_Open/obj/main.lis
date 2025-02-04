@@ -246,13 +246,46 @@
  01D6 3233              .byte 50,51
  01D8 35FE              .byte 53,254
  01DA                   .dbsym e ip_to_Lambda_Lookup _ip_to_Lambda_Lookup A[158:158]kc
- 01DA           _digitToSegment::
- 01DA 3F06              .byte 63,6
- 01DC 5B4F              .byte 91,'O
- 01DE 666D              .byte 'f,'m
- 01E0 7D07              .byte 125,7
- 01E2 7F6F              .byte 127,'o
- 01E4                   .dbsym e digitToSegment _digitToSegment A[10:10]kc
+ 01DA           _Ri_Delta_to_dig::
+ 01DA FE18              .byte 254,24
+ 01DC 1715              .byte 23,21
+ 01DE 1413              .byte 20,19
+ 01E0 1110              .byte 17,16
+ 01E2 0807              .byte 8,7
+ 01E4 0504              .byte 5,4
+ 01E6 0301              .byte 3,1
+ 01E8 0099              .byte 0,153
+ 01EA 9896              .byte 152,150
+ 01EC 9594              .byte 149,148
+ 01EE 9291              .byte 146,145
+ 01F0 9089              .byte 144,137
+ 01F2 8886              .byte 136,134
+ 01F4 8584              .byte 133,132
+ 01F6 8382              .byte 131,130
+ 01F8 8180              .byte 129,128
+ 01FA 7977              .byte 'y,'w
+ 01FC 7675              .byte 'v,'u
+ 01FE 7473              .byte 't,'s
+ 0200 7271              .byte 'r,'q
+ 0202 7069              .byte 'p,'i
+ 0204 6867              .byte 'h,'g
+ 0206 6665              .byte 'f,'e
+ 0208 6463              .byte 'd,'c
+ 020A 6261              .byte 'b,'a
+ 020C 6059              .byte 96,'Y
+ 020E 5858              .byte 'X,'X
+ 0210 5756              .byte 'W,'V
+ 0212 5554              .byte 'U,'T
+ 0214 5352              .byte 'S,'R
+ 0216 5151              .byte 'Q,'Q
+ 0218 5049              .byte 'P,'I
+ 021A 4847              .byte 'H,'G
+ 021C 4645              .byte 'F,'E
+ 021E 4544              .byte 'E,'D
+ 0220 4342              .byte 'C,'B
+ 0222 4140              .byte 'A,64
+ 0224 FC                .byte 252
+ 0225                   .dbsym e Ri_Delta_to_dig _Ri_Delta_to_dig A[75:75]kc
                         .area data(ram, con, rel)
  0000                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
  0000           _Ri_Mid_Error_Sum::
@@ -281,7 +314,7 @@
  0000                   .dbfunc e Heater_PID _Heater_PID fV
  0000           _Heater_PID::
  0000                   .dbline -1
- 0000                   .dbline 238
+ 0000                   .dbline 231
  0000           ; // =========================================================================================
  0000           ; // === DStage WBOOS - SLC Free tribute =====================================================
  0000           ; // =========================================================================================
@@ -320,20 +353,20 @@
  0000           ; #define NB_Out
  0000           ; 
  0000           ; // define display type and content following these guidlines:
- 0000           ; //   - LCD Lmbda/AFR digits cannot be used at the same time
+ 0000           ; //   - LCD Lmbda and AFR digits can be used at the same time but without Lambda/Temperature Graph
  0000           ; //   - LCD Lambda/Temperature Graph cannot be used at the same time
  0000           ; //   - LCD Temperature digits can be used together with Lambda/AFR digits
  0000           ; //   - LED and LCD cannot be used at the same time
  0000           ; //   - LED AFR and Lambda can be used at the same time and switched with a pin
  0000           ; //   - comment out #define for unused options
  0000           ; // #define LCD_Lambda_Graph
- 0000           ; //#define LCD_AFR_digits
- 0000           ; // #define LCD_Lambda_digits
+ 0000           ;  #define LCD_AFR_digits
+ 0000           ; #define LCD_Lambda_digits
  0000           ; //#define LCD_Temperature_Graph
- 0000           ; // #define LCD_Temperature_digits
+ 0000           ;  #define LCD_Temperature_digits
  0000           ; //#define DStage_logo
- 0000           ; #define LED_AFR
- 0000           ; #define LED_Lambda
+ 0000           ; //#define LED_AFR
+ 0000           ; //#define LED_Lambda
  0000           ; 
  0000           ; // Define port/pin for LED display controller TM1637
  0000           ; #define DIO_PORT 1
@@ -342,13 +375,6 @@
  0000           ; #define CLK_PIN 1
  0000           ; #define SWITCH_PORT 1
  0000           ; #define SWITCH_PIN 7
- 0000           ; 
- 0000           ; /*#define DIO_PORT 2
- 0000           ; #define DIO_PIN 7
- 0000           ; #define CLK_PORT 1
- 0000           ; #define CLK_PIN 7
- 0000           ; #define SWITCH_PORT 1
- 0000           ; #define SWITCH_PIN 1*/
  0000           ; //============================================
  0000           ; 
  0000           ; #define SWPIN (1 << SWITCH_PIN)
@@ -520,7 +546,7 @@
  0000           ; //Everything is inflated by a factor of 4 so that floating point is avioded
  0000           ; void Heater_PID(void) // Ned to run this when counter >50
  0000           ; {
- 0000                   .dbline 240
+ 0000                   .dbline 233
  0000           ; 
  0000           ;       Ri_Delta_Error=Ri_Delta_Target-Ri_Delta;
  0000 508F              mov A,-113
@@ -529,7 +555,7 @@
  0006 5000              mov A,0
  0008 1A1B              sbb A,[_Ri_Delta]
  000A 5319              mov [_Ri_Delta_Error],A
- 000C                   .dbline 242
+ 000C                   .dbline 235
  000C           ;       //Put limits on Error so PID does not go Fubar, and also so that the worst case multiplication does not overflow
  000C           ;       if (Ri_Delta_Error>(-127*16/Heater_PID_Kp))
  000C 501C              mov A,28
@@ -541,16 +567,16 @@
  0018 1A00              sbb A,[__rX]
  001A D007              jnc L2
  001C           X0:
- 001C                   .dbline 244
+ 001C                   .dbline 237
  001C           ;       {
  001C           ;               Ri_Delta_Error=(-127*16/Heater_PID_Kp); // -> 28, used to be 56...
- 001C                   .dbline 244
+ 001C                   .dbline 237
  001C 551A1C            mov [_Ri_Delta_Error+1],28
  001F 551900            mov [_Ri_Delta_Error],0
- 0022                   .dbline 245
+ 0022                   .dbline 238
  0022           ;       }
  0022           L2:
- 0022                   .dbline 246
+ 0022                   .dbline 239
  0022           ;       if (Ri_Delta_Error<(127*16/Heater_PID_Kp))
  0022 511A              mov A,[_Ri_Delta_Error+1]
  0024 11E4              sub A,-28
@@ -559,16 +585,16 @@
  002A 197F              sbb A,(-1 ^ 0x80)
  002C D007              jnc L4
  002E           X1:
- 002E                   .dbline 248
+ 002E                   .dbline 241
  002E           ;       {
  002E           ;               Ri_Delta_Error=(127*16/Heater_PID_Kp); // -> -28, used to be -56...
- 002E                   .dbline 248
+ 002E                   .dbline 241
  002E 551AE4            mov [_Ri_Delta_Error+1],-28
  0031 5519FF            mov [_Ri_Delta_Error],-1
- 0034                   .dbline 249
+ 0034                   .dbline 242
  0034           ;       }
  0034           L4:
- 0034                   .dbline 250
+ 0034                   .dbline 243
  0034           ;       Heater_Pout=(Heater_PID_Kp*Ri_Delta_Error)/16;
  0034 5F001A            mov [__r1],[_Ri_Delta_Error+1]
  0037 5F0019            mov [__r0],[_Ri_Delta_Error]
@@ -611,13 +637,13 @@
  007E 18                pop A
  007F 5315              mov [_Heater_Pout],A
  0081 38FE              add SP,-2
- 0083                   .dbline 251
+ 0083                   .dbline 244
  0083           ;       Ri_Delta_Error_Sum=Ri_Delta_Error_Sum+Ri_Delta_Error;
  0083 511A              mov A,[_Ri_Delta_Error+1]
  0085 0403              add [_Ri_Delta_Error_Sum+1],A
  0087 5119              mov A,[_Ri_Delta_Error]
  0089 0C02              adc [_Ri_Delta_Error_Sum],A
- 008B                   .dbline 260
+ 008B                   .dbline 253
  008B           ;       //If the sensor is too hot, then disreguard the Integratal contribution and just use the proportional to quickly correct the sensor temperature
  008B           ;       /*
  008B           ;       if((Ri_Delta<60)&&(Ri_Delta_Error_Sum>0))
@@ -636,16 +662,16 @@
  0097 1A00              sbb A,[__rX]
  0099 D007              jnc L6
  009B           X6:
- 009B                   .dbline 262
+ 009B                   .dbline 255
  009B           ;       {
  009B           ;               Ri_Delta_Error_Sum=(-127*16/Heater_PID_Ki); // -> 508, used to be 1024...
- 009B                   .dbline 262
+ 009B                   .dbline 255
  009B 5503FC            mov [_Ri_Delta_Error_Sum+1],-4
  009E 550201            mov [_Ri_Delta_Error_Sum],1
- 00A1                   .dbline 263
+ 00A1                   .dbline 256
  00A1           ;       }
  00A1           L6:
- 00A1                   .dbline 264
+ 00A1                   .dbline 257
  00A1           ;       if (Ri_Delta_Error_Sum<(127*16/Heater_PID_Ki))
  00A1 5103              mov A,[_Ri_Delta_Error_Sum+1]
  00A3 1104              sub A,4
@@ -654,16 +680,16 @@
  00A9 197E              sbb A,(-2 ^ 0x80)
  00AB D007              jnc L8
  00AD           X7:
- 00AD                   .dbline 266
+ 00AD                   .dbline 259
  00AD           ;       {
  00AD           ;               Ri_Delta_Error_Sum=(127*16/Heater_PID_Ki); // -> -508, used to be -1024...
- 00AD                   .dbline 266
+ 00AD                   .dbline 259
  00AD 550304            mov [_Ri_Delta_Error_Sum+1],4
  00B0 5502FE            mov [_Ri_Delta_Error_Sum],-2
- 00B3                   .dbline 267
+ 00B3                   .dbline 260
  00B3           ;       }
  00B3           L8:
- 00B3                   .dbline 268
+ 00B3                   .dbline 261
  00B3           ;       Heater_Iout=(Heater_PID_Ki*Ri_Delta_Error_Sum)/16;
  00B3 5F0003            mov [__r1],[_Ri_Delta_Error_Sum+1]
  00B6 5F0002            mov [__r0],[_Ri_Delta_Error_Sum]
@@ -706,25 +732,25 @@
  00FD 18                pop A
  00FE 5313              mov [_Heater_Iout],A
  0100 38FE              add SP,-2
- 0102                   .dbline 269
+ 0102                   .dbline 262
  0102           ;       if (Heatup_Heater_Output<255) // if Heatup_Heater_Output is < 255 that means the unit just turned on and to give control to the heatup routine
  0102 3C04FF            cmp [_Heatup_Heater_Output],-1
  0105 D009              jnc L10
  0107           X12:
- 0107                   .dbline 271
+ 0107                   .dbline 264
  0107           ;       {
  0107           ;               Heater_Output=Heatup_Heater_Output;     
- 0107                   .dbline 271
+ 0107                   .dbline 264
  0107 5F1804            mov [_Heater_Output+1],[_Heatup_Heater_Output]
  010A 551700            mov [_Heater_Output],0
- 010D                   .dbline 272
+ 010D                   .dbline 265
  010D           ;       }
  010D 8019              xjmp L11
  010F           L10:
- 010F                   .dbline 274
+ 010F                   .dbline 267
  010F           ;       else
  010F           ;       {       
- 010F                   .dbline 275
+ 010F                   .dbline 268
  010F           ;               Heater_Output=Heater_PID_Output_Bias+Heater_Pout+Heater_Iout;                   
  010F 5116              mov A,[_Heater_Pout+1]
  0111 0180              add A,-128
@@ -738,10 +764,10 @@
  0121 5100              mov A,[__r0]
  0123 0A13              adc A,[_Heater_Iout]
  0125 5317              mov [_Heater_Output],A
- 0127                   .dbline 276
+ 0127                   .dbline 269
  0127           ;       }
  0127           L11:
- 0127                   .dbline 278
+ 0127                   .dbline 271
  0127           ;       //Heater_Output=Heater_PID_Output_Bias+Heater_Pout+Heater_Iout; 
  0127           ;       if (Heater_Output<0)
  0127 5118              mov A,[_Heater_Output+1]
@@ -751,16 +777,16 @@
  012F 1980              sbb A,(0 ^ 0x80)
  0131 D007              jnc L12
  0133           X13:
- 0133                   .dbline 280
+ 0133                   .dbline 273
  0133           ;       {
  0133           ;               Heater_Output=0;
- 0133                   .dbline 280
+ 0133                   .dbline 273
  0133 551800            mov [_Heater_Output+1],0
  0136 551700            mov [_Heater_Output],0
- 0139                   .dbline 281
+ 0139                   .dbline 274
  0139           ;       }
  0139           L12:
- 0139                   .dbline 282
+ 0139                   .dbline 275
  0139           ;       if (Heater_Output>255)
  0139 50FF              mov A,-1
  013B 1218              sub A,[_Heater_Output+1]
@@ -771,16 +797,16 @@
  0145 1A00              sbb A,[__rX]
  0147 D007              jnc L14
  0149           X14:
- 0149                   .dbline 284
+ 0149                   .dbline 277
  0149           ;       {
  0149           ;               Heater_Output=255;
- 0149                   .dbline 284
+ 0149                   .dbline 277
  0149 5518FF            mov [_Heater_Output+1],-1
  014C 551700            mov [_Heater_Output],0
- 014F                   .dbline 285
+ 014F                   .dbline 278
  014F           ;       }
  014F           L14:
- 014F                   .dbline 288
+ 014F                   .dbline 281
  014F           ; 
  014F           ; 
  014F           ;       PWM8_Heater_WritePulseWidth(Heater_Output);
@@ -797,7 +823,7 @@
  015A                   .dbfunc e Ia_PID _Ia_PID fV
  015A           _Ia_PID::
  015A                   .dbline -1
- 015A                   .dbline 300
+ 015A                   .dbline 293
  015A           ;       //PWM8_Heater_WritePulseWidth(200);
  015A           ; }
  015A           ; 
@@ -810,7 +836,7 @@
  015A           ; //Everything is inflated by a factor of 4 so that floating point is avioded
  015A           ; void Ia_PID(void)
  015A           ; {
- 015A                   .dbline 303
+ 015A                   .dbline 296
  015A           ; 
  015A           ; 
  015A           ;       Ri_Mid_Error=Ri_Mid_Target-Ri_Mid;
@@ -820,7 +846,7 @@
  0160 5001              mov A,1
  0162 1A1D              sbb A,[_Ri_Mid]
  0164 5311              mov [_Ri_Mid_Error],A
- 0166                   .dbline 305
+ 0166                   .dbline 298
  0166           ;       //Put limits on Error so PID does not go Fubar, and also so that the worst case multiplication does not overflow
  0166           ;       if (Ri_Mid_Error>(255*16/Ia_PID_Kp))
  0166 50A3              mov A,-93
@@ -832,16 +858,16 @@
  0172 1A00              sbb A,[__rX]
  0174 D007              jnc L17
  0176           X15:
- 0176                   .dbline 307
+ 0176                   .dbline 300
  0176           ;       {
  0176           ;               Ri_Mid_Error=(255*16/Ia_PID_Kp); // 163
- 0176                   .dbline 307
+ 0176                   .dbline 300
  0176 5512A3            mov [_Ri_Mid_Error+1],-93
  0179 551100            mov [_Ri_Mid_Error],0
- 017C                   .dbline 308
+ 017C                   .dbline 301
  017C           ;       }
  017C           L17:
- 017C                   .dbline 309
+ 017C                   .dbline 302
  017C           ;       if (Ri_Mid_Error<(-255*16/Ia_PID_Kp))
  017C 5112              mov A,[_Ri_Mid_Error+1]
  017E 115D              sub A,93
@@ -850,16 +876,16 @@
  0184 197F              sbb A,(-1 ^ 0x80)
  0186 D007              jnc L19
  0188           X16:
- 0188                   .dbline 311
+ 0188                   .dbline 304
  0188           ;       {
  0188           ;               Ri_Mid_Error=(-255*16/Ia_PID_Kp); // -163
- 0188                   .dbline 311
+ 0188                   .dbline 304
  0188 55125D            mov [_Ri_Mid_Error+1],93
  018B 5511FF            mov [_Ri_Mid_Error],-1
- 018E                   .dbline 312
+ 018E                   .dbline 305
  018E           ;       }
  018E           L19:
- 018E                   .dbline 313
+ 018E                   .dbline 306
  018E           ;       Ia_Pout=(Ia_PID_Kp*Ri_Mid_Error)/16;
  018E 5F0012            mov [__r1],[_Ri_Mid_Error+1]
  0191 5F0011            mov [__r0],[_Ri_Mid_Error]
@@ -902,13 +928,13 @@
  01D8 18                pop A
  01D9 530D              mov [_Ia_Pout],A
  01DB 38FE              add SP,-2
- 01DD                   .dbline 314
+ 01DD                   .dbline 307
  01DD           ;       Ri_Mid_Error_Sum=Ri_Mid_Error_Sum+Ri_Mid_Error;
  01DD 5112              mov A,[_Ri_Mid_Error+1]
  01DF 0401              add [_Ri_Mid_Error_Sum+1],A
  01E1 5111              mov A,[_Ri_Mid_Error]
  01E3 0C00              adc [_Ri_Mid_Error_Sum],A
- 01E5                   .dbline 316
+ 01E5                   .dbline 309
  01E5           ;       //Put limits on Error so PID does not go Fubar, and also so that the worst case multiplication does not overflow
  01E5           ;       if (Ri_Mid_Error_Sum>(255*16/Ia_PID_Ki))
  01E5 50FC              mov A,-4
@@ -920,16 +946,16 @@
  01F1 1A00              sbb A,[__rX]
  01F3 D007              jnc L21
  01F5           X21:
- 01F5                   .dbline 318
+ 01F5                   .dbline 311
  01F5           ;       {
  01F5           ;               Ri_Mid_Error_Sum=(255*16/Ia_PID_Ki); // 1020
- 01F5                   .dbline 318
+ 01F5                   .dbline 311
  01F5 5501FC            mov [_Ri_Mid_Error_Sum+1],-4
  01F8 550003            mov [_Ri_Mid_Error_Sum],3
- 01FB                   .dbline 319
+ 01FB                   .dbline 312
  01FB           ;       }
  01FB           L21:
- 01FB                   .dbline 320
+ 01FB                   .dbline 313
  01FB           ;       if (Ri_Mid_Error_Sum<(-255*16/Ia_PID_Ki))
  01FB 5101              mov A,[_Ri_Mid_Error_Sum+1]
  01FD 1104              sub A,4
@@ -938,16 +964,16 @@
  0203 197C              sbb A,(-4 ^ 0x80)
  0205 D007              jnc L23
  0207           X22:
- 0207                   .dbline 322
+ 0207                   .dbline 315
  0207           ;       {
  0207           ;               Ri_Mid_Error_Sum=(-255*16/Ia_PID_Ki); // -1020
- 0207                   .dbline 322
+ 0207                   .dbline 315
  0207 550104            mov [_Ri_Mid_Error_Sum+1],4
  020A 5500FC            mov [_Ri_Mid_Error_Sum],-4
- 020D                   .dbline 323
+ 020D                   .dbline 316
  020D           ;       }
  020D           L23:
- 020D                   .dbline 324
+ 020D                   .dbline 317
  020D           ;       Ia_Iout=(Ia_PID_Ki*Ri_Mid_Error_Sum)/16;
  020D 5F0001            mov [__r1],[_Ri_Mid_Error_Sum+1]
  0210 5F0000            mov [__r0],[_Ri_Mid_Error_Sum]
@@ -969,7 +995,7 @@
  022D 18                pop A
  022E 530B              mov [_Ia_Iout],A
  0230 38FE              add SP,-2
- 0232                   .dbline 325
+ 0232                   .dbline 318
  0232           ;       Ia_Output=Ia_Output_Bias+Ia_Pout+Ia_Iout;
  0232 510E              mov A,[_Ia_Pout+1]
  0234 0100              add A,0
@@ -983,7 +1009,7 @@
  0244 5100              mov A,[__r0]
  0246 0A0B              adc A,[_Ia_Iout]
  0248 530F              mov [_Ia_Output],A
- 024A                   .dbline 327
+ 024A                   .dbline 320
  024A           ;       //9 Bit Dac so only 0-511 is allowed, for some reason i put the limit at 510, I foget exactly why.
  024A           ;       if (Ia_Output<0)
  024A 5110              mov A,[_Ia_Output+1]
@@ -993,16 +1019,16 @@
  0252 1980              sbb A,(0 ^ 0x80)
  0254 D007              jnc L25
  0256           X23:
- 0256                   .dbline 329
+ 0256                   .dbline 322
  0256           ;       {
  0256           ;               Ia_Output=0;
- 0256                   .dbline 329
+ 0256                   .dbline 322
  0256 551000            mov [_Ia_Output+1],0
  0259 550F00            mov [_Ia_Output],0
- 025C                   .dbline 330
+ 025C                   .dbline 323
  025C           ;       }
  025C           L25:
- 025C                   .dbline 331
+ 025C                   .dbline 324
  025C           ;       if (Ia_Output>510)
  025C 50FE              mov A,-2
  025E 1210              sub A,[_Ia_Output+1]
@@ -1013,16 +1039,16 @@
  0268 1A00              sbb A,[__rX]
  026A D007              jnc L27
  026C           X24:
- 026C                   .dbline 333
+ 026C                   .dbline 326
  026C           ;       {
  026C           ;               Ia_Output=510;
- 026C                   .dbline 333
+ 026C                   .dbline 326
  026C 5510FE            mov [_Ia_Output+1],-2
  026F 550F01            mov [_Ia_Output],1
- 0272                   .dbline 334
+ 0272                   .dbline 327
  0272           ;       }
  0272           L27:
- 0272                   .dbline 335
+ 0272                   .dbline 328
  0272           ;       DAC9_Ia_WriteStall (Ia_Output);
  0272 10                push X
  0273 580F              mov X,[_Ia_Output]
@@ -1042,12 +1068,12 @@
  027C                   .dbline -1
  027C 10                push X
  027D 4F                mov X,SP
- 027E                   .dbline 339
+ 027E                   .dbline 332
  027E           ;       //DAC9_Ia_WriteStall (256);
  027E           ; }
  027E           ; INT IIR_Int(INT Vin, INT Vout, BYTE A)
  027E           ; {
- 027E                   .dbline 340
+ 027E                   .dbline 333
  027E           ;       return (Vout + (Vin - Vout)/A);
  027E 52FC              mov A,[X-4]
  0280 13FA              sub A,[X-6]
@@ -1123,24 +1149,19 @@
                         .area data(ram, con, rel)
  000A                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
  000A                   .dbsym e Heatup_Counter _Heatup_Counter c
-                        .area lit(rom, con, rel, lit)
- 01E4           L31:
- 01E4 0006              .byte 0,6
- 01E6 4040              .byte 64,64
                         .area text(rom, con, rel)
  02B3                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
  02B3                   .dbfunc e main _main fV
- 02B3           ;      temp_int2 -> X+11
- 02B3           ;     temp_ulong -> X+7
- 02B3           ;         digits -> X+3
+ 02B3           ;      temp_int2 -> X+7
+ 02B3           ;     temp_ulong -> X+3
  02B3           ;      temp_byte -> X+2
  02B3           ;       temp_int -> X+0
  02B3           _main::
  02B3                   .dbline -1
  02B3 10                push X
  02B4 4F                mov X,SP
- 02B5 380D              add SP,13
- 02B7                   .dbline 356
+ 02B5 3809              add SP,9
+ 02B7                   .dbline 349
  02B7           ; }
  02B7           ; 
  02B7           ; 
@@ -1157,7 +1178,7 @@
  02B7           ; //char Str2[] = "Temperature=xxxC"; 
  02B7           ; void main(void)
  02B7           ; {
- 02B7                   .dbline 363
+ 02B7                   .dbline 359
  02B7           ;       unsigned long temp_ulong;
  02B7           ;       INT temp_int,temp_int2;
  02B7           ;       BYTE temp_byte;
@@ -1165,1670 +1186,1114 @@
  02B7           ;       #if defined LED_AFR || defined LED_Lambda
  02B7           ;               // empty, 1, -, -
  02B7           ;               BYTE digits[4] = {0b00000000, 0b00000110, 0b01000000, 0b01000000};
- 02B7 5500E4            mov [__r1],<L31
- 02BA 5500E4            mov [__r0],>L31
- 02BD 5A00              mov [__r3],X
- 02BF 060003            add [__r3],3
- 02C2 10                push X
- 02C3 550000            mov [__rX],0
- 02C6 5100              mov A,[__r0]
- 02C8 5800              mov X,[__r1]
- 02CA           X26:
- 02CA 08                push A
- 02CB 28                romx
- 02CC 3F00              mvi [__r3],A
- 02CE 18                pop A
- 02CF 75                inc X
- 02D0 0900              adc A,0
- 02D2 7600              inc [__rX]
- 02D4 3C0004            cmp [__rX],4
- 02D7 BFF2              jnz X26
- 02D9                   .dbline 366
- 02D9           ;       #endif
- 02D9           ;       
- 02D9           ;       AMUX4_0_InputSelect(AMUX4_0_PORT0_1);        
- 02D9 5000              mov A,0
- 02DB 7C0000            xcall _AMUX4_0_InputSelect
+ 02B7           ;       #endif
+ 02B7           ;       
+ 02B7           ;       AMUX4_0_InputSelect(AMUX4_0_PORT0_1);        
+ 02B7 10                push X
+ 02B8 5000              mov A,0
+ 02BA 7C0000            xcall _AMUX4_0_InputSelect
+ 02BD                   .dbline 360
+ 02BD           ;       AMUX4_1_InputSelect(AMUX4_1_PORT0_0);
+ 02BD 5000              mov A,0
+ 02BF 7C0000            xcall _AMUX4_1_InputSelect
+ 02C2                   .dbline 361
+ 02C2           ;       INSAMP_Start(INSAMP_LOWPOWER); 
+ 02C2 5001              mov A,1
+ 02C4 7C0000            xcall _INSAMP_Start
+ 02C7                   .dbline 362
+ 02C7           ;     ADCINC_Start(ADCINC_HIGHPOWER);      
+ 02C7 5003              mov A,3
+ 02C9 7C0000            xcall _ADCINC_Start
+ 02CC                   .dbline 363
+ 02CC           ;       DAC9_Ia_Start(DAC9_Ia_HIGHPOWER);
+ 02CC 5003              mov A,3
+ 02CE 7C0000            xcall _DAC9_Ia_Start
+ 02D1                   .dbline 364
+ 02D1           ;       DAC6_VGND_Start(DAC6_VGND_MEDPOWER);
+ 02D1 5002              mov A,2
+ 02D3 7C0000            xcall _DAC6_VGND_Start
+ 02D6                   .dbline 365
+ 02D6           ;       DAC6_VGND_WriteStall (31);
+ 02D6 501F              mov A,31
+ 02D8 7C0000            xcall _DAC6_VGND_WriteStall
+ 02DB                   .dbline 366
+ 02DB           ;     PWM8_Vout_DisableInt();  
+ 02DB 7C0000            xcall _PWM8_Vout_DisableInt
  02DE                   .dbline 367
- 02DE           ;       AMUX4_1_InputSelect(AMUX4_1_PORT0_0);
- 02DE 5000              mov A,0
- 02E0 7C0000            xcall _AMUX4_1_InputSelect
- 02E3                   .dbline 368
- 02E3           ;       INSAMP_Start(INSAMP_LOWPOWER); 
- 02E3 5001              mov A,1
- 02E5 7C0000            xcall _INSAMP_Start
- 02E8                   .dbline 369
- 02E8           ;     ADCINC_Start(ADCINC_HIGHPOWER);      
- 02E8 5003              mov A,3
- 02EA 7C0000            xcall _ADCINC_Start
- 02ED                   .dbline 370
- 02ED           ;       DAC9_Ia_Start(DAC9_Ia_HIGHPOWER);
- 02ED 5003              mov A,3
- 02EF 7C0000            xcall _DAC9_Ia_Start
- 02F2                   .dbline 371
- 02F2           ;       DAC6_VGND_Start(DAC6_VGND_MEDPOWER);
- 02F2 5002              mov A,2
- 02F4 7C0000            xcall _DAC6_VGND_Start
- 02F7                   .dbline 372
- 02F7           ;       DAC6_VGND_WriteStall (31);
- 02F7 501F              mov A,31
- 02F9 7C0000            xcall _DAC6_VGND_WriteStall
- 02FC                   .dbline 373
- 02FC           ;     PWM8_Vout_DisableInt();  
- 02FC 7C0000            xcall _PWM8_Vout_DisableInt
- 02FF                   .dbline 374
- 02FF           ;     PWM8_Vout_Start();     
- 02FF 7C0000            xcall _PWM8_Vout_Start
- 0302                   .dbline 375
- 0302           ;     PWM8_Heater_DisableInt();  
- 0302 7C0000            xcall _PWM8_Heater_DisableInt
- 0305                   .dbline 376
- 0305           ;     PWM8_Heater_Start();
- 0305 7C0000            xcall _PWM8_Heater_Start
- 0308                   .dbline 377
- 0308           ;       PWM8_NB_Out_DisableInt();  
- 0308 7C0000            xcall _PWM8_NB_Out_DisableInt
- 030B                   .dbline 378
- 030B           ;     PWM8_NB_Out_Start(); 
- 030B 7C0000            xcall _PWM8_NB_Out_Start
- 030E                   .dbline 379
- 030E           ;       ADCINC_GetSamples(0);
- 030E 5000              mov A,0
- 0310 7C0000            xcall _ADCINC_GetSamples
- 0313                   .dbline 380
- 0313           ;       SleepTimer_Start();  
- 0313 7C0000            xcall _SleepTimer_Start
- 0316                   .dbline 381
- 0316           ;       SleepTimer_SetInterval(SleepTimer_512_HZ);  
- 0316 5000              mov A,0
- 0318 7C0000            xcall _SleepTimer_SetInterval
- 031B                   .dbline 382
- 031B           ;       SleepTimer_EnableInt();   
- 031B 7C0000            xcall _SleepTimer_EnableInt
- 031E 20                pop X
- 031F                   .dbline 383
- 031F           ;       M8C_EnableGInt ;  
- 031F 7101                      or  F, 01h
- 0321           
- 0321                   .dbline 425
- 0321           ;       
- 0321           ;       // initialize LCD only when needed (DStage WBOOS can be used with LED or without any display)
- 0321           ;       #if defined LCD_AFR_digits || defined LCD_Lambda_digits || defined LCD_Temperature_digits || defined DStage_logo || defined LCD_Lambda_Graph || defined LCD_Temperature_Graph
- 0321           ;               LCD_Start();                  // Initialize LCD
- 0321           ;               LCD_InitBG(LCD_SOLID_BG);
- 0321           ;       #endif
- 0321           ; 
- 0321           ;       #ifdef LCD_AFR_digits
- 0321           ;               LCD_Position(0,0);
- 0321           ;               LCD_PrCString("AFR: 1\0");
- 0321           ;       #endif
- 0321           ;       
- 0321           ;       #ifdef LCD_Lambda_digits
- 0321           ;               LCD_Position(0,0);
- 0321           ;               LCD_PrCString("LAM: 0\0");
- 0321           ;       #endif
- 0321           ;       
- 0321           ;       #ifdef LCD_Temperature_digits
- 0321           ;               #ifdef LCD_Lambda_Graph
- 0321           ;                       LCD_Position(0,10);
- 0321           ;                       LCD_PrCString("T:\0");
- 0321           ;                       LCD_Position(0,15);
- 0321           ;                       LCD_WriteData(0xDF); // degre
- 0321           ;               #else
- 0321           ;                       LCD_Position(1,0);
- 0321           ;                       LCD_PrCString("TMP:\0");
- 0321           ;                       LCD_Position(1,8);
- 0321           ;                       LCD_WriteData(0xDF); // degre
- 0321           ;               #endif
- 0321           ;       #endif
- 0321           ;       
- 0321           ;       #ifdef DStage_logo
- 0321           ;               #ifndef LCD_Lambda_Graph
- 0321           ;                       LCD_Position(0,10);
- 0321           ;                       LCD_PrCString("DStage\0");
- 0321           ;                       LCD_Position(1,10);
- 0321           ;                       LCD_PrCString("Garage\0");
- 0321           ;               #endif
- 0321           ;       #endif
- 0321           ;       
- 0321           ;       #if defined LED_AFR || defined LED_Lambda
- 0321           ;               TM1637_init();
- 0321 93AE              xcall _TM1637_init
- 0323                   .dbline 426
- 0323           ;               TM1637_setSegments(digits, 4, 0);
- 0323 5000              mov A,0
- 0325 08                push A
- 0326 5004              mov A,4
- 0328 08                push A
- 0329 5A00              mov [__r1],X
- 032B 060003            add [__r1],3
- 032E 5100              mov A,[__r0]
- 0330 08                push A
- 0331 5100              mov A,[__r1]
- 0333 08                push A
- 0334 93CC              xcall _TM1637_setSegments
- 0336 38FC              add SP,-4
- 0338                   .dbline 430
- 0338           ;               //TM1637_showNumberDec(123, 0, 3, 1);
- 0338           ;       #endif
- 0338           ; 
- 0338           ;       for(;;)
- 0338           L32:
- 0338                   .dbline 431
- 0338           ;     {
- 0338                   .dbline 432
- 0338           ;               temp_ulong++;
- 0338 070A01            add [X+10],1
- 033B 0F0900            adc [X+9],0
- 033E 0F0800            adc [X+8],0
- 0341 0F0700            adc [X+7],0
- 0344                   .dbline 433
- 0344           ;               if ((ADC_IF&1)==1)
- 0344 5100              mov A,[_ADC_IF]
- 0346 2101              and A,1
- 0348 3901              cmp A,1
- 034A B056              jnz L36
- 034C                   .dbline 435
- 034C           ;               {
- 034C           ;                       ADC_IF=ADC_IF&254;
- 034C                   .dbline 435
- 034C 2600FE            and [_ADC_IF],-2
- 034F                   .dbline 436
- 034F           ;                       Ri_Min=IIR_Int(Ri_Min_x1*2,Ri_Min,Ri_Filter_Strength);
- 034F 5004              mov A,4
- 0351 08                push A
- 0352 5109              mov A,[_Ri_Min]
- 0354 08                push A
- 0355 510A              mov A,[_Ri_Min+1]
- 0357 08                push A
- 0358 5F0000            mov [__r1],[_Ri_Min_x1]
- 035B 550000            mov [__r0],0
- 035E 6500              asl [__r1]
- 0360 6B00              rlc [__r0]
- 0362 5100              mov A,[__r0]
- 0364 08                push A
- 0365 5100              mov A,[__r1]
- 0367 08                push A
- 0368 9F12              xcall _IIR_Int
- 036A 38FB              add SP,-5
- 036C 5F0A00            mov [_Ri_Min+1],[__r1]
- 036F 5F0900            mov [_Ri_Min],[__r0]
- 0372                   .dbline 437
- 0372           ;                       Ri_Delta=Ri_Max-Ri_Min;
- 0372 5108              mov A,[_Ri_Max+1]
- 0374 120A              sub A,[_Ri_Min+1]
- 0376 531C              mov [_Ri_Delta+1],A
- 0378 5107              mov A,[_Ri_Max]
- 037A 1A09              sbb A,[_Ri_Min]
- 037C 531B              mov [_Ri_Delta],A
- 037E                   .dbline 438
- 037E           ;                       Ri_Mid=(Ri_Max+Ri_Min)/2;
- 037E 5108              mov A,[_Ri_Max+1]
- 0380 020A              add A,[_Ri_Min+1]
- 0382 5300              mov [__r1],A
- 0384 5107              mov A,[_Ri_Max]
- 0386 0A09              adc A,[_Ri_Min]
- 0388 5300              mov [__r0],A
- 038A 5000              mov A,0
- 038C 08                push A
- 038D 5002              mov A,2
- 038F 08                push A
- 0390 5100              mov A,[__r0]
- 0392 08                push A
- 0393 5100              mov A,[__r1]
- 0395 08                push A
- 0396 7C0000            xcall __divmod_16X16_16
- 0399 18                pop A
- 039A 531E              mov [_Ri_Mid+1],A
- 039C 18                pop A
- 039D 531D              mov [_Ri_Mid],A
- 039F 38FE              add SP,-2
- 03A1                   .dbline 439
- 03A1           ;               }
- 03A1           L36:
- 03A1                   .dbline 440
- 03A1           ;               if ((ADC_IF&2)==2)
- 03A1 5100              mov A,[_ADC_IF]
- 03A3 2102              and A,2
- 03A5 3902              cmp A,2
- 03A7 B056              jnz L38
- 03A9                   .dbline 442
- 03A9           ;               {
- 03A9           ;                       ADC_IF=ADC_IF&253;
- 03A9                   .dbline 442
- 03A9 2600FD            and [_ADC_IF],-3
- 03AC                   .dbline 443
- 03AC           ;                       Ri_Max=IIR_Int(Ri_Max_x1*2,Ri_Max,Ri_Filter_Strength);
- 03AC 5004              mov A,4
- 03AE 08                push A
- 03AF 5107              mov A,[_Ri_Max]
- 03B1 08                push A
- 03B2 5108              mov A,[_Ri_Max+1]
- 03B4 08                push A
- 03B5 5F0000            mov [__r1],[_Ri_Max_x1]
- 03B8 550000            mov [__r0],0
- 03BB 6500              asl [__r1]
- 03BD 6B00              rlc [__r0]
- 03BF 5100              mov A,[__r0]
- 03C1 08                push A
- 03C2 5100              mov A,[__r1]
- 03C4 08                push A
- 03C5 9EB5              xcall _IIR_Int
- 03C7 38FB              add SP,-5
- 03C9 5F0800            mov [_Ri_Max+1],[__r1]
- 03CC 5F0700            mov [_Ri_Max],[__r0]
- 03CF                   .dbline 444
- 03CF           ;                       Ri_Delta=Ri_Max-Ri_Min;
- 03CF 5108              mov A,[_Ri_Max+1]
- 03D1 120A              sub A,[_Ri_Min+1]
- 03D3 531C              mov [_Ri_Delta+1],A
- 03D5 5107              mov A,[_Ri_Max]
- 03D7 1A09              sbb A,[_Ri_Min]
- 03D9 531B              mov [_Ri_Delta],A
- 03DB                   .dbline 445
- 03DB           ;                       Ri_Mid=(Ri_Max+Ri_Min)/2;
- 03DB 5108              mov A,[_Ri_Max+1]
- 03DD 020A              add A,[_Ri_Min+1]
- 03DF 5300              mov [__r1],A
- 03E1 5107              mov A,[_Ri_Max]
- 03E3 0A09              adc A,[_Ri_Min]
- 03E5 5300              mov [__r0],A
- 03E7 5000              mov A,0
- 03E9 08                push A
- 03EA 5002              mov A,2
- 03EC 08                push A
- 03ED 5100              mov A,[__r0]
- 03EF 08                push A
- 03F0 5100              mov A,[__r1]
- 03F2 08                push A
- 03F3 7C0000            xcall __divmod_16X16_16
- 03F6 18                pop A
- 03F7 531E              mov [_Ri_Mid+1],A
- 03F9 18                pop A
- 03FA 531D              mov [_Ri_Mid],A
- 03FC 38FE              add SP,-2
- 03FE                   .dbline 446
- 03FE           ;               }
- 03FE           L38:
- 03FE                   .dbline 447
- 03FE           ;               if ((ADC_IF&4)==4)
- 03FE 5100              mov A,[_ADC_IF]
- 0400 2104              and A,4
- 0402 3904              cmp A,4
- 0404 B027              jnz L40
- 0406                   .dbline 449
- 0406           ;               {
- 0406           ;                       ADC_IF=ADC_IF&251;
- 0406                   .dbline 449
- 0406 2600FB            and [_ADC_IF],-5
- 0409                   .dbline 450
- 0409           ;                       ip=IIR_Int(ip_x1*2,ip,ip_Filter_Strength);
- 0409 5004              mov A,4
- 040B 08                push A
- 040C 5105              mov A,[_ip]
- 040E 08                push A
- 040F 5106              mov A,[_ip+1]
- 0411 08                push A
- 0412 5F0000            mov [__r1],[_ip_x1]
- 0415 550000            mov [__r0],0
- 0418 6500              asl [__r1]
- 041A 6B00              rlc [__r0]
- 041C 5100              mov A,[__r0]
- 041E 08                push A
- 041F 5100              mov A,[__r1]
- 0421 08                push A
- 0422 9E58              xcall _IIR_Int
- 0424 38FB              add SP,-5
- 0426 5F0600            mov [_ip+1],[__r1]
- 0429 5F0500            mov [_ip],[__r0]
- 042C                   .dbline 451
- 042C           ;               }
- 042C           L40:
- 042C                   .dbline 452
- 042C           ;               Ia_PID_Counter+=Sleep_Counter;
- 042C 5100              mov A,[_Sleep_Counter]
- 042E 0405              add [_Ia_PID_Counter],A
- 0430                   .dbline 453
- 0430           ;               Heater_PID_Counter+=Sleep_Counter;
- 0430 5100              mov A,[_Sleep_Counter]
- 0432 0407              add [_Heater_PID_Counter],A
- 0434                   .dbline 454
- 0434           ;               Heatup_Counter+=Sleep_Counter;
- 0434 5100              mov A,[_Sleep_Counter]
- 0436 0409              add [_Heatup_Counter],A
- 0438                   .dbline 455
- 0438           ;               Vout_Lookup_Counter+=Sleep_Counter;
- 0438 5100              mov A,[_Sleep_Counter]
- 043A 0406              add [_Vout_Lookup_Counter],A
- 043C                   .dbline 456
- 043C           ;               LCD_Counter+=Sleep_Counter;
- 043C 5100              mov A,[_Sleep_Counter]
- 043E 0408              add [_LCD_Counter],A
- 0440                   .dbline 457
- 0440           ;               Sleep_Counter=0;
- 0440 550000            mov [_Sleep_Counter],0
- 0443                   .dbline 458
- 0443           ;               if (Ia_PID_Counter>Ia_PID_Counter_Set)
- 0443 5001              mov A,1
- 0445 3A05              cmp A,[_Ia_PID_Counter]
- 0447 D006              jnc L42
- 0449           X27:
- 0449                   .dbline 460
- 0449           ;               {
- 0449           ;                       Ia_PID_Counter=0;
- 0449                   .dbline 460
- 0449 550500            mov [_Ia_PID_Counter],0
- 044C                   .dbline 461
- 044C           ;                       Ia_PID();
- 044C 9D0C              xcall _Ia_PID
- 044E                   .dbline 462
- 044E           ;               }
- 044E           L42:
- 044E                   .dbline 463
- 044E           ;               if (Heater_PID_Counter>Heater_PID_Counter_Set)
- 044E 5019              mov A,25
- 0450 3A07              cmp A,[_Heater_PID_Counter]
- 0452 D006              jnc L44
- 0454           X28:
- 0454                   .dbline 465
- 0454           ;               {
- 0454           ;                       Heater_PID_Counter=0;
- 0454                   .dbline 465
- 0454 550700            mov [_Heater_PID_Counter],0
- 0457                   .dbline 466
- 0457           ;                       Heater_PID();
- 0457 9BA7              xcall _Heater_PID
- 0459                   .dbline 467
- 0459           ;               }
- 0459           L44:
- 0459                   .dbline 468
- 0459           ;               if (Vout_Lookup_Counter>Vout_Lookup_Counter_Set)
- 0459 5019              mov A,25
- 045B 3A06              cmp A,[_Vout_Lookup_Counter]
- 045D D076              jnc L46
- 045F           X29:
- 045F                   .dbline 470
- 045F           ;               {
- 045F           ;                       Vout_Lookup_Counter=0;
- 045F                   .dbline 470
- 045F 550600            mov [_Vout_Lookup_Counter],0
- 0462                   .dbline 471
- 0462           ;                       temp_int=ip-ip_to_Vout_Lookup_Start;
- 0462 5106              mov A,[_ip+1]
- 0464 1187              sub A,-121
- 0466 5401              mov [X+1],A
- 0468 5105              mov A,[_ip]
- 046A 1900              sbb A,0
- 046C 5400              mov [X+0],A
- 046E                   .dbline 472
- 046E           ;                       if (temp_int<0)
- 046E 5201              mov A,[X+1]
- 0470 1100              sub A,0
- 0472 5200              mov A,[X+0]
- 0474 3180              xor A,-128
- 0476 1980              sbb A,(0 ^ 0x80)
- 0478 D007              jnc L48
- 047A           X30:
- 047A                   .dbline 474
- 047A           ;                       {
- 047A           ;                               temp_int=0;
- 047A                   .dbline 474
- 047A 560100            mov [X+1],0
- 047D 560000            mov [X+0],0
- 0480                   .dbline 475
- 0480           ;                       }
- 0480           L48:
- 0480                   .dbline 476
- 0480           ;                       if (temp_int>(ip_to_Vout_Lookup_Size-1))
- 0480 509D              mov A,-99
- 0482 1301              sub A,[X+1]
- 0484 5200              mov A,[X+0]
- 0486 3180              xor A,-128
- 0488 5300              mov [__rX],A
- 048A 5080              mov A,(0 ^ 0x80)
- 048C 1A00              sbb A,[__rX]
- 048E D007              jnc L50
- 0490           X31:
- 0490                   .dbline 478
- 0490           ;                       {
- 0490           ;                               temp_int=(ip_to_Vout_Lookup_Size-1);
- 0490                   .dbline 478
- 0490 56019D            mov [X+1],-99
- 0493 560000            mov [X+0],0
- 0496                   .dbline 479
- 0496           ;                       }
- 0496           L50:
- 0496                   .dbline 480
- 0496           ;                       PWM8_Vout_WritePulseWidth(ip_to_Vout_Lookup[temp_int]);
- 0496 5201              mov A,[X+1]
- 0498 0100              add A,<_ip_to_Vout_Lookup
- 049A 5300              mov [__r1],A
- 049C 5200              mov A,[X+0]
- 049E 0900              adc A,>_ip_to_Vout_Lookup
- 04A0 10                push X
- 04A1 5800              mov X,[__r1]
- 04A3 28                romx
- 04A4 7C0000            xcall _PWM8_Vout_WritePulseWidth
- 04A7 20                pop X
- 04A8                   .dbline 483
- 04A8           ;                       
- 04A8           ;                       #ifdef NB_Out
- 04A8           ;                               temp_byte=23;//0.45v
- 04A8 560217            mov [X+2],23
- 04AB                   .dbline 484
- 04AB           ;                               if (ip<251) // 251 =0.9797787392968
- 04AB 5106              mov A,[_ip+1]
- 04AD 11FB              sub A,-5
- 04AF 5105              mov A,[_ip]
- 04B1 3180              xor A,-128
- 04B3 1980              sbb A,(0 ^ 0x80)
- 04B5 D004              jnc L52
- 04B7           X32:
- 04B7                   .dbline 486
- 04B7           ;                               {
- 04B7           ;                                       temp_byte=46; //0.9v
- 04B7                   .dbline 486
- 04B7 56022E            mov [X+2],46
- 04BA                   .dbline 488
- 04BA           ;                                       
- 04BA           ;                               }
- 04BA           L52:
- 04BA                   .dbline 489
- 04BA           ;                               if (ip>259) //259 = 1.02295956968912
- 04BA 5003              mov A,3
- 04BC 1206              sub A,[_ip+1]
- 04BE 5105              mov A,[_ip]
- 04C0 3180              xor A,-128
- 04C2 5300              mov [__rX],A
- 04C4 5081              mov A,(1 ^ 0x80)
- 04C6 1A00              sbb A,[__rX]
- 04C8 D004              jnc L54
- 04CA           X33:
- 04CA                   .dbline 491
- 04CA           ;                               {
- 04CA           ;                                       temp_byte=0; //0v
- 04CA                   .dbline 491
- 04CA 560200            mov [X+2],0
- 04CD                   .dbline 492
- 04CD           ;                               }
- 04CD           L54:
- 04CD                   .dbline 493
- 04CD           ;                               PWM8_NB_Out_WritePulseWidth(temp_byte);
- 04CD 10                push X
- 04CE 5202              mov A,[X+2]
- 04D0 7C0000            xcall _PWM8_NB_Out_WritePulseWidth
- 04D3 20                pop X
- 04D4                   .dbline 496
- 04D4           ;                       #endif
- 04D4           ;                       
- 04D4           ;               }
- 04D4           L46:
- 04D4                   .dbline 497
- 04D4           ;               if (LCD_Counter>LCD_Counter_Set)
- 04D4 5032              mov A,50
- 04D6 3A08              cmp A,[_LCD_Counter]
- 04D8 D1B0              jnc L56
- 04DA           X34:
- 04DA                   .dbline 499
- 04DA           ;               {
- 04DA           ;                       LCD_Counter=0;
- 04DA                   .dbline 499
- 04DA 550800            mov [_LCD_Counter],0
- 04DD                   .dbline 622
- 04DD           ;                       
- 04DD           ;                       #ifdef LCD_Lambda_Graph
- 04DD           ;                               temp_int=ip-ip_to_Lambda_Lookup_Start;
- 04DD           ;                               if (temp_int<0)
- 04DD           ;                               {
- 04DD           ;                                       temp_int=0;
- 04DD           ;                               }
- 04DD           ;                               if (temp_int>(ip_to_Lambda_Lookup_Size-1))
- 04DD           ;                               {
- 04DD           ;                                       temp_int=(ip_to_Lambda_Lookup_Size-1);
- 04DD           ;                               }
- 04DD           ;                               Lambda_x100=ip_to_Graph_Lookup[temp_int];
- 04DD           ;                               
- 04DD           ;                               // if both numeric AFR and Lambda bargraph is to be used put bargraph in second row
- 04DD           ;                               #ifdef LCD_AFR_digits
- 04DD           ;                                       LCD_DrawBG(1,0,16,Lambda_x100);
- 04DD           ;                               #else
- 04DD           ;                                       #ifdef LCD_Lambda_digits
- 04DD           ;                                               LCD_DrawBG(1,0,16,Lambda_x100);
- 04DD           ;                                       #else
- 04DD           ;                                               LCD_DrawBG(0,0,16,Lambda_x100);
- 04DD           ;                                       #endif
- 04DD           ;                               #endif
- 04DD           ;                       #endif
- 04DD           ;                       
- 04DD           ;                       #ifdef LCD_AFR_digits
- 04DD           ;                               temp_int=ip-ip_to_AFR_Lookup_Start;
- 04DD           ;                               if (temp_int<0)
- 04DD           ;                               {
- 04DD           ;                                       temp_int=0;
- 04DD           ;                               }
- 04DD           ;                               if (temp_int>(ip_to_AFR_Lookup_Size-1))
- 04DD           ;                               {
- 04DD           ;                                       temp_int=(ip_to_AFR_Lookup_Size-1);
- 04DD           ;                               }
- 04DD           ;                               temp_byte = temp_int;   // code size optimization
- 04DD           ;                               
- 04DD           ;                               // AFR integer part (temporarly first digit is always "1")
- 04DD           ;                               LCD_Position(0,6);
- 04DD           ;                               LCD_WriteData('0' + ((ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4));
- 04DD           ;                               
- 04DD           ;                               // AFR decimal point part
- 04DD           ;                               LCD_WriteData('.');
- 04DD           ;                               LCD_WriteData('0' + (ip_to_AFR_Lookup[temp_byte] & 0x0F));
- 04DD           ;                       #endif
- 04DD           ;                       
- 04DD           ;                       #ifdef LCD_Lambda_digits
- 04DD           ;                               temp_int=ip-ip_to_LambdaD_Lookup_Start; 
- 04DD           ;                               if (temp_int<0)
- 04DD           ;                               {
- 04DD           ;                                       temp_int=0;
- 04DD           ;                               }
- 04DD           ;                               if (temp_int>(ip_to_LambdaD_Lookup_Size-1))
- 04DD           ;                               {
- 04DD           ;                                       temp_int=(ip_to_LambdaD_Lookup_Size-1);
- 04DD           ;                               }
- 04DD           ;                               temp_byte = temp_int;   // code size optimization
- 04DD           ;                               
- 04DD           ;                               // Lambda int part      
- 04DD           ;                               LCD_Position(0,5);
- 04DD           ;                               if (temp_byte < 120)    // 120th value is equal to lambda 1.00
- 04DD           ;                                       Lambda_x100 = '0';
- 04DD           ;                               else
- 04DD           ;                                       Lambda_x100 = '1';
- 04DD           ;                               LCD_WriteData(Lambda_x100);
- 04DD           ;                               
- 04DD           ;                               // Lambda 0.x part
- 04DD           ;                               LCD_WriteData('.');
- 04DD           ;                               LCD_WriteData('0' + ((ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4));
- 04DD           ;                               
- 04DD           ;                               // Lambda 0.0x part
- 04DD           ;                               LCD_WriteData('0' + (ip_to_Lambda_Lookup[temp_byte] & 0x0F));
- 04DD           ;                       #endif
- 04DD           ;                       
- 04DD           ;                       #ifdef LCD_Temperature_Graph
- 04DD           ;                               temp_int=Ri_Delta-Ri_Delta_to_Temperature_C_Start;
- 04DD           ;                               if (temp_int<0)
- 04DD           ;                               {
- 04DD           ;                                       temp_int=0;
- 04DD           ;                               }
- 04DD           ;                               if (temp_int>(Ri_Delta_to_Temperature_C_Size-1))
- 04DD           ;                               {
- 04DD           ;                                       temp_int=(Ri_Delta_to_Temperature_C_Size-1);
- 04DD           ;                               }
- 04DD           ;                               LSU_Temperature_C=Ri_Delta_to_Graph[temp_int];
- 04DD           ;                               LCD_DrawBG(1,0,16,LSU_Temperature_C);
- 04DD           ;                       #endif
- 04DD           ;                       
- 04DD           ;                       #ifdef LCD_Temperature_digits
- 04DD           ;                               temp_int=Ri_Delta-Ri_Delta_to_Temperature_C_dig_Start;
- 04DD           ;                               if (temp_int<0)
- 04DD           ;                               {
- 04DD           ;                                       temp_int=0;
- 04DD           ;                               }
- 04DD           ;                               if (temp_int>(Ri_Delta_to_Temperature_C_dig_Size-1))
- 04DD           ;                               {
- 04DD           ;                                       temp_int=(Ri_Delta_to_Temperature_C_dig_Size-1);
- 04DD           ;                               }
- 04DD           ;                               temp_byte = temp_int;   // code size optimization
- 04DD           ;       
- 04DD           ;                               // Temperature hundreds part (7 or 8)   
- 04DD           ;                               #ifdef LCD_Lambda_Graph
- 04DD           ;                                       LCD_Position(0,12);
- 04DD           ;                               #else
- 04DD           ;                                       LCD_Position(1,5);
- 04DD           ;                               #endif
- 04DD           ; 
- 04DD           ;                               if (temp_byte < 15)
- 04DD           ;                                       Lambda_x100 = '8';
- 04DD           ;                               else
- 04DD           ;                                       Lambda_x100 = '7';
- 04DD           ;                               
- 04DD           ;                               LCD_WriteData(Lambda_x100);
- 04DD           ;                                               
- 04DD           ;                               // Temperature tens part
- 04DD           ;                               LCD_WriteData('0' + ((Ri_Delta_to_dig[temp_int] & 0xF0) >> 4));
- 04DD           ;                               
- 04DD           ;                               // Temperature ones part
- 04DD           ;                               LCD_WriteData('0' + (Ri_Delta_to_dig[temp_int] & 0x0F));
- 04DD           ;                       #endif
- 04DD           ;                       
- 04DD           ;                       #ifdef LED_AFR          
- 04DD           ;                               temp_int=ip-ip_to_AFR_Lookup_Start;
- 04DD 5106              mov A,[_ip+1]
- 04DF 1187              sub A,-121
- 04E1 5401              mov [X+1],A
- 04E3 5105              mov A,[_ip]
- 04E5 1900              sbb A,0
- 04E7 5400              mov [X+0],A
- 04E9                   .dbline 623
- 04E9           ;                               if (temp_int<0)
- 04E9 5201              mov A,[X+1]
- 04EB 1100              sub A,0
- 04ED 5200              mov A,[X+0]
- 04EF 3180              xor A,-128
- 04F1 1980              sbb A,(0 ^ 0x80)
- 04F3 D007              jnc L58
- 04F5           X35:
- 04F5                   .dbline 625
- 04F5           ;                               {
- 04F5           ;                                       temp_int=0;
- 04F5                   .dbline 625
- 04F5 560100            mov [X+1],0
- 04F8 560000            mov [X+0],0
- 04FB                   .dbline 626
- 04FB           ;                               }
- 04FB           L58:
- 04FB                   .dbline 627
- 04FB           ;                               if (temp_int>(ip_to_AFR_Lookup_Size-1))
- 04FB 509D              mov A,-99
- 04FD 1301              sub A,[X+1]
- 04FF 5200              mov A,[X+0]
- 0501 3180              xor A,-128
- 0503 5300              mov [__rX],A
- 0505 5080              mov A,(0 ^ 0x80)
- 0507 1A00              sbb A,[__rX]
- 0509 D007              jnc L60
- 050B           X36:
- 050B                   .dbline 629
- 050B           ;                               {
- 050B           ;                                       temp_int=(ip_to_AFR_Lookup_Size-1);
- 050B                   .dbline 629
- 050B 56019D            mov [X+1],-99
- 050E 560000            mov [X+0],0
- 0511                   .dbline 630
- 0511           ;                               }
- 0511           L60:
- 0511                   .dbline 631
- 0511           ;                               temp_byte = temp_int;   // code size optimization
- 0511 5201              mov A,[X+1]
- 0513 5402              mov [X+2],A
- 0515                   .dbline 642
- 0515           ;                               
- 0515           ;                               /*// AFR integer part (temporarly first digit is always "1"), add dot
- 0515           ;                               digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
- 0515           ;                               
- 0515           ;                               // AFR decimal part
- 0515           ;                               digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
- 0515           ;                               
- 0515           ;                               TM1637_setSegments(digits, 2, 2);*/
- 0515           ;                               
- 0515           ;                               #ifdef LED_Lambda
- 0515           ;                                       if ((SWPORT & SWPIN) == 0)
- 0515 5D04              mov A,REG[0x4]
- 0517 5300              mov [__r0],A
- 0519 470080            tst [__r0],-128
- 051C B08D              jnz L62
- 051E                   .dbline 645
- 051E           ;                                       {
- 051E           ;                                               // AFR integer part (temporarly first digit is always "1"), add dot
- 051E           ;                                               digits[1] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
- 051E                   .dbline 645
- 051E 5202              mov A,[X+2]
- 0520 5300              mov [__r1],A
- 0522 550000            mov [__r0],0
- 0525 06009E            add [__r1],<_ip_to_AFR_Lookup
- 0528 0E009E            adc [__r0],>_ip_to_AFR_Lookup
- 052B 5100              mov A,[__r0]
- 052D 10                push X
- 052E 5800              mov X,[__r1]
- 0530 28                romx
- 0531 20                pop X
- 0532 5300              mov [__r1],A
- 0534 550000            mov [__r0],0
- 0537 2600F0            and [__r1],-16
- 053A 260000            and [__r0],0
- 053D 6800              asr [__r0]
- 053F 6E00              rrc [__r1]
- 0541 6800              asr [__r0]
- 0543 6E00              rrc [__r1]
- 0545 6800              asr [__r0]
- 0547 6E00              rrc [__r1]
- 0549 6800              asr [__r0]
- 054B 6E00              rrc [__r1]
- 054D 0600DA            add [__r1],<_digitToSegment
- 0550 0E00DA            adc [__r0],>_digitToSegment
- 0553 5100              mov A,[__r0]
- 0555 10                push X
- 0556 5800              mov X,[__r1]
- 0558 28                romx
- 0559 20                pop X
- 055A 2980              or A,-128
- 055C 5404              mov [X+4],A
- 055E                   .dbline 648
- 055E           ;                                               
- 055E           ;                                               // AFR decimal part
- 055E           ;                                               digits[2] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
- 055E 5202              mov A,[X+2]
- 0560 5300              mov [__r1],A
- 0562 550000            mov [__r0],0
- 0565 06009E            add [__r1],<_ip_to_AFR_Lookup
- 0568 0E009E            adc [__r0],>_ip_to_AFR_Lookup
- 056B 5100              mov A,[__r0]
- 056D 10                push X
- 056E 5800              mov X,[__r1]
- 0570 28                romx
- 0571 20                pop X
- 0572 5300              mov [__r1],A
- 0574 550000            mov [__r0],0
- 0577 26000F            and [__r1],15
- 057A 260000            and [__r0],0
- 057D 0600DA            add [__r1],<_digitToSegment
- 0580 0E00DA            adc [__r0],>_digitToSegment
- 0583 5100              mov A,[__r0]
- 0585 10                push X
- 0586 5800              mov X,[__r1]
- 0588 28                romx
- 0589 20                pop X
- 058A 5405              mov [X+5],A
- 058C                   .dbline 650
- 058C           ;                                               
- 058C           ;                                               digits[0] = digitToSegment[1]; // temporarly first digit is always "1"
- 058C 50DB              mov A,>_digitToSegment+1
- 058E 10                push X
- 058F 57DB              mov X,<_digitToSegment+1
- 0591 28                romx
- 0592 20                pop X
- 0593 5403              mov [X+3],A
- 0595                   .dbline 651
- 0595           ;                                               TM1637_setSegments(digits, 3, 1);
- 0595 5001              mov A,1
- 0597 08                push A
- 0598 5003              mov A,3
- 059A 08                push A
- 059B 5A00              mov [__r1],X
- 059D 060003            add [__r1],3
- 05A0 5100              mov A,[__r0]
- 05A2 08                push A
- 05A3 5100              mov A,[__r1]
- 05A5 08                push A
- 05A6 915A              xcall _TM1637_setSegments
- 05A8 38FC              add SP,-4
- 05AA                   .dbline 652
- 05AA           ;                                       }       
- 05AA           L62:
- 05AA                   .dbline 665
- 05AA           ;                               #else
- 05AA           ;                                       // AFR integer part (temporarly first digit is always "1"), add dot
- 05AA           ;                                       digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
- 05AA           ;                               
- 05AA           ;                                       // AFR decimal part
- 05AA           ;                                       digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
- 05AA           ;                               
- 05AA           ;                                       TM1637_setSegments(digits, 2, 2);
- 05AA           ;                               #endif
- 05AA           ;                       #endif
- 05AA           ;                       
- 05AA           ;                       #ifdef LED_Lambda
- 05AA           ;                               temp_int=ip-ip_to_LambdaD_Lookup_Start; 
- 05AA 5106              mov A,[_ip+1]
- 05AC 1187              sub A,-121
- 05AE 5401              mov [X+1],A
- 05B0 5105              mov A,[_ip]
- 05B2 1900              sbb A,0
- 05B4 5400              mov [X+0],A
- 05B6                   .dbline 666
- 05B6           ;                               if (temp_int<0)
- 05B6 5201              mov A,[X+1]
- 05B8 1100              sub A,0
- 05BA 5200              mov A,[X+0]
- 05BC 3180              xor A,-128
- 05BE 1980              sbb A,(0 ^ 0x80)
- 05C0 D007              jnc L67
- 05C2           X37:
- 05C2                   .dbline 668
- 05C2           ;                               {
- 05C2           ;                                       temp_int=0;
- 05C2                   .dbline 668
- 05C2 560100            mov [X+1],0
- 05C5 560000            mov [X+0],0
- 05C8                   .dbline 669
- 05C8           ;                               }
- 05C8           L67:
- 05C8                   .dbline 670
- 05C8           ;                               if (temp_int>(ip_to_LambdaD_Lookup_Size-1))
- 05C8 509D              mov A,-99
- 05CA 1301              sub A,[X+1]
- 05CC 5200              mov A,[X+0]
- 05CE 3180              xor A,-128
- 05D0 5300              mov [__rX],A
- 05D2 5080              mov A,(0 ^ 0x80)
- 05D4 1A00              sbb A,[__rX]
- 05D6 D007              jnc L69
- 05D8           X38:
- 05D8                   .dbline 672
- 05D8           ;                               {
- 05D8           ;                                       temp_int=(ip_to_LambdaD_Lookup_Size-1);
- 05D8                   .dbline 672
- 05D8 56019D            mov [X+1],-99
- 05DB 560000            mov [X+0],0
- 05DE                   .dbline 673
- 05DE           ;                               }
- 05DE           L69:
- 05DE                   .dbline 674
- 05DE           ;                               temp_byte = temp_int;   // code size optimization
- 05DE 5201              mov A,[X+1]
- 05E0 5402              mov [X+2],A
- 05E2                   .dbline 677
- 05E2           ;                               
- 05E2           ;                               #ifdef LED_AFR
- 05E2           ;                                       if ((SWPORT & SWPIN) != 0)
- 05E2 5D04              mov A,REG[0x4]
- 05E4 5300              mov [__r0],A
- 05E6 470080            tst [__r0],-128
- 05E9 A09F              jz L71
- 05EB                   .dbline 680
- 05EB           ;                                       {
- 05EB           ;                                               // Lambda int part, add dot
- 05EB           ;                                               if (temp_byte < 120)    // 120th value is equal to lambda 1.00
- 05EB                   .dbline 680
- 05EB 3D0278            cmp [X+2],120
- 05EE D00E              jnc L73
- 05F0           X39:
- 05F0                   .dbline 681
- 05F0           ;                                                       digits[0] = digitToSegment[0] | 0x80;
- 05F0 50DA              mov A,>_digitToSegment
- 05F2 10                push X
- 05F3 57DA              mov X,<_digitToSegment
- 05F5 28                romx
- 05F6 20                pop X
- 05F7 2980              or A,-128
- 05F9 5403              mov [X+3],A
- 05FB 800C              xjmp L74
- 05FD           L73:
- 05FD                   .dbline 683
- 05FD           ;                                               else
- 05FD           ;                                                       digits[0] = digitToSegment[1] | 0x80;
- 05FD 50DB              mov A,>_digitToSegment+1
- 05FF 10                push X
- 0600 57DB              mov X,<_digitToSegment+1
- 0602 28                romx
- 0603 20                pop X
- 0604 2980              or A,-128
- 0606 5403              mov [X+3],A
- 0608           L74:
- 0608                   .dbline 686
- 0608           ;                                       
- 0608           ;                                               // Lambda 0.x0 part
- 0608           ;                                               digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
- 0608 5202              mov A,[X+2]
- 060A 5300              mov [__r1],A
- 060C 550000            mov [__r0],0
- 060F 06003C            add [__r1],<_ip_to_Lambda_Lookup
- 0612 0E003C            adc [__r0],>_ip_to_Lambda_Lookup
- 0615 5100              mov A,[__r0]
- 0617 10                push X
- 0618 5800              mov X,[__r1]
- 061A 28                romx
- 061B 20                pop X
- 061C 5300              mov [__r1],A
- 061E 550000            mov [__r0],0
- 0621 2600F0            and [__r1],-16
- 0624 260000            and [__r0],0
- 0627 6800              asr [__r0]
- 0629 6E00              rrc [__r1]
- 062B 6800              asr [__r0]
- 062D 6E00              rrc [__r1]
- 062F 6800              asr [__r0]
- 0631 6E00              rrc [__r1]
- 0633 6800              asr [__r0]
- 0635 6E00              rrc [__r1]
- 0637 0600DA            add [__r1],<_digitToSegment
- 063A 0E00DA            adc [__r0],>_digitToSegment
- 063D 5100              mov A,[__r0]
- 063F 10                push X
- 0640 5800              mov X,[__r1]
- 0642 28                romx
- 0643 20                pop X
- 0644 5404              mov [X+4],A
- 0646                   .dbline 689
- 0646           ;                                       
- 0646           ;                                               // Lambda 0.0x part
- 0646           ;                                               digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
- 0646 5202              mov A,[X+2]
- 0648 5300              mov [__r1],A
- 064A 550000            mov [__r0],0
- 064D 06003C            add [__r1],<_ip_to_Lambda_Lookup
- 0650 0E003C            adc [__r0],>_ip_to_Lambda_Lookup
- 0653 5100              mov A,[__r0]
- 0655 10                push X
- 0656 5800              mov X,[__r1]
- 0658 28                romx
- 0659 20                pop X
- 065A 5300              mov [__r1],A
- 065C 550000            mov [__r0],0
- 065F 26000F            and [__r1],15
- 0662 260000            and [__r0],0
- 0665 0600DA            add [__r1],<_digitToSegment
- 0668 0E00DA            adc [__r0],>_digitToSegment
- 066B 5100              mov A,[__r0]
+ 02DE           ;     PWM8_Vout_Start();     
+ 02DE 7C0000            xcall _PWM8_Vout_Start
+ 02E1                   .dbline 368
+ 02E1           ;     PWM8_Heater_DisableInt();  
+ 02E1 7C0000            xcall _PWM8_Heater_DisableInt
+ 02E4                   .dbline 369
+ 02E4           ;     PWM8_Heater_Start();
+ 02E4 7C0000            xcall _PWM8_Heater_Start
+ 02E7                   .dbline 370
+ 02E7           ;       PWM8_NB_Out_DisableInt();  
+ 02E7 7C0000            xcall _PWM8_NB_Out_DisableInt
+ 02EA                   .dbline 371
+ 02EA           ;     PWM8_NB_Out_Start(); 
+ 02EA 7C0000            xcall _PWM8_NB_Out_Start
+ 02ED                   .dbline 372
+ 02ED           ;       ADCINC_GetSamples(0);
+ 02ED 5000              mov A,0
+ 02EF 7C0000            xcall _ADCINC_GetSamples
+ 02F2                   .dbline 373
+ 02F2           ;       SleepTimer_Start();  
+ 02F2 7C0000            xcall _SleepTimer_Start
+ 02F5                   .dbline 374
+ 02F5           ;       SleepTimer_SetInterval(SleepTimer_512_HZ);  
+ 02F5 5000              mov A,0
+ 02F7 7C0000            xcall _SleepTimer_SetInterval
+ 02FA                   .dbline 375
+ 02FA           ;       SleepTimer_EnableInt();   
+ 02FA 7C0000            xcall _SleepTimer_EnableInt
+ 02FD 20                pop X
+ 02FE                   .dbline 376
+ 02FE           ;       M8C_EnableGInt ;  
+ 02FE 7101                      or  F, 01h
+ 0300           
+ 0300                   .dbline 380
+ 0300           ;       
+ 0300           ;       // initialize LCD only when needed (DStage WBOOS can be used with LED or without any display)
+ 0300           ;       #if defined LCD_AFR_digits || defined LCD_Lambda_digits || defined LCD_Temperature_digits || defined DStage_logo || defined LCD_Lambda_Graph || defined LCD_Temperature_Graph
+ 0300           ;               LCD_Start();                  // Initialize LCD
+ 0300 10                push X
+ 0301 7C0000            xcall _LCD_Start
+ 0304                   .dbline 381
+ 0304           ;               LCD_InitBG(LCD_SOLID_BG);
+ 0304 5000              mov A,0
+ 0306 7C0000            xcall _LCD_InitBG
+ 0309                   .dbline 385
+ 0309           ;       #endif
+ 0309           ; 
+ 0309           ;       #ifdef LCD_AFR_digits
+ 0309           ;               LCD_Position(0,0);
+ 0309 5000              mov A,0
+ 030B 5700              mov X,0
+ 030D 7C0000            xcall _LCD_Position
+ 0310                   .dbline 386
+ 0310           ;               LCD_PrCString("AFR: 1\0");
+ 0310 5031              mov A,>L31
+ 0312 08                push A
+ 0313 5031              mov A,<L31
+ 0315 5C                mov X,A
+ 0316 18                pop A
+ 0317 7C0000            xcall _LCD_PrCString
+ 031A                   .dbline 394
+ 031A           ;       #endif
+ 031A           ;       
+ 031A           ;       #ifdef LCD_Lambda_digits
+ 031A           ;               #ifndef LCD_AFR_digits
+ 031A           ;                       LCD_Position(0,0);
+ 031A           ;                       LCD_PrCString("LAM: 0\0");
+ 031A           ;               #else
+ 031A           ;                       LCD_Position(1,0);
+ 031A 5700              mov X,0
+ 031C 5001              mov A,1
+ 031E 7C0000            xcall _LCD_Position
+ 0321                   .dbline 395
+ 0321           ;                       LCD_PrCString("LAM: 0\0");
+ 0321 5029              mov A,>L32
+ 0323 08                push A
+ 0324 5029              mov A,<L32
+ 0326 5C                mov X,A
+ 0327 18                pop A
+ 0328 7C0000            xcall _LCD_PrCString
+ 032B                   .dbline 401
+ 032B           ;               #endif
+ 032B           ;       #endif
+ 032B           ;       
+ 032B           ;       #ifdef LCD_Temperature_digits
+ 032B           ;               #if defined LCD_Lambda_Graph || (defined LCD_AFR_digits && defined LCD_Lambda_digits)
+ 032B           ;                       LCD_Position(0,10);
+ 032B 570A              mov X,10
+ 032D 5000              mov A,0
+ 032F 7C0000            xcall _LCD_Position
+ 0332                   .dbline 402
+ 0332           ;                       LCD_PrCString("T:\0");
+ 0332 5025              mov A,>L33
+ 0334 08                push A
+ 0335 5025              mov A,<L33
+ 0337 5C                mov X,A
+ 0338 18                pop A
+ 0339 7C0000            xcall _LCD_PrCString
+ 033C                   .dbline 403
+ 033C           ;                       LCD_Position(0,15);
+ 033C 570F              mov X,15
+ 033E 5000              mov A,0
+ 0340 7C0000            xcall _LCD_Position
+ 0343                   .dbline 404
+ 0343           ;                       LCD_WriteData(0xDF); // degre
+ 0343 50DF              mov A,-33
+ 0345 7C0000            xcall _LCD_WriteData
+ 0348 20                pop X
+ 0349                   .dbline 428
+ 0349           ;               #else
+ 0349           ;                       LCD_Position(1,0);
+ 0349           ;                       LCD_PrCString("TMP:\0");
+ 0349           ;                       LCD_Position(1,8);
+ 0349           ;                       LCD_WriteData(0xDF); // degre
+ 0349           ;               #endif
+ 0349           ;       #endif
+ 0349           ;       
+ 0349           ;       #ifdef DStage_logo
+ 0349           ;               #ifndef LCD_Lambda_Graph
+ 0349           ;                       LCD_Position(0,10);
+ 0349           ;                       LCD_PrCString("DStage\0");
+ 0349           ;                       LCD_Position(1,10);
+ 0349           ;                       LCD_PrCString("Garage\0");
+ 0349           ;               #endif
+ 0349           ;       #endif
+ 0349           ;       
+ 0349           ;       #if defined LED_AFR || defined LED_Lambda
+ 0349           ;               TM1637_init();
+ 0349           ;               TM1637_setSegments(digits, 4, 0);
+ 0349           ;               //TM1637_showNumberDec(123, 0, 3, 1);
+ 0349           ;       #endif
+ 0349           ; 
+ 0349           ;       for(;;)
+ 0349           L34:
+ 0349                   .dbline 429
+ 0349           ;     {
+ 0349                   .dbline 430
+ 0349           ;               temp_ulong++;
+ 0349 070601            add [X+6],1
+ 034C 0F0500            adc [X+5],0
+ 034F 0F0400            adc [X+4],0
+ 0352 0F0300            adc [X+3],0
+ 0355                   .dbline 431
+ 0355           ;               if ((ADC_IF&1)==1)
+ 0355 5100              mov A,[_ADC_IF]
+ 0357 2101              and A,1
+ 0359 3901              cmp A,1
+ 035B B056              jnz L38
+ 035D                   .dbline 433
+ 035D           ;               {
+ 035D           ;                       ADC_IF=ADC_IF&254;
+ 035D                   .dbline 433
+ 035D 2600FE            and [_ADC_IF],-2
+ 0360                   .dbline 434
+ 0360           ;                       Ri_Min=IIR_Int(Ri_Min_x1*2,Ri_Min,Ri_Filter_Strength);
+ 0360 5004              mov A,4
+ 0362 08                push A
+ 0363 5109              mov A,[_Ri_Min]
+ 0365 08                push A
+ 0366 510A              mov A,[_Ri_Min+1]
+ 0368 08                push A
+ 0369 5F0000            mov [__r1],[_Ri_Min_x1]
+ 036C 550000            mov [__r0],0
+ 036F 6500              asl [__r1]
+ 0371 6B00              rlc [__r0]
+ 0373 5100              mov A,[__r0]
+ 0375 08                push A
+ 0376 5100              mov A,[__r1]
+ 0378 08                push A
+ 0379 9F01              xcall _IIR_Int
+ 037B 38FB              add SP,-5
+ 037D 5F0A00            mov [_Ri_Min+1],[__r1]
+ 0380 5F0900            mov [_Ri_Min],[__r0]
+ 0383                   .dbline 435
+ 0383           ;                       Ri_Delta=Ri_Max-Ri_Min;
+ 0383 5108              mov A,[_Ri_Max+1]
+ 0385 120A              sub A,[_Ri_Min+1]
+ 0387 531C              mov [_Ri_Delta+1],A
+ 0389 5107              mov A,[_Ri_Max]
+ 038B 1A09              sbb A,[_Ri_Min]
+ 038D 531B              mov [_Ri_Delta],A
+ 038F                   .dbline 436
+ 038F           ;                       Ri_Mid=(Ri_Max+Ri_Min)/2;
+ 038F 5108              mov A,[_Ri_Max+1]
+ 0391 020A              add A,[_Ri_Min+1]
+ 0393 5300              mov [__r1],A
+ 0395 5107              mov A,[_Ri_Max]
+ 0397 0A09              adc A,[_Ri_Min]
+ 0399 5300              mov [__r0],A
+ 039B 5000              mov A,0
+ 039D 08                push A
+ 039E 5002              mov A,2
+ 03A0 08                push A
+ 03A1 5100              mov A,[__r0]
+ 03A3 08                push A
+ 03A4 5100              mov A,[__r1]
+ 03A6 08                push A
+ 03A7 7C0000            xcall __divmod_16X16_16
+ 03AA 18                pop A
+ 03AB 531E              mov [_Ri_Mid+1],A
+ 03AD 18                pop A
+ 03AE 531D              mov [_Ri_Mid],A
+ 03B0 38FE              add SP,-2
+ 03B2                   .dbline 437
+ 03B2           ;               }
+ 03B2           L38:
+ 03B2                   .dbline 438
+ 03B2           ;               if ((ADC_IF&2)==2)
+ 03B2 5100              mov A,[_ADC_IF]
+ 03B4 2102              and A,2
+ 03B6 3902              cmp A,2
+ 03B8 B056              jnz L40
+ 03BA                   .dbline 440
+ 03BA           ;               {
+ 03BA           ;                       ADC_IF=ADC_IF&253;
+ 03BA                   .dbline 440
+ 03BA 2600FD            and [_ADC_IF],-3
+ 03BD                   .dbline 441
+ 03BD           ;                       Ri_Max=IIR_Int(Ri_Max_x1*2,Ri_Max,Ri_Filter_Strength);
+ 03BD 5004              mov A,4
+ 03BF 08                push A
+ 03C0 5107              mov A,[_Ri_Max]
+ 03C2 08                push A
+ 03C3 5108              mov A,[_Ri_Max+1]
+ 03C5 08                push A
+ 03C6 5F0000            mov [__r1],[_Ri_Max_x1]
+ 03C9 550000            mov [__r0],0
+ 03CC 6500              asl [__r1]
+ 03CE 6B00              rlc [__r0]
+ 03D0 5100              mov A,[__r0]
+ 03D2 08                push A
+ 03D3 5100              mov A,[__r1]
+ 03D5 08                push A
+ 03D6 9EA4              xcall _IIR_Int
+ 03D8 38FB              add SP,-5
+ 03DA 5F0800            mov [_Ri_Max+1],[__r1]
+ 03DD 5F0700            mov [_Ri_Max],[__r0]
+ 03E0                   .dbline 442
+ 03E0           ;                       Ri_Delta=Ri_Max-Ri_Min;
+ 03E0 5108              mov A,[_Ri_Max+1]
+ 03E2 120A              sub A,[_Ri_Min+1]
+ 03E4 531C              mov [_Ri_Delta+1],A
+ 03E6 5107              mov A,[_Ri_Max]
+ 03E8 1A09              sbb A,[_Ri_Min]
+ 03EA 531B              mov [_Ri_Delta],A
+ 03EC                   .dbline 443
+ 03EC           ;                       Ri_Mid=(Ri_Max+Ri_Min)/2;
+ 03EC 5108              mov A,[_Ri_Max+1]
+ 03EE 020A              add A,[_Ri_Min+1]
+ 03F0 5300              mov [__r1],A
+ 03F2 5107              mov A,[_Ri_Max]
+ 03F4 0A09              adc A,[_Ri_Min]
+ 03F6 5300              mov [__r0],A
+ 03F8 5000              mov A,0
+ 03FA 08                push A
+ 03FB 5002              mov A,2
+ 03FD 08                push A
+ 03FE 5100              mov A,[__r0]
+ 0400 08                push A
+ 0401 5100              mov A,[__r1]
+ 0403 08                push A
+ 0404 7C0000            xcall __divmod_16X16_16
+ 0407 18                pop A
+ 0408 531E              mov [_Ri_Mid+1],A
+ 040A 18                pop A
+ 040B 531D              mov [_Ri_Mid],A
+ 040D 38FE              add SP,-2
+ 040F                   .dbline 444
+ 040F           ;               }
+ 040F           L40:
+ 040F                   .dbline 445
+ 040F           ;               if ((ADC_IF&4)==4)
+ 040F 5100              mov A,[_ADC_IF]
+ 0411 2104              and A,4
+ 0413 3904              cmp A,4
+ 0415 B027              jnz L42
+ 0417                   .dbline 447
+ 0417           ;               {
+ 0417           ;                       ADC_IF=ADC_IF&251;
+ 0417                   .dbline 447
+ 0417 2600FB            and [_ADC_IF],-5
+ 041A                   .dbline 448
+ 041A           ;                       ip=IIR_Int(ip_x1*2,ip,ip_Filter_Strength);
+ 041A 5004              mov A,4
+ 041C 08                push A
+ 041D 5105              mov A,[_ip]
+ 041F 08                push A
+ 0420 5106              mov A,[_ip+1]
+ 0422 08                push A
+ 0423 5F0000            mov [__r1],[_ip_x1]
+ 0426 550000            mov [__r0],0
+ 0429 6500              asl [__r1]
+ 042B 6B00              rlc [__r0]
+ 042D 5100              mov A,[__r0]
+ 042F 08                push A
+ 0430 5100              mov A,[__r1]
+ 0432 08                push A
+ 0433 9E47              xcall _IIR_Int
+ 0435 38FB              add SP,-5
+ 0437 5F0600            mov [_ip+1],[__r1]
+ 043A 5F0500            mov [_ip],[__r0]
+ 043D                   .dbline 449
+ 043D           ;               }
+ 043D           L42:
+ 043D                   .dbline 450
+ 043D           ;               Ia_PID_Counter+=Sleep_Counter;
+ 043D 5100              mov A,[_Sleep_Counter]
+ 043F 0405              add [_Ia_PID_Counter],A
+ 0441                   .dbline 451
+ 0441           ;               Heater_PID_Counter+=Sleep_Counter;
+ 0441 5100              mov A,[_Sleep_Counter]
+ 0443 0407              add [_Heater_PID_Counter],A
+ 0445                   .dbline 452
+ 0445           ;               Heatup_Counter+=Sleep_Counter;
+ 0445 5100              mov A,[_Sleep_Counter]
+ 0447 0409              add [_Heatup_Counter],A
+ 0449                   .dbline 453
+ 0449           ;               Vout_Lookup_Counter+=Sleep_Counter;
+ 0449 5100              mov A,[_Sleep_Counter]
+ 044B 0406              add [_Vout_Lookup_Counter],A
+ 044D                   .dbline 454
+ 044D           ;               LCD_Counter+=Sleep_Counter;
+ 044D 5100              mov A,[_Sleep_Counter]
+ 044F 0408              add [_LCD_Counter],A
+ 0451                   .dbline 455
+ 0451           ;               Sleep_Counter=0;
+ 0451 550000            mov [_Sleep_Counter],0
+ 0454                   .dbline 456
+ 0454           ;               if (Ia_PID_Counter>Ia_PID_Counter_Set)
+ 0454 5001              mov A,1
+ 0456 3A05              cmp A,[_Ia_PID_Counter]
+ 0458 D006              jnc L44
+ 045A           X26:
+ 045A                   .dbline 458
+ 045A           ;               {
+ 045A           ;                       Ia_PID_Counter=0;
+ 045A                   .dbline 458
+ 045A 550500            mov [_Ia_PID_Counter],0
+ 045D                   .dbline 459
+ 045D           ;                       Ia_PID();
+ 045D 9CFB              xcall _Ia_PID
+ 045F                   .dbline 460
+ 045F           ;               }
+ 045F           L44:
+ 045F                   .dbline 461
+ 045F           ;               if (Heater_PID_Counter>Heater_PID_Counter_Set)
+ 045F 5019              mov A,25
+ 0461 3A07              cmp A,[_Heater_PID_Counter]
+ 0463 D006              jnc L46
+ 0465           X27:
+ 0465                   .dbline 463
+ 0465           ;               {
+ 0465           ;                       Heater_PID_Counter=0;
+ 0465                   .dbline 463
+ 0465 550700            mov [_Heater_PID_Counter],0
+ 0468                   .dbline 464
+ 0468           ;                       Heater_PID();
+ 0468 9B96              xcall _Heater_PID
+ 046A                   .dbline 465
+ 046A           ;               }
+ 046A           L46:
+ 046A                   .dbline 466
+ 046A           ;               if (Vout_Lookup_Counter>Vout_Lookup_Counter_Set)
+ 046A 5019              mov A,25
+ 046C 3A06              cmp A,[_Vout_Lookup_Counter]
+ 046E D076              jnc L48
+ 0470           X28:
+ 0470                   .dbline 468
+ 0470           ;               {
+ 0470           ;                       Vout_Lookup_Counter=0;
+ 0470                   .dbline 468
+ 0470 550600            mov [_Vout_Lookup_Counter],0
+ 0473                   .dbline 469
+ 0473           ;                       temp_int=ip-ip_to_Vout_Lookup_Start;
+ 0473 5106              mov A,[_ip+1]
+ 0475 1187              sub A,-121
+ 0477 5401              mov [X+1],A
+ 0479 5105              mov A,[_ip]
+ 047B 1900              sbb A,0
+ 047D 5400              mov [X+0],A
+ 047F                   .dbline 470
+ 047F           ;                       if (temp_int<0)
+ 047F 5201              mov A,[X+1]
+ 0481 1100              sub A,0
+ 0483 5200              mov A,[X+0]
+ 0485 3180              xor A,-128
+ 0487 1980              sbb A,(0 ^ 0x80)
+ 0489 D007              jnc L50
+ 048B           X29:
+ 048B                   .dbline 472
+ 048B           ;                       {
+ 048B           ;                               temp_int=0;
+ 048B                   .dbline 472
+ 048B 560100            mov [X+1],0
+ 048E 560000            mov [X+0],0
+ 0491                   .dbline 473
+ 0491           ;                       }
+ 0491           L50:
+ 0491                   .dbline 474
+ 0491           ;                       if (temp_int>(ip_to_Vout_Lookup_Size-1))
+ 0491 509D              mov A,-99
+ 0493 1301              sub A,[X+1]
+ 0495 5200              mov A,[X+0]
+ 0497 3180              xor A,-128
+ 0499 5300              mov [__rX],A
+ 049B 5080              mov A,(0 ^ 0x80)
+ 049D 1A00              sbb A,[__rX]
+ 049F D007              jnc L52
+ 04A1           X30:
+ 04A1                   .dbline 476
+ 04A1           ;                       {
+ 04A1           ;                               temp_int=(ip_to_Vout_Lookup_Size-1);
+ 04A1                   .dbline 476
+ 04A1 56019D            mov [X+1],-99
+ 04A4 560000            mov [X+0],0
+ 04A7                   .dbline 477
+ 04A7           ;                       }
+ 04A7           L52:
+ 04A7                   .dbline 478
+ 04A7           ;                       PWM8_Vout_WritePulseWidth(ip_to_Vout_Lookup[temp_int]);
+ 04A7 5201              mov A,[X+1]
+ 04A9 0100              add A,<_ip_to_Vout_Lookup
+ 04AB 5300              mov [__r1],A
+ 04AD 5200              mov A,[X+0]
+ 04AF 0900              adc A,>_ip_to_Vout_Lookup
+ 04B1 10                push X
+ 04B2 5800              mov X,[__r1]
+ 04B4 28                romx
+ 04B5 7C0000            xcall _PWM8_Vout_WritePulseWidth
+ 04B8 20                pop X
+ 04B9                   .dbline 481
+ 04B9           ;                       
+ 04B9           ;                       #ifdef NB_Out
+ 04B9           ;                               temp_byte=23;//0.45v
+ 04B9 560217            mov [X+2],23
+ 04BC                   .dbline 482
+ 04BC           ;                               if (ip<251) // 251 =0.9797787392968
+ 04BC 5106              mov A,[_ip+1]
+ 04BE 11FB              sub A,-5
+ 04C0 5105              mov A,[_ip]
+ 04C2 3180              xor A,-128
+ 04C4 1980              sbb A,(0 ^ 0x80)
+ 04C6 D004              jnc L54
+ 04C8           X31:
+ 04C8                   .dbline 484
+ 04C8           ;                               {
+ 04C8           ;                                       temp_byte=46; //0.9v
+ 04C8                   .dbline 484
+ 04C8 56022E            mov [X+2],46
+ 04CB                   .dbline 486
+ 04CB           ;                                       
+ 04CB           ;                               }
+ 04CB           L54:
+ 04CB                   .dbline 487
+ 04CB           ;                               if (ip>259) //259 = 1.02295956968912
+ 04CB 5003              mov A,3
+ 04CD 1206              sub A,[_ip+1]
+ 04CF 5105              mov A,[_ip]
+ 04D1 3180              xor A,-128
+ 04D3 5300              mov [__rX],A
+ 04D5 5081              mov A,(1 ^ 0x80)
+ 04D7 1A00              sbb A,[__rX]
+ 04D9 D004              jnc L56
+ 04DB           X32:
+ 04DB                   .dbline 489
+ 04DB           ;                               {
+ 04DB           ;                                       temp_byte=0; //0v
+ 04DB                   .dbline 489
+ 04DB 560200            mov [X+2],0
+ 04DE                   .dbline 490
+ 04DE           ;                               }
+ 04DE           L56:
+ 04DE                   .dbline 491
+ 04DE           ;                               PWM8_NB_Out_WritePulseWidth(temp_byte);
+ 04DE 10                push X
+ 04DF 5202              mov A,[X+2]
+ 04E1 7C0000            xcall _PWM8_NB_Out_WritePulseWidth
+ 04E4 20                pop X
+ 04E5                   .dbline 494
+ 04E5           ;                       #endif
+ 04E5           ;                       
+ 04E5           ;               }
+ 04E5           L48:
+ 04E5                   .dbline 495
+ 04E5           ;               if (LCD_Counter>LCD_Counter_Set)
+ 04E5 5032              mov A,50
+ 04E7 3A08              cmp A,[_LCD_Counter]
+ 04E9 D1AF              jnc L58
+ 04EB           X33:
+ 04EB                   .dbline 497
+ 04EB           ;               {
+ 04EB           ;                       LCD_Counter=0;
+ 04EB                   .dbline 497
+ 04EB 550800            mov [_LCD_Counter],0
+ 04EE                   .dbline 524
+ 04EE           ;                       
+ 04EE           ;                       #ifdef LCD_Lambda_Graph
+ 04EE           ;                               temp_int=ip-ip_to_Lambda_Lookup_Start;
+ 04EE           ;                               if (temp_int<0)
+ 04EE           ;                               {
+ 04EE           ;                                       temp_int=0;
+ 04EE           ;                               }
+ 04EE           ;                               if (temp_int>(ip_to_Lambda_Lookup_Size-1))
+ 04EE           ;                               {
+ 04EE           ;                                       temp_int=(ip_to_Lambda_Lookup_Size-1);
+ 04EE           ;                               }
+ 04EE           ;                               Lambda_x100=ip_to_Graph_Lookup[temp_int];
+ 04EE           ;                               
+ 04EE           ;                               // if both numeric AFR and Lambda bargraph is to be used put bargraph in second row
+ 04EE           ;                               #ifdef LCD_AFR_digits
+ 04EE           ;                                       LCD_DrawBG(1,0,16,Lambda_x100);
+ 04EE           ;                               #else
+ 04EE           ;                                       #ifdef LCD_Lambda_digits
+ 04EE           ;                                               LCD_DrawBG(1,0,16,Lambda_x100);
+ 04EE           ;                                       #else
+ 04EE           ;                                               LCD_DrawBG(0,0,16,Lambda_x100);
+ 04EE           ;                                       #endif
+ 04EE           ;                               #endif
+ 04EE           ;                       #endif
+ 04EE           ;                       
+ 04EE           ;                       #ifdef LCD_AFR_digits
+ 04EE           ;                               temp_int=ip-ip_to_AFR_Lookup_Start;
+ 04EE 5106              mov A,[_ip+1]
+ 04F0 1187              sub A,-121
+ 04F2 5401              mov [X+1],A
+ 04F4 5105              mov A,[_ip]
+ 04F6 1900              sbb A,0
+ 04F8 5400              mov [X+0],A
+ 04FA                   .dbline 525
+ 04FA           ;                               if (temp_int<0)
+ 04FA 5201              mov A,[X+1]
+ 04FC 1100              sub A,0
+ 04FE 5200              mov A,[X+0]
+ 0500 3180              xor A,-128
+ 0502 1980              sbb A,(0 ^ 0x80)
+ 0504 D007              jnc L60
+ 0506           X34:
+ 0506                   .dbline 527
+ 0506           ;                               {
+ 0506           ;                                       temp_int=0;
+ 0506                   .dbline 527
+ 0506 560100            mov [X+1],0
+ 0509 560000            mov [X+0],0
+ 050C                   .dbline 528
+ 050C           ;                               }
+ 050C           L60:
+ 050C                   .dbline 529
+ 050C           ;                               if (temp_int>(ip_to_AFR_Lookup_Size-1))
+ 050C 509D              mov A,-99
+ 050E 1301              sub A,[X+1]
+ 0510 5200              mov A,[X+0]
+ 0512 3180              xor A,-128
+ 0514 5300              mov [__rX],A
+ 0516 5080              mov A,(0 ^ 0x80)
+ 0518 1A00              sbb A,[__rX]
+ 051A D007              jnc L62
+ 051C           X35:
+ 051C                   .dbline 531
+ 051C           ;                               {
+ 051C           ;                                       temp_int=(ip_to_AFR_Lookup_Size-1);
+ 051C                   .dbline 531
+ 051C 56019D            mov [X+1],-99
+ 051F 560000            mov [X+0],0
+ 0522                   .dbline 532
+ 0522           ;                               }
+ 0522           L62:
+ 0522                   .dbline 533
+ 0522           ;                               temp_byte = temp_int;   // code size optimization
+ 0522 5201              mov A,[X+1]
+ 0524 5402              mov [X+2],A
+ 0526                   .dbline 536
+ 0526           ;                               
+ 0526           ;                               // AFR integer part (temporarly first digit is always "1")
+ 0526           ;                               LCD_Position(0,6);
+ 0526 10                push X
+ 0527 5706              mov X,6
+ 0529 5000              mov A,0
+ 052B 7C0000            xcall _LCD_Position
+ 052E 20                pop X
+ 052F                   .dbline 537
+ 052F           ;                               LCD_WriteData('0' + ((ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4));
+ 052F 5202              mov A,[X+2]
+ 0531 5300              mov [__r1],A
+ 0533 550000            mov [__r0],0
+ 0536 06009E            add [__r1],<_ip_to_AFR_Lookup
+ 0539 0E009E            adc [__r0],>_ip_to_AFR_Lookup
+ 053C 5100              mov A,[__r0]
+ 053E 10                push X
+ 053F 5800              mov X,[__r1]
+ 0541 28                romx
+ 0542 20                pop X
+ 0543 21F0              and A,-16
+ 0545 67                asr A
+ 0546 67                asr A
+ 0547 67                asr A
+ 0548 67                asr A
+ 0549 210F              and A,15
+ 054B 0130              add A,48
+ 054D 10                push X
+ 054E 7C0000            xcall _LCD_WriteData
+ 0551                   .dbline 540
+ 0551           ;                               
+ 0551           ;                               // AFR decimal point part
+ 0551           ;                               LCD_WriteData('.');
+ 0551 502E              mov A,46
+ 0553 7C0000            xcall _LCD_WriteData
+ 0556 20                pop X
+ 0557                   .dbline 541
+ 0557           ;                               LCD_WriteData('0' + (ip_to_AFR_Lookup[temp_byte] & 0x0F));
+ 0557 5202              mov A,[X+2]
+ 0559 5300              mov [__r1],A
+ 055B 550000            mov [__r0],0
+ 055E 06009E            add [__r1],<_ip_to_AFR_Lookup
+ 0561 0E009E            adc [__r0],>_ip_to_AFR_Lookup
+ 0564 5100              mov A,[__r0]
+ 0566 10                push X
+ 0567 5800              mov X,[__r1]
+ 0569 28                romx
+ 056A 20                pop X
+ 056B 210F              and A,15
+ 056D 0130              add A,48
+ 056F 10                push X
+ 0570 7C0000            xcall _LCD_WriteData
+ 0573 20                pop X
+ 0574                   .dbline 545
+ 0574           ;                       #endif
+ 0574           ;                       
+ 0574           ;                       #ifdef LCD_Lambda_digits
+ 0574           ;                               temp_int=ip-ip_to_LambdaD_Lookup_Start; 
+ 0574 5106              mov A,[_ip+1]
+ 0576 1187              sub A,-121
+ 0578 5401              mov [X+1],A
+ 057A 5105              mov A,[_ip]
+ 057C 1900              sbb A,0
+ 057E 5400              mov [X+0],A
+ 0580                   .dbline 546
+ 0580           ;                               if (temp_int<0)
+ 0580 5201              mov A,[X+1]
+ 0582 1100              sub A,0
+ 0584 5200              mov A,[X+0]
+ 0586 3180              xor A,-128
+ 0588 1980              sbb A,(0 ^ 0x80)
+ 058A D007              jnc L64
+ 058C           X36:
+ 058C                   .dbline 548
+ 058C           ;                               {
+ 058C           ;                                       temp_int=0;
+ 058C                   .dbline 548
+ 058C 560100            mov [X+1],0
+ 058F 560000            mov [X+0],0
+ 0592                   .dbline 549
+ 0592           ;                               }
+ 0592           L64:
+ 0592                   .dbline 550
+ 0592           ;                               if (temp_int>(ip_to_LambdaD_Lookup_Size-1))
+ 0592 509D              mov A,-99
+ 0594 1301              sub A,[X+1]
+ 0596 5200              mov A,[X+0]
+ 0598 3180              xor A,-128
+ 059A 5300              mov [__rX],A
+ 059C 5080              mov A,(0 ^ 0x80)
+ 059E 1A00              sbb A,[__rX]
+ 05A0 D007              jnc L66
+ 05A2           X37:
+ 05A2                   .dbline 552
+ 05A2           ;                               {
+ 05A2           ;                                       temp_int=(ip_to_LambdaD_Lookup_Size-1);
+ 05A2                   .dbline 552
+ 05A2 56019D            mov [X+1],-99
+ 05A5 560000            mov [X+0],0
+ 05A8                   .dbline 553
+ 05A8           ;                               }
+ 05A8           L66:
+ 05A8                   .dbline 554
+ 05A8           ;                               temp_byte = temp_int;   // code size optimization
+ 05A8 5201              mov A,[X+1]
+ 05AA 5402              mov [X+2],A
+ 05AC                   .dbline 560
+ 05AC           ;                               
+ 05AC           ;                               // Lambda int part      
+ 05AC           ;                               #ifndef LCD_AFR_digits
+ 05AC           ;                                       LCD_Position(0,5);
+ 05AC           ;                               #else
+ 05AC           ;                                       LCD_Position(1,5);
+ 05AC 10                push X
+ 05AD 5705              mov X,5
+ 05AF 5001              mov A,1
+ 05B1 7C0000            xcall _LCD_Position
+ 05B4 20                pop X
+ 05B5                   .dbline 562
+ 05B5           ;                               #endif
+ 05B5           ;                               if (temp_byte < 120)    // 120th value is equal to lambda 1.00
+ 05B5 3D0278            cmp [X+2],120
+ 05B8 D006              jnc L68
+ 05BA           X38:
+ 05BA                   .dbline 563
+ 05BA           ;                                       Lambda_x100 = '0';
+ 05BA 550230            mov [_Lambda_x100],48
+ 05BD 8004              xjmp L69
+ 05BF           L68:
+ 05BF                   .dbline 565
+ 05BF           ;                               else
+ 05BF           ;                                       Lambda_x100 = '1';
+ 05BF 550231            mov [_Lambda_x100],49
+ 05C2           L69:
+ 05C2                   .dbline 566
+ 05C2           ;                               LCD_WriteData(Lambda_x100);
+ 05C2 10                push X
+ 05C3 5102              mov A,[_Lambda_x100]
+ 05C5 7C0000            xcall _LCD_WriteData
+ 05C8                   .dbline 569
+ 05C8           ;                               
+ 05C8           ;                               // Lambda 0.x part
+ 05C8           ;                               LCD_WriteData('.');
+ 05C8 502E              mov A,46
+ 05CA 7C0000            xcall _LCD_WriteData
+ 05CD 20                pop X
+ 05CE                   .dbline 570
+ 05CE           ;                               LCD_WriteData('0' + ((ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4));
+ 05CE 5202              mov A,[X+2]
+ 05D0 5300              mov [__r1],A
+ 05D2 550000            mov [__r0],0
+ 05D5 06003C            add [__r1],<_ip_to_Lambda_Lookup
+ 05D8 0E003C            adc [__r0],>_ip_to_Lambda_Lookup
+ 05DB 5100              mov A,[__r0]
+ 05DD 10                push X
+ 05DE 5800              mov X,[__r1]
+ 05E0 28                romx
+ 05E1 20                pop X
+ 05E2 21F0              and A,-16
+ 05E4 67                asr A
+ 05E5 67                asr A
+ 05E6 67                asr A
+ 05E7 67                asr A
+ 05E8 210F              and A,15
+ 05EA 0130              add A,48
+ 05EC 10                push X
+ 05ED 7C0000            xcall _LCD_WriteData
+ 05F0 20                pop X
+ 05F1                   .dbline 573
+ 05F1           ;                               
+ 05F1           ;                               // Lambda 0.0x part
+ 05F1           ;                               LCD_WriteData('0' + (ip_to_Lambda_Lookup[temp_byte] & 0x0F));
+ 05F1 5202              mov A,[X+2]
+ 05F3 5300              mov [__r1],A
+ 05F5 550000            mov [__r0],0
+ 05F8 06003C            add [__r1],<_ip_to_Lambda_Lookup
+ 05FB 0E003C            adc [__r0],>_ip_to_Lambda_Lookup
+ 05FE 5100              mov A,[__r0]
+ 0600 10                push X
+ 0601 5800              mov X,[__r1]
+ 0603 28                romx
+ 0604 20                pop X
+ 0605 210F              and A,15
+ 0607 0130              add A,48
+ 0609 10                push X
+ 060A 7C0000            xcall _LCD_WriteData
+ 060D 20                pop X
+ 060E                   .dbline 591
+ 060E           ;                       #endif
+ 060E           ;                       
+ 060E           ;                       #ifdef LCD_Temperature_Graph
+ 060E           ;                               temp_int=Ri_Delta-Ri_Delta_to_Temperature_C_Start;
+ 060E           ;                               if (temp_int<0)
+ 060E           ;                               {
+ 060E           ;                                       temp_int=0;
+ 060E           ;                               }
+ 060E           ;                               if (temp_int>(Ri_Delta_to_Temperature_C_Size-1))
+ 060E           ;                               {
+ 060E           ;                                       temp_int=(Ri_Delta_to_Temperature_C_Size-1);
+ 060E           ;                               }
+ 060E           ;                               LSU_Temperature_C=Ri_Delta_to_Graph[temp_int];
+ 060E           ;                               LCD_DrawBG(1,0,16,LSU_Temperature_C);
+ 060E           ;                       #endif
+ 060E           ;                       
+ 060E           ;                       #ifdef LCD_Temperature_digits
+ 060E           ;                               temp_int=Ri_Delta-Ri_Delta_to_Temperature_C_dig_Start;
+ 060E 511C              mov A,[_Ri_Delta+1]
+ 0610 1171              sub A,113
+ 0612 5401              mov [X+1],A
+ 0614 511B              mov A,[_Ri_Delta]
+ 0616 1900              sbb A,0
+ 0618 5400              mov [X+0],A
+ 061A                   .dbline 592
+ 061A           ;                               if (temp_int<0)
+ 061A 5201              mov A,[X+1]
+ 061C 1100              sub A,0
+ 061E 5200              mov A,[X+0]
+ 0620 3180              xor A,-128
+ 0622 1980              sbb A,(0 ^ 0x80)
+ 0624 D007              jnc L70
+ 0626           X39:
+ 0626                   .dbline 594
+ 0626           ;                               {
+ 0626           ;                                       temp_int=0;
+ 0626                   .dbline 594
+ 0626 560100            mov [X+1],0
+ 0629 560000            mov [X+0],0
+ 062C                   .dbline 595
+ 062C           ;                               }
+ 062C           L70:
+ 062C                   .dbline 596
+ 062C           ;                               if (temp_int>(Ri_Delta_to_Temperature_C_dig_Size-1))
+ 062C 504A              mov A,74
+ 062E 1301              sub A,[X+1]
+ 0630 5200              mov A,[X+0]
+ 0632 3180              xor A,-128
+ 0634 5300              mov [__rX],A
+ 0636 5080              mov A,(0 ^ 0x80)
+ 0638 1A00              sbb A,[__rX]
+ 063A D007              jnc L72
+ 063C           X40:
+ 063C                   .dbline 598
+ 063C           ;                               {
+ 063C           ;                                       temp_int=(Ri_Delta_to_Temperature_C_dig_Size-1);
+ 063C                   .dbline 598
+ 063C 56014A            mov [X+1],74
+ 063F 560000            mov [X+0],0
+ 0642                   .dbline 599
+ 0642           ;                               }
+ 0642           L72:
+ 0642                   .dbline 600
+ 0642           ;                               temp_byte = temp_int;   // code size optimization
+ 0642 5201              mov A,[X+1]
+ 0644 5402              mov [X+2],A
+ 0646                   .dbline 604
+ 0646           ;       
+ 0646           ;                               // Temperature hundreds part (7 or 8)   
+ 0646           ;                               #if defined LCD_Lambda_Graph || (defined LCD_AFR_digits && defined LCD_Lambda_digits)
+ 0646           ;                                       LCD_Position(0,12);
+ 0646 10                push X
+ 0647 570C              mov X,12
+ 0649 5000              mov A,0
+ 064B 7C0000            xcall _LCD_Position
+ 064E 20                pop X
+ 064F                   .dbline 609
+ 064F           ;                               #else
+ 064F           ;                                       LCD_Position(1,5);
+ 064F           ;                               #endif
+ 064F           ; 
+ 064F           ;                               if (temp_byte < 15)
+ 064F 3D020F            cmp [X+2],15
+ 0652 D006              jnc L74
+ 0654           X41:
+ 0654                   .dbline 610
+ 0654           ;                                       Lambda_x100 = '8';
+ 0654 550238            mov [_Lambda_x100],56
+ 0657 8004              xjmp L75
+ 0659           L74:
+ 0659                   .dbline 612
+ 0659           ;                               else
+ 0659           ;                                       Lambda_x100 = '7';
+ 0659 550237            mov [_Lambda_x100],55
+ 065C           L75:
+ 065C                   .dbline 614
+ 065C           ;                               
+ 065C           ;                               LCD_WriteData(Lambda_x100);
+ 065C 10                push X
+ 065D 5102              mov A,[_Lambda_x100]
+ 065F 7C0000            xcall _LCD_WriteData
+ 0662 20                pop X
+ 0663                   .dbline 617
+ 0663           ;                                               
+ 0663           ;                               // Temperature tens part
+ 0663           ;                               LCD_WriteData('0' + ((Ri_Delta_to_dig[temp_int] & 0xF0) >> 4));
+ 0663 5201              mov A,[X+1]
+ 0665 01DA              add A,<_Ri_Delta_to_dig
+ 0667 5300              mov [__r1],A
+ 0669 5200              mov A,[X+0]
+ 066B 09DA              adc A,>_Ri_Delta_to_dig
  066D 10                push X
  066E 5800              mov X,[__r1]
  0670 28                romx
  0671 20                pop X
- 0672 5405              mov [X+5],A
- 0674                   .dbline 691
- 0674           ;                                                       
- 0674           ;                                               TM1637_setSegments(digits, 3, 1);
- 0674 5001              mov A,1
- 0676 08                push A
- 0677 5003              mov A,3
- 0679 08                push A
- 067A 5A00              mov [__r1],X
- 067C 060003            add [__r1],3
- 067F 5100              mov A,[__r0]
- 0681 08                push A
- 0682 5100              mov A,[__r1]
- 0684 08                push A
- 0685 907B              xcall _TM1637_setSegments
- 0687 38FC              add SP,-4
- 0689                   .dbline 692
- 0689           ;                                       }
- 0689           L71:
- 0689                   .dbline 709
- 0689           ;                               #else
- 0689           ;                                       // Lambda int part, add dot
- 0689           ;                                       if (temp_byte < 120)    // 120th value is equal to lambda 1.00
- 0689           ;                                               digits[0] = digitToSegment[0] | 0x80;
- 0689           ;                                       else
- 0689           ;                                               digits[0] = digitToSegment[1] | 0x80;
- 0689           ;                                       
- 0689           ;                                       // Lambda 0.x0 part
- 0689           ;                                       digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
- 0689           ;                                       
- 0689           ;                                       // Lambda 0.0x part
- 0689           ;                                       digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
- 0689           ;                                                       
- 0689           ;                                       TM1637_setSegments(digits, 3, 1);
- 0689           ;                               #endif
- 0689           ;                       #endif
- 0689           ;               }
- 0689           L56:
- 0689                   .dbline 710
- 0689           ;               if (Heatup_Heater_Output<255)
- 0689 3C04FF            cmp [_Heatup_Heater_Output],-1
- 068C DCAB              jnc L32
- 068E           X40:
- 068E                   .dbline 712
- 068E           ;               {   
- 068E           ;                       if (Heatup_Counter>Heatup_Counter_Set)
- 068E                   .dbline 712
- 068E 5064              mov A,100
- 0690 3A09              cmp A,[_Heatup_Counter]
- 0692 D006              jnc L80
- 0694           X41:
- 0694                   .dbline 714
- 0694           ;                       {
- 0694           ;                               Heatup_Counter=0;
- 0694                   .dbline 714
- 0694 550900            mov [_Heatup_Counter],0
- 0697                   .dbline 715
- 0697           ;                               Heatup_Heater_Output++;
- 0697 7604              inc [_Heatup_Heater_Output]
- 0699                   .dbline 716
- 0699           ;                       }
- 0699           L80:
- 0699                   .dbline 717
- 0699           ;                       if ((Ri_Min>50) && (Ri_Max<475) && (Ri_Delta<Ri_Delta_Target))
- 0699 5032              mov A,50
- 069B 120A              sub A,[_Ri_Min+1]
- 069D 5109              mov A,[_Ri_Min]
- 069F 3180              xor A,-128
- 06A1 5300              mov [__rX],A
- 06A3 5080              mov A,(0 ^ 0x80)
- 06A5 1A00              sbb A,[__rX]
- 06A7 DC90              jnc L32
- 06A9           X42:
- 06A9 5108              mov A,[_Ri_Max+1]
- 06AB 11DB              sub A,-37
- 06AD 5107              mov A,[_Ri_Max]
+ 0672 21F0              and A,-16
+ 0674 67                asr A
+ 0675 67                asr A
+ 0676 67                asr A
+ 0677 67                asr A
+ 0678 210F              and A,15
+ 067A 0130              add A,48
+ 067C 10                push X
+ 067D 7C0000            xcall _LCD_WriteData
+ 0680 20                pop X
+ 0681                   .dbline 620
+ 0681           ;                               
+ 0681           ;                               // Temperature ones part
+ 0681           ;                               LCD_WriteData('0' + (Ri_Delta_to_dig[temp_int] & 0x0F));
+ 0681 5201              mov A,[X+1]
+ 0683 01DA              add A,<_Ri_Delta_to_dig
+ 0685 5300              mov [__r1],A
+ 0687 5200              mov A,[X+0]
+ 0689 09DA              adc A,>_Ri_Delta_to_dig
+ 068B 10                push X
+ 068C 5800              mov X,[__r1]
+ 068E 28                romx
+ 068F 20                pop X
+ 0690 210F              and A,15
+ 0692 0130              add A,48
+ 0694 10                push X
+ 0695 7C0000            xcall _LCD_WriteData
+ 0698 20                pop X
+ 0699                   .dbline 711
+ 0699           ;                       #endif
+ 0699           ;                       
+ 0699           ;                       #ifdef LED_AFR          
+ 0699           ;                               temp_int=ip-ip_to_AFR_Lookup_Start;
+ 0699           ;                               if (temp_int<0)
+ 0699           ;                               {
+ 0699           ;                                       temp_int=0;
+ 0699           ;                               }
+ 0699           ;                               if (temp_int>(ip_to_AFR_Lookup_Size-1))
+ 0699           ;                               {
+ 0699           ;                                       temp_int=(ip_to_AFR_Lookup_Size-1);
+ 0699           ;                               }
+ 0699           ;                               temp_byte = temp_int;   // code size optimization
+ 0699           ;                               
+ 0699           ;                               /*// AFR integer part (temporarly first digit is always "1"), add dot
+ 0699           ;                               digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
+ 0699           ;                               
+ 0699           ;                               // AFR decimal part
+ 0699           ;                               digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
+ 0699           ;                               
+ 0699           ;                               TM1637_setSegments(digits, 2, 2);*/
+ 0699           ;                               
+ 0699           ;                               #ifdef LED_Lambda
+ 0699           ;                                       if ((SWPORT & SWPIN) == 0)
+ 0699           ;                                       {
+ 0699           ;                                               // AFR integer part (temporarly first digit is always "1"), add dot
+ 0699           ;                                               digits[1] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
+ 0699           ;                                               
+ 0699           ;                                               // AFR decimal part
+ 0699           ;                                               digits[2] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
+ 0699           ;                                               
+ 0699           ;                                               digits[0] = digitToSegment[1]; // temporarly first digit is always "1"
+ 0699           ;                                               TM1637_setSegments(digits, 3, 1);
+ 0699           ;                                       }       
+ 0699           ;                               #else
+ 0699           ;                                       // AFR integer part (temporarly first digit is always "1"), add dot
+ 0699           ;                                       digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
+ 0699           ;                               
+ 0699           ;                                       // AFR decimal part
+ 0699           ;                                       digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
+ 0699           ;                               
+ 0699           ;                                       TM1637_setSegments(digits, 2, 2);
+ 0699           ;                               #endif
+ 0699           ;                       #endif
+ 0699           ;                       
+ 0699           ;                       #ifdef LED_Lambda
+ 0699           ;                               temp_int=ip-ip_to_LambdaD_Lookup_Start; 
+ 0699           ;                               if (temp_int<0)
+ 0699           ;                               {
+ 0699           ;                                       temp_int=0;
+ 0699           ;                               }
+ 0699           ;                               if (temp_int>(ip_to_LambdaD_Lookup_Size-1))
+ 0699           ;                               {
+ 0699           ;                                       temp_int=(ip_to_LambdaD_Lookup_Size-1);
+ 0699           ;                               }
+ 0699           ;                               temp_byte = temp_int;   // code size optimization
+ 0699           ;                               
+ 0699           ;                               #ifdef LED_AFR
+ 0699           ;                                       if ((SWPORT & SWPIN) != 0)
+ 0699           ;                                       {
+ 0699           ;                                               // Lambda int part, add dot
+ 0699           ;                                               if (temp_byte < 120)    // 120th value is equal to lambda 1.00
+ 0699           ;                                                       digits[0] = digitToSegment[0] | 0x80;
+ 0699           ;                                               else
+ 0699           ;                                                       digits[0] = digitToSegment[1] | 0x80;
+ 0699           ;                                       
+ 0699           ;                                               // Lambda 0.x0 part
+ 0699           ;                                               digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
+ 0699           ;                                       
+ 0699           ;                                               // Lambda 0.0x part
+ 0699           ;                                               digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
+ 0699           ;                                                       
+ 0699           ;                                               TM1637_setSegments(digits, 3, 1);
+ 0699           ;                                       }
+ 0699           ;                               #else
+ 0699           ;                                       // Lambda int part, add dot
+ 0699           ;                                       if (temp_byte < 120)    // 120th value is equal to lambda 1.00
+ 0699           ;                                               digits[0] = digitToSegment[0] | 0x80;
+ 0699           ;                                       else
+ 0699           ;                                               digits[0] = digitToSegment[1] | 0x80;
+ 0699           ;                                       
+ 0699           ;                                       // Lambda 0.x0 part
+ 0699           ;                                       digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
+ 0699           ;                                       
+ 0699           ;                                       // Lambda 0.0x part
+ 0699           ;                                       digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
+ 0699           ;                                                       
+ 0699           ;                                       TM1637_setSegments(digits, 3, 1);
+ 0699           ;                               #endif
+ 0699           ;                       #endif
+ 0699           ;               }
+ 0699           L58:
+ 0699                   .dbline 712
+ 0699           ;               if (Heatup_Heater_Output<255)
+ 0699 3C04FF            cmp [_Heatup_Heater_Output],-1
+ 069C DCAC              jnc L34
+ 069E           X42:
+ 069E                   .dbline 714
+ 069E           ;               {   
+ 069E           ;                       if (Heatup_Counter>Heatup_Counter_Set)
+ 069E                   .dbline 714
+ 069E 5064              mov A,100
+ 06A0 3A09              cmp A,[_Heatup_Counter]
+ 06A2 D006              jnc L78
+ 06A4           X43:
+ 06A4                   .dbline 716
+ 06A4           ;                       {
+ 06A4           ;                               Heatup_Counter=0;
+ 06A4                   .dbline 716
+ 06A4 550900            mov [_Heatup_Counter],0
+ 06A7                   .dbline 717
+ 06A7           ;                               Heatup_Heater_Output++;
+ 06A7 7604              inc [_Heatup_Heater_Output]
+ 06A9                   .dbline 718
+ 06A9           ;                       }
+ 06A9           L78:
+ 06A9                   .dbline 719
+ 06A9           ;                       if ((Ri_Min>50) && (Ri_Max<475) && (Ri_Delta<Ri_Delta_Target))
+ 06A9 5032              mov A,50
+ 06AB 120A              sub A,[_Ri_Min+1]
+ 06AD 5109              mov A,[_Ri_Min]
  06AF 3180              xor A,-128
- 06B1 1981              sbb A,(1 ^ 0x80)
- 06B3 DC84              jnc L32
- 06B5           X43:
- 06B5 511C              mov A,[_Ri_Delta+1]
- 06B7 118F              sub A,-113
- 06B9 511B              mov A,[_Ri_Delta]
- 06BB 3180              xor A,-128
- 06BD 1980              sbb A,(0 ^ 0x80)
- 06BF DC78              jnc L32
- 06C1           X44:
- 06C1                   .dbline 719
- 06C1           ;                       {
- 06C1           ;                               Heatup_Heater_Output=255;
- 06C1                   .dbline 719
- 06C1 5504FF            mov [_Heatup_Heater_Output],-1
- 06C4                   .dbline 720
- 06C4           ;                               Ri_Delta_Error_Sum=0;
- 06C4 550300            mov [_Ri_Delta_Error_Sum+1],0
- 06C7 550200            mov [_Ri_Delta_Error_Sum],0
- 06CA                   .dbline 721
- 06CA           ;                       }
- 06CA                   .dbline 722
- 06CA           ;               }
- 06CA                   .dbline 723
- 06CA           ;       }
- 06CA                   .dbline 430
- 06CA                   .dbline 430
- 06CA 8C6D              xjmp L32
- 06CC           X25:
- 06CC                   .dbline -2
- 06CC           L30:
- 06CC 38F3              add SP,-13
- 06CE 20                pop X
- 06CF                   .dbline 0 ; func end
- 06CF 8FFF              jmp .
- 06D1                   .dbsym l temp_int2 11 I
- 06D1                   .dbsym l temp_ulong 7 l
- 06D1                   .dbsym l digits 3 A[4:4]c
- 06D1                   .dbsym l temp_byte 2 c
- 06D1                   .dbsym l temp_int 0 I
- 06D1                   .dbend
-                        .area data(ram, con, rel)
- 000A                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
- 000A           _m_brightness::
- 000A                   .blkb 1
-                        .area idata(rom,lit)
- 000A 0C                .byte 12
-                        .area data(ram, con, rel)
- 000B                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
- 000B                   .dbsym e m_brightness _m_brightness c
-                        .area text(rom, con, rel)
- 06D1                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
- 06D1                   .dbfunc e TM1637_init _TM1637_init fV
- 06D1           _TM1637_init::
- 06D1                   .dbline -1
- 06D1                   .dbline 834
- 06D1           ; }
- 06D1           ; 
- 06D1           ; #if defined LED_AFR || defined LED_Lambda
- 06D1           ; // ================================================================================
- 06D1           ; // === TM1637 control functions ===================================================
- 06D1           ; // ================================================================================
- 06D1           ; 
- 06D1           ; //  Modified (heavily) for PSoC 1 CY8C24423-24 by: dstagegarage@gmail.com
- 06D1           ; //  Original author for Arduino: avishorp@gmail.com
- 06D1           ; //
- 06D1           ; //  This library is free software; you can redistribute it and/or
- 06D1           ; //  modify it under the terms of the GNU Lesser General Public
- 06D1           ; //  License as published by the Free Software Foundation; either
- 06D1           ; //  version 2.1 of the License, or (at your option) any later version.
- 06D1           ; //
- 06D1           ; //  This library is distributed in the hope that it will be useful,
- 06D1           ; //  but WITHOUT ANY WARRANTY; without even the implied warranty of
- 06D1           ; //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- 06D1           ; //  Lesser General Public License for more details.
- 06D1           ; //
- 06D1           ; //  You should have received a copy of the GNU Lesser General Public
- 06D1           ; //  License along with this library; if not, write to the Free Software
- 06D1           ; //  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- 06D1           ; 
- 06D1           ; // ----------------------------------------
- 06D1           ; #if DIO_PORT == 1
- 06D1           ;       #define DIOPORT PRT1DR
- 06D1           ;       #define DIODM2 PRT1DM2
- 06D1           ;       #define DIODM1 PRT1DM1
- 06D1           ;       #define DIODM0 PRT1DM0
- 06D1           ; #elif DIO_PORT == 2
- 06D1           ;       #define DIOPORT PRT2DR
- 06D1           ;       #define DIODM2 PRT2DM2
- 06D1           ;       #define DIODM1 PRT2DM1
- 06D1           ;       #define DIODM0 PRT2DM0
- 06D1           ; #else
- 06D1           ;       #define DIOPORT PRT0DR
- 06D1           ;       #define DIODM2 PRT0DM2
- 06D1           ;       #define DIODM1 PRT0DM1
- 06D1           ;       #define DIODM0 PRT0DM0
- 06D1           ; #endif
- 06D1           ; #if CLK_PORT == 1
- 06D1           ;       #define CLKPORT PRT1DR
- 06D1           ;       #define CLKDM2 PRT1DM2
- 06D1           ;       #define CLKDM1 PRT1DM1
- 06D1           ;       #define CLKDM0 PRT1DM0
- 06D1           ; #elif CLK_PORT == 2
- 06D1           ;       #define CLKPORT PRT2DR
- 06D1           ;       #define CLKDM2 PRT2DM2
- 06D1           ;       #define CLKDM1 PRT2DM1
- 06D1           ;       #define CLKDM0 PRT2DM0
- 06D1           ; #else
- 06D1           ;       #define CLKPORT PRT0DR
- 06D1           ;       #define CLKDM2 PRT0DM2
- 06D1           ;       #define CLKDM1 PRT0DM1
- 06D1           ;       #define CLKDM0 PRT0DM0
- 06D1           ; #endif
- 06D1           ; #define DIOPIN (1 << DIO_PIN)
- 06D1           ; #define CLKPIN (1 << CLK_PIN)
- 06D1           ; #define TM1637_CLK_L CLKPORT &= ~CLKPIN
- 06D1           ; #define TM1637_CLK_H CLKPORT |= CLKPIN
- 06D1           ; #define TM1637_DIO_L DIOPORT &= ~DIOPIN
- 06D1           ; #define TM1637_DIO_H DIOPORT |= DIOPIN
- 06D1           ; #define TM1637_DIO_READ DIOPORT & DIOPIN
- 06D1           ; /*#define IOPIN7      0x80
- 06D1           ; #define TM1637_CLK_L PRT1DR &= ~IOPIN7
- 06D1           ; #define TM1637_CLK_H PRT1DR |= IOPIN7
- 06D1           ; #define TM1637_DIO_L PRT2DR &= ~IOPIN7
- 06D1           ; #define TM1637_DIO_H PRT2DR |= IOPIN7
- 06D1           ; #define TM1637_DIO_READ PRT2DR & IOPIN7*/
- 06D1           ; 
- 06D1           ; #define BITDELAY 2
- 06D1           ; 
- 06D1           ; #define TM1637_I2C_COMM1    0x40
- 06D1           ; #define TM1637_I2C_COMM2    0xC0
- 06D1           ; #define TM1637_I2C_COMM3    0x80
- 06D1           ; 
- 06D1           ; BYTE m_brightness = 0x0C;
- 06D1           ; 
- 06D1           ; /* moved to the top of main.c//
- 06D1           ; //      A
- 06D1           ; //     ---
- 06D1           ; //  F |   | B
- 06D1           ; //     -G-
- 06D1           ; //  E |   | C
- 06D1           ; //     ---
- 06D1           ; //      D
- 06D1           ; const BYTE digitToSegment[] = {
- 06D1           ;  // XGFEDCBA
- 06D1           ;   0b00111111,    // 0
- 06D1           ;   0b00000110,    // 1
- 06D1           ;   0b01011011,    // 2
- 06D1           ;   0b01001111,    // 3
- 06D1           ;   0b01100110,    // 4
- 06D1           ;   0b01101101,    // 5
- 06D1           ;   0b01111101,    // 6
- 06D1           ;   0b00000111,    // 7
- 06D1           ;   0b01111111,    // 8
- 06D1           ;   0b01101111,    // 9
- 06D1           ;   //0b01110111,    // A
- 06D1           ;   //0b01111100,    // b
- 06D1           ;   //0b00111001,    // C
- 06D1           ;   //0b01011110,    // d
- 06D1           ;   //0b01111001,    // E
- 06D1           ;   //0b01110001     // F
- 06D1           ;   };*/
- 06D1           ; 
- 06D1           ; //static const BYTE minusSegments = 0b01000000;
- 06D1           ; 
- 06D1           ; void TM1637_init(void)
- 06D1           ; {
- 06D1                   .dbline 841
- 06D1           ;       // DStage DSpeed has extra pads for pins P1.7 and P2.7 and programming pins P1.0 and P1.1
- 06D1           ;       // DStage WBOOS has extra pads for pins P0.4, P1.2, P1.3, P1.7, P2.7, programming pins P1.0 and P1.1 and all LCD pins are free in this mode
- 06D1           ;       
- 06D1           ;       // CLK line 
- 06D1           ;       // 001 strong high and low; theoritically it should be resistive high strong low to allow for display response but
- 06D1           ;       // it requires stronger pull-up resistor most likey and was ustable in experiments, would be good to check current when ACK i aplied by the display
- 06D1           ;       CLKDM2 &= ~CLKPIN;
- 06D1 4107FD            and REG[0x7],-3
- 06D4                   .dbline 842
- 06D4           ;       CLKDM1 &= ~CLKPIN;
- 06D4 7110              or F,0x10  ; iopage = 1
- 06D6 4105FD            and REG[0x5],-3
- 06D9                   .dbline 843
- 06D9           ;       CLKDM0 |= CLKPIN;
- 06D9 430402            or REG[0x4],2
- 06DC                   .dbline 844
- 06DC           ;       TM1637_CLK_H;
- 06DC 70CF              and F,0xCF      ; iopage = 0
- 06DE 430402            or REG[0x4],2
- 06E1                   .dbline 849
- 06E1           ;       
- 06E1           ;       // DIO line
- 06E1           ;       // 001 strong high and low; theoritically it should be resistive high strong low to allow for display response but
- 06E1           ;       // it requires stronger pull-up resistor most likey and was ustable in experiments, would be good to check current when ACK i aplied by the display
- 06E1           ;       DIODM2 &= ~DIOPIN;
- 06E1 4107FE            and REG[0x7],-2
- 06E4                   .dbline 850
- 06E4           ;       DIODM1 &= ~DIOPIN;
- 06E4 7110              or F,0x10  ; iopage = 1
- 06E6 4105FE            and REG[0x5],-2
- 06E9                   .dbline 851
- 06E9           ;       DIODM0 |= DIOPIN;
- 06E9 430401            or REG[0x4],1
- 06EC                   .dbline 852
- 06EC           ;       TM1637_DIO_H;
- 06EC 70CF              and F,0xCF      ; iopage = 0
- 06EE 430401            or REG[0x4],1
- 06F1                   .dbline 857
- 06F1           ;       
- 06F1           ;       #if defined LED_AFR && defined LED_Lambda
- 06F1           ;               // LED AFR/Lambda switch line
- 06F1           ;               // 011 resistive high (pull-up), strong low -> used as input with pull-up, recommended external pull-up or direct high/low state switching
- 06F1           ;               SWDM2 &= ~SWPIN;
- 06F1 41077F            and REG[0x7],127
- 06F4                   .dbline 858
- 06F4           ;               SWDM1 |= SWPIN;
- 06F4 7110              or F,0x10  ; iopage = 1
- 06F6 430580            or REG[0x5],-128
- 06F9                   .dbline 859
- 06F9           ;               SWDM0 |= SWPIN;
- 06F9 430480            or REG[0x4],-128
- 06FC                   .dbline 860
- 06FC           ;               SWPORT |= SWPIN;
- 06FC 70CF              and F,0xCF      ; iopage = 0
- 06FE 430480            or REG[0x4],-128
- 0701                   .dbline -2
- 0701           L84:
- 0701                   .dbline 0 ; func end
- 0701 7F                ret
- 0702                   .dbend
- 0702                   .dbfunc e TM1637_setSegments _TM1637_setSegments fV
- 0702           ;              k -> X+0
- 0702           ;            pos -> X-7
- 0702           ;         length -> X-6
- 0702           ;       segments -> X-5
- 0702           _TM1637_setSegments::
- 0702                   .dbline -1
- 0702 10                push X
- 0703 4F                mov X,SP
- 0704 3801              add SP,1
- 0706                   .dbline 870
- 0706           ;       #endif
- 0706           ; }
- 0706           ; 
- 0706           ; /*void TM1637_setBrightness(BYTE brightness, BYTE on)
- 0706           ; {
- 0706           ;       m_brightness = (brightness & 0x7) | (on? 0x08 : 0x00);
- 0706           ; }*/
- 0706           ; 
- 0706           ; void TM1637_setSegments(BYTE segments[], BYTE length, BYTE pos)
- 0706           ; {
- 0706                   .dbline 873
- 0706           ;       BYTE k;
- 0706           ;     // Write COMM1
- 0706           ;       TM1637_start();
- 0706 9045              xcall _TM1637_start
- 0708                   .dbline 874
- 0708           ;       TM1637_writeByte(TM1637_I2C_COMM1);
- 0708 5040              mov A,64
- 070A 08                push A
- 070B 906A              xcall _TM1637_writeByte
- 070D                   .dbline 875
- 070D           ;       TM1637_stop();
- 070D 9049              xcall _TM1637_stop
- 070F                   .dbline 878
- 070F           ; 
- 070F           ;       // Write COMM2 + first digit address
- 070F           ;       TM1637_start();
- 070F 903C              xcall _TM1637_start
- 0711                   .dbline 879
- 0711           ;       TM1637_writeByte(TM1637_I2C_COMM2 + (pos & 0x03));
- 0711 52F9              mov A,[X-7]
- 0713 2103              and A,3
- 0715 01C0              add A,-64
- 0717 08                push A
- 0718 905D              xcall _TM1637_writeByte
- 071A 38FE              add SP,-2
- 071C                   .dbline 882
- 071C           ; 
- 071C           ;       // Write the data bytes
- 071C           ;       for (k=0; k < length; k++)
- 071C 560000            mov [X+0],0
- 071F 8012              xjmp L89
- 0721           L86:
- 0721                   .dbline 883
- 0721           ;         TM1637_writeByte(segments[k]);
- 0721 5200              mov A,[X+0]
- 0723 5300              mov [__r1],A
- 0725 52FC              mov A,[X-4]
- 0727 0400              add [__r1],A
- 0729 3E00              mvi A,[__r1]
- 072B 08                push A
- 072C 9049              xcall _TM1637_writeByte
- 072E 38FF              add SP,-1
- 0730           L87:
- 0730                   .dbline 882
- 0730 7700              inc [X+0]
- 0732           L89:
- 0732                   .dbline 882
- 0732 5200              mov A,[X+0]
- 0734 3BFA              cmp A,[X-6]
- 0736 CFEA              jc L86
- 0738           X45:
- 0738                   .dbline 885
- 0738           ; 
- 0738           ;       TM1637_stop();
- 0738 901E              xcall _TM1637_stop
- 073A                   .dbline 888
- 073A           ; 
- 073A           ;       // Write COMM3 + brightness
- 073A           ;       TM1637_start();
- 073A 9011              xcall _TM1637_start
- 073C                   .dbline 889
- 073C           ;       TM1637_writeByte(TM1637_I2C_COMM3 + (m_brightness & 0x0f));
- 073C 510A              mov A,[_m_brightness]
- 073E 210F              and A,15
- 0740 0180              add A,-128
- 0742 08                push A
- 0743 9032              xcall _TM1637_writeByte
- 0745 38FF              add SP,-1
- 0747                   .dbline 890
- 0747           ;       TM1637_stop();
- 0747 900F              xcall _TM1637_stop
- 0749                   .dbline -2
- 0749           L85:
- 0749 38FF              add SP,-1
- 074B 20                pop X
- 074C                   .dbline 0 ; func end
- 074C 7F                ret
- 074D                   .dbsym l k 0 c
- 074D                   .dbsym l pos -7 c
- 074D                   .dbsym l length -6 c
- 074D                   .dbsym l segments -5 pc
- 074D                   .dbend
- 074D                   .dbfunc e TM1637_start _TM1637_start fV
- 074D           _TM1637_start::
- 074D                   .dbline -1
- 074D                   .dbline 977
- 074D           ; }
- 074D           ; 
- 074D           ; /*void TM1637_clear()
- 074D           ; {
- 074D           ;     BYTE data[] = { 0, 0, 0, 0 };
- 074D           ;       TM1637_setSegments(data);
- 074D           ; }*/
- 074D           ; /*
- 074D           ; void TM1637_showNumberDec(int num, BYTE leading_zero, BYTE length, BYTE pos)
- 074D           ; {
- 074D           ;   TM1637_showNumberDecEx(num, 0, leading_zero, length, pos);
- 074D           ; }
- 074D           ; 
- 074D           ; void TM1637_showNumberDecEx(int num, BYTE dots, BYTE leading_zero, BYTE length, BYTE pos)
- 074D           ; {
- 074D           ;   TM1637_showNumberBaseEx(num < 0? -10 : 10, num < 0? -num : num, dots, leading_zero, length, pos);
- 074D           ; }
- 074D           ; 
- 074D           ; void TM1637_showNumberHexEx(unsigned int num, BYTE dots, BYTE leading_zero, BYTE length, BYTE pos)
- 074D           ; {
- 074D           ;   TM1637_showNumberBaseEx(16, num, dots, leading_zero, length, pos);
- 074D           ; }
- 074D           ; 
- 074D           ; void TM1637_showNumberBaseEx(BYTE base, unsigned int num, BYTE dots, BYTE leading_zero, BYTE length, BYTE pos)
- 074D           ; {
- 074D           ;       int i;
- 074D           ;     BYTE negative = 0;
- 074D           ;       BYTE digits[4];
- 074D           ;       BYTE digit;
- 074D           ;       
- 074D           ;       if (base < 0) 
- 074D           ;       {
- 074D           ;           base = -base;
- 074D           ;               negative = 1;
- 074D           ;       }
- 074D           ; 
- 074D           ;       if (num == 0 && !leading_zero) 
- 074D           ;       {
- 074D           ;               // Singular case - take care separately
- 074D           ;               for(i = 0; i < (length-1); i++)
- 074D           ;                       digits[i] = 0;
- 074D           ;               digits[length-1] = TM1637_encodeDigit(0);
- 074D           ;       }
- 074D           ;       else 
- 074D           ;       {
- 074D           ;               //uint8_t i = length-1;
- 074D           ;               //if (negative) {
- 074D           ;               //      // Negative number, show the minus sign
- 074D           ;               //    digits[i] = minusSegments;
- 074D           ;               //      i--;
- 074D           ;               //}
- 074D           ;               
- 074D           ;               for(i = length-1; i >= 0; --i)
- 074D           ;               {
- 074D           ;                   digit = num % base;
- 074D           ;                       
- 074D           ;                       if (digit == 0 && num == 0 && leading_zero == 0)
- 074D           ;                           // Leading zero is blank
- 074D           ;                               digits[i] = 0;
- 074D           ;                       else
- 074D           ;                           digits[i] = TM1637_encodeDigit(digit);
- 074D           ;                               
- 074D           ;                       if (digit == 0 && num == 0 && negative) 
- 074D           ;                       {
- 074D           ;                           digits[i] = minusSegments;
- 074D           ;                               negative = 0;
- 074D           ;                       }
- 074D           ; 
- 074D           ;                       num /= base;
- 074D           ;               }
- 074D           ;     }
- 074D           ;       
- 074D           ;       if(dots != 0)
- 074D           ;       {
- 074D           ;               TM1637_showDots(dots, digits);
- 074D           ;       }
- 074D           ;     
- 074D           ;     TM1637_setSegments(digits, length, pos);
- 074D           ; }
- 074D           ; */
- 074D           ; /*void TM1637_LCD_Delay50uTimes(BITDELAY)
- 074D           ; {
- 074D           ;       TM1637_delayMicroseconds(m_bitDelay);
- 074D           ; }*/
- 074D           ; 
- 074D           ; void TM1637_start(void)
- 074D           ; {
- 074D                   .dbline 978
- 074D           ;   TM1637_DIO_L;
- 074D 4104FE            and REG[0x4],-2
- 0750                   .dbline 979
- 0750           ;   LCD_Delay50uTimes(BITDELAY);
- 0750 10                push X
- 0751 5002              mov A,2
- 0753 7C0000            xcall _LCD_Delay50uTimes
- 0756 20                pop X
- 0757                   .dbline -2
- 0757           L90:
- 0757                   .dbline 0 ; func end
- 0757 7F                ret
- 0758                   .dbend
- 0758                   .dbfunc e TM1637_stop _TM1637_stop fV
- 0758           _TM1637_stop::
- 0758                   .dbline -1
- 0758                   .dbline 983
- 0758           ; }
- 0758           ; 
- 0758           ; void TM1637_stop(void)
- 0758           ; {
- 0758                   .dbline 984
- 0758           ;       TM1637_DIO_L;
- 0758 4104FE            and REG[0x4],-2
- 075B                   .dbline 985
- 075B           ;       LCD_Delay50uTimes(BITDELAY);
- 075B 10                push X
- 075C 5002              mov A,2
- 075E 7C0000            xcall _LCD_Delay50uTimes
- 0761 20                pop X
- 0762                   .dbline 986
- 0762           ;       TM1637_CLK_H;
- 0762 430402            or REG[0x4],2
- 0765                   .dbline 987
- 0765           ;       LCD_Delay50uTimes(BITDELAY);
- 0765 10                push X
- 0766 5002              mov A,2
- 0768 7C0000            xcall _LCD_Delay50uTimes
- 076B 20                pop X
- 076C                   .dbline 988
- 076C           ;       TM1637_DIO_H;
- 076C 430401            or REG[0x4],1
- 076F                   .dbline 989
- 076F           ;       LCD_Delay50uTimes(BITDELAY);
- 076F 10                push X
- 0770 5002              mov A,2
- 0772 7C0000            xcall _LCD_Delay50uTimes
- 0775 20                pop X
- 0776                   .dbline -2
- 0776           L91:
- 0776                   .dbline 0 ; func end
- 0776 7F                ret
- 0777                   .dbend
- 0777                   .dbfunc e TM1637_writeByte _TM1637_writeByte fc
- 0777           ;            ack -> X+2
- 0777           ;              i -> X+1
- 0777           ;           data -> X+0
- 0777           ;              b -> X-4
- 0777           _TM1637_writeByte::
- 0777                   .dbline -1
- 0777 10                push X
- 0778 4F                mov X,SP
- 0779 3803              add SP,3
- 077B                   .dbline 993
- 077B           ; }
- 077B           ; 
- 077B           ; BYTE TM1637_writeByte(BYTE b)
- 077B           ; {
- 077B                   .dbline 994
- 077B           ;   BYTE data = b;
- 077B 52FC              mov A,[X-4]
- 077D 5400              mov [X+0],A
- 077F                   .dbline 998
- 077F           ;   BYTE i, ack;
- 077F           ; 
- 077F           ;   // 8 Data Bits
- 077F           ;   for(i = 0; i < 8; i++) {
- 077F 560100            mov [X+1],0
- 0782 802F              xjmp L96
- 0784           L93:
- 0784                   .dbline 998
- 0784                   .dbline 1000
- 0784           ;     // CLK low
- 0784           ;     TM1637_CLK_L;
- 0784 4104FD            and REG[0x4],-3
- 0787                   .dbline 1001
- 0787           ;     LCD_Delay50uTimes(BITDELAY);
- 0787 10                push X
- 0788 5002              mov A,2
- 078A 7C0000            xcall _LCD_Delay50uTimes
- 078D 20                pop X
- 078E                   .dbline 1004
- 078E           ; 
- 078E           ;       // Set data bit
- 078E           ;     if (data & 0x01)
- 078E 480001            tst [X+0],1
- 0791 A006              jz L97
- 0793                   .dbline 1005
- 0793           ;       TM1637_DIO_H;
- 0793 430401            or REG[0x4],1
- 0796 8004              xjmp L98
- 0798           L97:
- 0798                   .dbline 1007
- 0798           ;     else
- 0798           ;       TM1637_DIO_L;
- 0798 4104FE            and REG[0x4],-2
- 079B           L98:
- 079B                   .dbline 1009
- 079B           ; 
- 079B           ;     LCD_Delay50uTimes(BITDELAY);
- 079B 10                push X
- 079C 5002              mov A,2
- 079E 7C0000            xcall _LCD_Delay50uTimes
- 07A1 20                pop X
- 07A2                   .dbline 1012
- 07A2           ; 
- 07A2           ;       // CLK high
- 07A2           ;     TM1637_CLK_H;
- 07A2 430402            or REG[0x4],2
- 07A5                   .dbline 1013
- 07A5           ;     LCD_Delay50uTimes(BITDELAY);
- 07A5 10                push X
- 07A6 5002              mov A,2
- 07A8 7C0000            xcall _LCD_Delay50uTimes
- 07AB 20                pop X
- 07AC                   .dbline 1014
- 07AC           ;     data = data >> 1;
- 07AC 70FB              and F,-5
- 07AE 6F00              rrc [X+0]
- 07B0                   .dbline 1015
- 07B0           ;   }
- 07B0           L94:
- 07B0                   .dbline 998
- 07B0 7701              inc [X+1]
- 07B2           L96:
- 07B2                   .dbline 998
- 07B2 3D0108            cmp [X+1],8
- 07B5 CFCE              jc L93
- 07B7           X46:
- 07B7                   .dbline 1019
- 07B7           ; 
- 07B7           ;   // Wait for acknowledge
- 07B7           ;   // CLK to zero
- 07B7           ;   TM1637_CLK_L;
- 07B7 4104FD            and REG[0x4],-3
- 07BA                   .dbline 1020
- 07BA           ;   TM1637_DIO_H;
- 07BA 430401            or REG[0x4],1
- 07BD                   .dbline 1021
- 07BD           ;   LCD_Delay50uTimes(BITDELAY);
- 07BD 10                push X
- 07BE 5002              mov A,2
- 07C0 7C0000            xcall _LCD_Delay50uTimes
- 07C3 20                pop X
- 07C4                   .dbline 1024
- 07C4           ; 
- 07C4           ;   // CLK to high
- 07C4           ;   TM1637_CLK_H;
- 07C4 430402            or REG[0x4],2
- 07C7                   .dbline 1025
- 07C7           ;   LCD_Delay50uTimes(BITDELAY);
- 07C7 10                push X
- 07C8 5002              mov A,2
- 07CA 7C0000            xcall _LCD_Delay50uTimes
- 07CD 20                pop X
- 07CE                   .dbline 1026
- 07CE           ;   ack = TM1637_DIO_READ; //digitalRead(m_pinDIO);
- 07CE 5D04              mov A,REG[0x4]
- 07D0 2101              and A,1
- 07D2 5402              mov [X+2],A
- 07D4                   .dbline 1027
- 07D4           ;   if (ack == 0)
- 07D4 3D0200            cmp [X+2],0
- 07D7 B004              jnz L99
- 07D9                   .dbline 1028
- 07D9           ;     TM1637_DIO_L;
- 07D9 4104FE            and REG[0x4],-2
- 07DC           L99:
- 07DC                   .dbline 1030
- 07DC           ; 
- 07DC           ;   LCD_Delay50uTimes(BITDELAY);
- 07DC 10                push X
- 07DD 5002              mov A,2
- 07DF 7C0000            xcall _LCD_Delay50uTimes
- 07E2 20                pop X
- 07E3                   .dbline 1031
- 07E3           ;   TM1637_CLK_L;
- 07E3 4104FD            and REG[0x4],-3
- 07E6                   .dbline 1032
- 07E6           ;   LCD_Delay50uTimes(BITDELAY);
- 07E6 10                push X
- 07E7 5002              mov A,2
- 07E9 7C0000            xcall _LCD_Delay50uTimes
- 07EC 20                pop X
- 07ED                   .dbline 1034
- 07ED           ;   
- 07ED           ;   if (ack == 0)
- 07ED 3D0200            cmp [X+2],0
- 07F0 B005              jnz L101
- 07F2                   .dbline 1035
- 07F2           ;       return 0;
- 07F2 5000              mov A,0
- 07F4 8003              xjmp L92
- 07F6           L101:
- 07F6                   .dbline 1037
- 07F6           ;   else
- 07F6           ;     return 1;
- 07F6 5001              mov A,1
- 07F8                   .dbline -2
- 07F8           L92:
- 07F8 38FD              add SP,-3
- 07FA 20                pop X
- 07FB                   .dbline 0 ; func end
- 07FB 7F                ret
- 07FC                   .dbsym l ack 2 c
- 07FC                   .dbsym l i 1 c
- 07FC                   .dbsym l data 0 c
- 07FC                   .dbsym l b -4 c
- 07FC                   .dbend
+ 06B1 5300              mov [__rX],A
+ 06B3 5080              mov A,(0 ^ 0x80)
+ 06B5 1A00              sbb A,[__rX]
+ 06B7 DC91              jnc L34
+ 06B9           X44:
+ 06B9 5108              mov A,[_Ri_Max+1]
+ 06BB 11DB              sub A,-37
+ 06BD 5107              mov A,[_Ri_Max]
+ 06BF 3180              xor A,-128
+ 06C1 1981              sbb A,(1 ^ 0x80)
+ 06C3 DC85              jnc L34
+ 06C5           X45:
+ 06C5 511C              mov A,[_Ri_Delta+1]
+ 06C7 118F              sub A,-113
+ 06C9 511B              mov A,[_Ri_Delta]
+ 06CB 3180              xor A,-128
+ 06CD 1980              sbb A,(0 ^ 0x80)
+ 06CF DC79              jnc L34
+ 06D1           X46:
+ 06D1                   .dbline 721
+ 06D1           ;                       {
+ 06D1           ;                               Heatup_Heater_Output=255;
+ 06D1                   .dbline 721
+ 06D1 5504FF            mov [_Heatup_Heater_Output],-1
+ 06D4                   .dbline 722
+ 06D4           ;                               Ri_Delta_Error_Sum=0;
+ 06D4 550300            mov [_Ri_Delta_Error_Sum+1],0
+ 06D7 550200            mov [_Ri_Delta_Error_Sum],0
+ 06DA                   .dbline 723
+ 06DA           ;                       }
+ 06DA                   .dbline 724
+ 06DA           ;               }
+ 06DA                   .dbline 725
+ 06DA           ;       }
+ 06DA                   .dbline 428
+ 06DA                   .dbline 428
+ 06DA 8C6E              xjmp L34
+ 06DC           X25:
+ 06DC                   .dbline -2
+ 06DC           L30:
+ 06DC 38F7              add SP,-9
+ 06DE 20                pop X
+ 06DF                   .dbline 0 ; func end
+ 06DF 8FFF              jmp .
+ 06E1                   .dbsym l temp_int2 7 I
+ 06E1                   .dbsym l temp_ulong 3 l
+ 06E1                   .dbsym l temp_byte 2 c
+ 06E1                   .dbsym l temp_int 0 I
+ 06E1                   .dbend
                         .area bss(ram, con, rel)
  0000                   .dbfile I:\PSOCDO~1\WBOOS_~2\DSTAGE~1\DSTAGE~1\main.c
  0000           _LSU_Temperature_C::
@@ -2879,3 +2344,10 @@
  001D           _Ri_Mid::
  001D                   .blkb 2
  001F                   .dbsym e Ri_Mid _Ri_Mid I
+                        .area lit(rom, con, rel, lit)
+ 0225           L33:
+ 0225 543A0000          .byte 'T,58,0,0
+ 0229           L32:
+ 0229 4C414D3A20300000  .byte 'L,'A,'M,58,32,48,0,0
+ 0231           L31:
+ 0231 4146523A20310000  .byte 'A,'F,'R,58,32,49,0,0
