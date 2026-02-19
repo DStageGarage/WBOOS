@@ -1,6 +1,14 @@
 # WBOOS v1.2 project
 Here you will find the full SW project for PSoC Designer. You can also use the precompiled ready to program files from the attached set in "precompiled_hex_files" folder.
 
+## History
+- 2026.02.19 - SW version v1.2.1:
+  1. option to dimm the LED display with an external pin configured in a way it can react to turning on of the headlights (one external resistor required)
+  2. an indication of the sensor heating is possible in a form of a blinking far right decimal point
+  3. "Hi" and "Lo" will be visible on LED display when AFR/Lambda is out of limits (leading "1" or "0" will remain visible)
+  4. NOTE: new precompiled hex files were not yet added for this version!
+     
+
 ## Programming
 There are a few options for programming WBOOS
 
@@ -15,3 +23,4 @@ This is the native way for programming PSoC microcontrollers. However, PSoC Mini
 - You should now be able to program PSoC microcontroller with chosen hex file. You can directly run "programmer.py" from command line or use the provided "WBOOS_program.bat". It should make it easier to spot what's going on as well as change the file name and path if needed.
 
 3. Use HC341 based board as a programmer. You can follow instructions on this website: https://antiradio.narod.ru/psoc/tools/programmer_341A/index.htm Be advised that it may not work with newer Windows like Win10 or Win11. It is proven to be working with Win7. If this is not a limitation for you, it may be an easier option than point 2.
+
