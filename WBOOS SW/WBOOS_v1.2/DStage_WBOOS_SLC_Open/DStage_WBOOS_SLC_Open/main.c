@@ -4,7 +4,9 @@
 // This program is a heavily modified version of the 
 // 14point7 SLC Free open wideband oxygen sensor controller
 //
-// Version 1.2.0 2025.02.02
+// Version history:
+//		1.2.0 2025.02.02 - initial version
+//		1.2.1 2026.02.19 - additional indications on the LED display
 // 
 // email: dstagegarage@gmail.com
 // YT: www.youtube.com/DStageGarage
@@ -31,25 +33,35 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 // set how often display gets refreshed, 50 is a default value meaning roughly 50x2ms=100ms or 10 times per second
 #define LCD_Counter_Set 50
 
-// define outout signal, Lin_Out (wide band) and NB_Out (narrow band) can be both present at once
+// define output signal, Lin_Out (wide band) and NB_Out (narrow band) can be both present at once, NB_simple doesn't use intermediate value (it saves flash memory)
 #define Lin_Out
 #define NB_Out
+//#define NB_simple_Out
 
 // define display type and content following these guidlines:
 //   - LCD Lmbda and AFR digits can be used at the same time but without Lambda/Temperature Graph
 //   - LCD Lambda/Temperature Graph cannot be used at the same time
 //   - LCD Temperature digits can be used together with Lambda/AFR digits
 //   - LED and LCD cannot be used at the same time
-//   - LED AFR and Lambda can be used at the same time and switched with a pin
+//	 - LED AFR and Lambda can be used at the same time switched with a pin but without heater dot and without dimmer and with simple NB outout (memory restrictios)
+//	 - LED AFR and Lambda can be used at the same time switched with a pin with heater do but without dimmer and without NB outout (memory restrictios)
+//	 - LED AFR and Lambda can be used at the same time switched with a pin without heater do but with dimmer and without NB outout (memory restrictios)
 //   - comment out #define for unused options
 // #define LCD_Lambda_Graph
- #define LCD_AFR_digits
-#define LCD_Lambda_digits
+ //#define LCD_AFR_digits
+//#define LCD_Lambda_digits
 //#define LCD_Temperature_Graph
- #define LCD_Temperature_digits
+ //#define LCD_Temperature_digits
 //#define DStage_logo
-//#define LED_AFR
+#define LED_AFR
 //#define LED_Lambda
+#define LED_Dimmer
+#define LED_Heater_dot
+
+// Set brightness level for LED display
+// 0: 7%; 1: 14%; 2: 29%; 3: 71%; 4: 79%; 5: 86%; 6: 93%; 7: 100%
+#define LED_BR_LOW 2
+#define LED_BR_HIGH 5
 
 // Define port/pin for LED display controller TM1637
 #define DIO_PORT 1
@@ -58,7 +70,11 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 #define CLK_PIN 1
 #define SWITCH_PORT 1
 #define SWITCH_PIN 7
+#define BRIGH_PORT 1
+#define BRIGH_PIN 3
 //============================================
+
+#define LED_ON 0x08
 
 #define SWPIN (1 << SWITCH_PIN)
 #if SWITCH_PORT == 1
@@ -78,6 +94,23 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 	#define	SWDM0 PRT0DM0
 #endif
 
+#define BRPIN (1 << BRIGH_PIN)
+#if BRIGH_PORT == 1
+	#define BRPORT PRT1DR
+	#define	BRDM2 PRT1DM2
+	#define	BRDM1 PRT1DM1
+	#define	BRDM0 PRT1DM0
+#elif BRIGH_PORT == 2
+	#define BRPORT PRT2DR
+	#define	BRDM2 PRT2DM2
+	#define	BRDM1 PRT2DM1
+	#define	BRDM0 PRT2DM0
+#else
+	#define BRPORT PRT0DR
+	#define	BRDM2 PRT0DM2
+	#define	BRDM1 PRT0DM1
+	#define	BRDM0 PRT0DM0
+#endif
 
 //#define PID_Tune
 #define Ri_Filter_Strength 4
@@ -117,7 +150,7 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 												 // AFR    = 10.0  10.14     10.3           10.44       10.58          10.73       10.88          11.03
 #endif
 
-#if defined LCD_AFR_digits || defined LED_AFR 
+#if defined LCD_AFR_digits 
 	#define ip_to_AFR_Lookup_Start 135
 	#define ip_to_AFR_Lookup_Size 158
 	const BYTE ip_to_AFR_Lookup[ip_to_AFR_Lookup_Size] = {0xFC,0x00,0x00,0x01,0x01,0x02,0x02,0x02,0x02,0x03,0x03,0x03,0x04,0x04,0x04,0x05,0x05,0x05,0x05,0x06,0x06,0x07,0x07,0x07,0x07,0x08,0x08,0x09,0x09,0x09,0x09,
@@ -133,7 +166,23 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 														  0xFE}; 
 #endif
 
-#if defined LCD_Lambda_digits || defined LED_Lambda
+#if defined LED_AFR 
+	#define ip_to_AFR_Lookup_Start 135
+	#define ip_to_AFR_Lookup_Size 158
+	const BYTE ip_to_AFR_Lookup[ip_to_AFR_Lookup_Size] = {0xBD,0x00,0x00,0x01,0x01,0x02,0x02,0x02,0x02,0x03,0x03,0x03,0x04,0x04,0x04,0x05,0x05,0x05,0x05,0x06,0x06,0x07,0x07,0x07,0x07,0x08,0x08,0x09,0x09,0x09,0x09,
+														  0x10,0x10,0x11,0x11,0x11,0x12,0x12,0x12,0x13,0x13,0x13,0x13,0x14,0x14,0x15,0x15,0x15,0x16,0x16,0x16,0x17,0x17,0x17,0x18,0x18,0x18,0x19,0x19,
+														  0x20,0x20,0x20,0x21,0x21,0x22,0x22,0x22,0x23,0x23,0x24,0x24,0x24,0x25,0x25,0x25,0x26,0x26,0x27,0x27,0x27,0x28,0x28,0x29,0x29,
+														  0x30,0x30,0x31,0x31,0x31,0x32,0x32,0x33,0x33,0x34,0x34,0x35,0x35,0x35,0x36,0x36,0x37,0x37,0x38,0x38,0x38,0x39,
+														  0x40,0x40,0x40,0x41,0x42,0x42,0x42,0x43,0x44,0x44,0x44,0x45,0x45,0x46,0x47,0x47,0x48,0x49,
+														  0x51,0x52,0x53,0x54,0x55,0x56,0x58,0x59,
+														  0x60,0x62,0x63,0x64,0x66,0x67,0x69,
+														  0x70,0x71,0x73,0x75,0x76,0x77,0x79,
+														  0x81,0x82,0x84,0x85,0x87,0x89,
+														  0x91,0x93,0x94,0x96,0x98,
+														  0xAC}; 
+#endif
+
+#if defined LCD_Lambda_digits
 	#define ip_to_LambdaD_Lookup_Start 135
 	#define ip_to_LambdaD_Lookup_Size 158
 	const BYTE ip_to_Lambda_Lookup[ip_to_LambdaD_Lookup_Size]= {0xFC,0x68,0x68,0x69,0x69,0x69,0x69,0x69,
@@ -145,6 +194,20 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 																0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,
 																0x30,0x31,0x32,0x33,0x35,
 																0xFE};
+#endif
+
+#if defined LED_Lambda
+	#define ip_to_LambdaD_Lookup_Start 135
+	#define ip_to_LambdaD_Lookup_Size 158
+	const BYTE ip_to_Lambda_Lookup[ip_to_LambdaD_Lookup_Size]= {0xBD,0x68,0x68,0x69,0x69,0x69,0x69,0x69,
+																0x70,0x70,0x70,0x70,0x70,0x71,0x71,0x71,0x71,0x72,0x72,0x72,0x72,0x72,0x73,0x73,0x73,0x73,0x74,0x74,0x74,0x74,0x74,0x75,0x75,0x75,0x75,0x76,0x76,0x76,0x76,0x76,0x77,0x77,0x77,0x77,0x78,0x78,0x78,0x78,0x79,0x79,0x79,0x79,
+																0x80,0x80,0x80,0x80,0x81,0x81,0x81,0x81,0x82,0x82,0x82,0x82,0x83,0x83,0x83,0x83,0x84,0x84,0x84,0x85,0x85,0x85,0x85,0x86,0x86,0x86,0x86,0x87,0x87,0x87,0x88,0x88,0x88,0x88,0x89,0x89,0x89,
+																0x90,0x90,0x90,0x91,0x91,0x91,0x91,0x92,0x92,0x92,0x93,0x93,0x93,0x94,0x94,0x94,0x95,0x95,0x95,0x96,0x96,0x96,0x97,0x97,0x97,0x98,0x98,0x98,0x99,0x99,0x99,
+																0x00,0x00,0x01,0x02,0x02,0x03,0x04,0x05,0x06,0x06,0x07,0x08,0x09,
+																0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,
+																0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,0x28,
+																0x30,0x31,0x32,0x33,0x35,
+																0xAC};
 #endif
 
 #ifdef LCD_Temperature_Graph
@@ -182,6 +245,8 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 	void TM1637_showDots(BYTE, BYTE*);
 	BYTE TM1637_encodeDigit(BYTE);
 	
+	BYTE m_brightness = LED_BR_HIGH | 0x08;
+	
 	//      A
 	//     ---
 	//  F |   | B
@@ -201,6 +266,12 @@ extern BYTE Sleep_Counter; //Variable Declared in SleepTimerINT.asm
 	0b00000111,    // 7
 	0b01111111,    // 8
 	0b01101111,    // 9
+	0b00111000,    // L (0xA)
+	0b01110110,    // H (0xB)
+	0b01011100,    // o (0xC)
+	0b00010000,    // i (0xD)
+	//0b01111001,    // E
+	//0b01110001     // F
 	//0b01110111,    // A
 	//0b01111100,    // b
 	//0b00111001,    // C
@@ -349,11 +420,12 @@ void main(void)
 {
 	unsigned long temp_ulong;
 	INT temp_int,temp_int2;
-	BYTE temp_byte;
+	BYTE temp_byte, temp_byte2;
 	
 	#if defined LED_AFR || defined LED_Lambda
 		// empty, 1, -, -
 		BYTE digits[4] = {0b00000000, 0b00000110, 0b01000000, 0b01000000};
+		BYTE heater_dot = 0x00;
 	#endif
 	
 	AMUX4_0_InputSelect(AMUX4_0_PORT0_1);        
@@ -491,6 +563,12 @@ void main(void)
 				PWM8_NB_Out_WritePulseWidth(temp_byte);
 			#endif
 			
+			#ifdef NB_simple_Out
+				temp_byte=0; //0v				
+				if (ip<260) // 251 =0.9797787392968
+					temp_byte=46; //0.9v
+				PWM8_NB_Out_WritePulseWidth(temp_byte);
+			#endif			
 		}
 		if (LCD_Counter>LCD_Counter_Set)
 		{
@@ -631,33 +709,25 @@ void main(void)
 					temp_int=(ip_to_AFR_Lookup_Size-1);
 				}
 				temp_byte = temp_int;	// code size optimization
-				
-				/*// AFR integer part (temporarly first digit is always "1"), add dot
-				digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
-				
-				// AFR decimal part
-				digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
-				
-				TM1637_setSegments(digits, 2, 2);*/
-				
+							
 				#ifdef LED_Lambda
 					if ((SWPORT & SWPIN) == 0)
 					{
 						// AFR integer part (temporarly first digit is always "1"), add dot
 						digits[1] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
 						
-						// AFR decimal part
-						digits[2] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
+						// AFR decimal part, far right decimal point blinking indicates sensor heating
+						digits[2] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F] | heater_dot;
 						
-						digits[0] = digitToSegment[1]; // temporarly first digit is always "1"
+						digits[0] = digitToSegment[1]; // as simplification the first digit is always "1"
 						TM1637_setSegments(digits, 3, 1);
 					}	
 				#else
 					// AFR integer part (temporarly first digit is always "1"), add dot
 					digits[0] = digitToSegment[(ip_to_AFR_Lookup[temp_byte] & 0xF0) >> 4] | 0x80;
 				
-					// AFR decimal part
-					digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F];
+					// AFR decimal part, far right decimal point blinking indicates sensor heating
+					digits[1] = digitToSegment[ip_to_AFR_Lookup[temp_byte] & 0x0F] | heater_dot;
 				
 					TM1637_setSegments(digits, 2, 2);
 				#endif
@@ -687,8 +757,8 @@ void main(void)
 						// Lambda 0.x0 part
 						digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
 					
-						// Lambda 0.0x part
-						digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
+						// Lambda 0.0x part, far right decimal point blinking indicates sensor heating
+						digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F] | heater_dot;
 							
 						TM1637_setSegments(digits, 3, 1);
 					}
@@ -702,11 +772,28 @@ void main(void)
 					// Lambda 0.x0 part
 					digits[1] = digitToSegment[(ip_to_Lambda_Lookup[temp_byte] & 0xF0) >> 4];
 					
-					// Lambda 0.0x part
-					digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F];
-							
+					// Lambda 0.0x part, far right decimal point blinking indicates sensor heating
+					digits[2] = digitToSegment[ip_to_Lambda_Lookup[temp_byte] & 0x0F] | heater_dot;
+										
 					TM1637_setSegments(digits, 3, 1);
 				#endif
+			#endif
+			
+			#if defined LED_Heater_dot && (defined LED_AFR || defined LED_Lambda)
+				// proof of concept for temperature below target indication, 175 should mean 750*C
+				// ToDo: disabling dot once target is achieved
+				if (Ri_Delta>175)
+				{
+					heater_dot ^= 0x80;
+				}
+			#endif
+			
+			#ifdef LED_Dimmer
+				// Brightness control
+				if ((BRPORT & BRPIN) != 0)					// pin high -> headlights on
+					m_brightness = LED_BR_LOW | LED_ON;		// reduced brightnes 
+				else
+					m_brightness = LED_BR_HIGH | LED_ON;	// normal brightnes
 			#endif
 		}
 		if (Heatup_Heater_Output<255)
@@ -800,9 +887,9 @@ void main(void)
 #define TM1637_I2C_COMM2    0xC0
 #define TM1637_I2C_COMM3    0x80
 
+/* moved to the top of main.c//
 BYTE m_brightness = 0x0C;
 
-/* moved to the top of main.c//
 //      A
 //     ---
 //  F |   | B
@@ -860,6 +947,15 @@ void TM1637_init(void)
 		SWDM1 |= SWPIN;
 		SWDM0 |= SWPIN;
 		SWPORT |= SWPIN;
+	#endif
+	
+	#ifdef LED_Dimmer
+		// LED brightness switch line
+		// 010 Hi-Z high and low, digital input enabled -> used as input, use external pull-down or direct high/low state switching, experiments with 000 mode could be performed (might add internal pull-down?)
+		BRDM2 &= ~BRPIN;
+		BRDM1 |= BRPIN;
+		BRDM0 &= ~BRPIN;
+		//BRPORT &= ~BRPIN;
 	#endif
 }
 

@@ -15,11 +15,11 @@
  
 include "m8c.inc"
 ;  Personalization tables 
-export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
-export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
-export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered
+export LoadConfigTBL_DStage_WBOOS_28pin_Bank1
+export LoadConfigTBL_DStage_WBOOS_28pin_Bank0
+export LoadConfigTBL_DStage_WBOOS_28pin_Ordered
 AREA lit(rom, rel)
-LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0:
+LoadConfigTBL_DStage_WBOOS_28pin_Bank0:
 ;  Instance name ADCINC, User Module ADCINC
 ;       Instance name ADCINC, Block Name ADC(ASD11)
 	db		84h, 90h		;ADCINC_AtoDcr0(ASD11CR0)
@@ -93,7 +93,7 @@ LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0:
 	db		b5h, 88h		; Row_0_OutputDrive_0 register (RDI0SRO0)
 	db		b6h, 08h		; Row_0_OutputDrive_1 register (RDI0SRO1)
 	db		ffh
-LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1:
+LoadConfigTBL_DStage_WBOOS_28pin_Bank1:
 ;  Instance name ADCINC, User Module ADCINC
 ;       Instance name ADCINC, Block Name ADC(ASD11)
 ;       Instance name ADCINC, Block Name PWM(DBB00)
@@ -147,7 +147,7 @@ LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1:
 	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
 	db		ffh
 AREA psoc_config(rom, rel)
-LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered:
+LoadConfigTBL_DStage_WBOOS_28pin_Ordered:
 ;  Ordered Global Register values
 	M8C_SetBank0
 	mov	reg[00h], 00h		; Port_0_Data register (PRT0DR)

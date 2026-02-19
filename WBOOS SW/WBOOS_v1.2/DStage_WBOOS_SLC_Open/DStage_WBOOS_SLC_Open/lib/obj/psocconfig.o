@@ -1,9 +1,9 @@
 XH
 H 3 areas F global symbols
 M psocconfig.asm
-S LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0 Ref0000
-S LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1 Ref0000
-S LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered Ref0000
+S LoadConfigTBL_DStage_WBOOS_28pin_Bank0 Ref0000
+S LoadConfigTBL_DStage_WBOOS_28pin_Bank1 Ref0000
+S LoadConfigTBL_DStage_WBOOS_28pin_Ordered Ref0000
 A text size 0 flags 0
 dbfile lib/psocconfig.asm
 dbfunc 0 ? 0 I
@@ -15,7 +15,7 @@ dbfile memory.inc
 dbfunc 0 ? 0 I
 dbfile lib/psocconfig.asm
 dbfunc 0 ? 0 I
-dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/include/CY8C24~3/m8c.inc
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C24~1/m8c.inc
 dbfunc 0 ? 0 I
 A psoc_config size 67 flags 0
 dbfile lib/psocconfig.asm
@@ -79,9 +79,9 @@ dbline B3 60
 dbline B4 62
 dbline B6 64
 dbline B8 66
-S LoadConfig_slc_free_28_pin_feb_16_2013 Def0010
+S LoadConfig_DStage_WBOOS_28pin Def0010
 S LoadConfigInit Def0000
-S _LoadConfig_slc_free_28_pin_feb_16_2013 Def0010
+S _LoadConfig_DStage_WBOOS_28pin Def0010
 S _LoadConfigInit Def0000
 A InterruptRAM size 3 flags 20
 S _NO_SHADOW Def0000

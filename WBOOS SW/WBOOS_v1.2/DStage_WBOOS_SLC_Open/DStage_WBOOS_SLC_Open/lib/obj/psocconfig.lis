@@ -417,7 +417,6 @@
  00E2           OSC_CR2:      equ 0E2h          ; Oscillator Control Register 2            (RW)
  0080           OSC_CR2_PLLGAIN:      equ 80h    ; MASK: High/Low gain
  0004           OSC_CR2_EXTCLKEN:     equ 04h    ; MASK: Enable/Disable External Clock
- 0002           OSC_CR2_IMODIS:       equ 02h    ; MASK: Enable/Disable System (IMO) Clock Net
  0001           OSC_CR2_SYSCLKX2DIS:  equ 01h    ; MASK: Enable/Disable 48MHz clock source
  0000           
  00E3           VLT_CR:       equ 0E3h          ; Voltage Monitor Control Register         (RW)
@@ -849,8 +848,8 @@
  0000           
                 export LoadConfigInit
                 export _LoadConfigInit
-                export LoadConfig_slc_free_28_pin_feb_16_2013
-                export _LoadConfig_slc_free_28_pin_feb_16_2013
+                export LoadConfig_DStage_WBOOS_28pin
+                export _LoadConfig_DStage_WBOOS_28pin
                 export Port_2_Data_SHADE
                 export _Port_2_Data_SHADE
                 export Port_2_DriveMode_0_SHADE
@@ -916,8 +915,8 @@
  0003 5501FF            mov             [Port_2_DriveMode_0_SHADE], ffh
  0006 550200            mov             [Port_2_DriveMode_1_SHADE], 0h
  0009           
- 0009 7C0010            lcall   LoadConfig_slc_free_28_pin_feb_16_2013
- 000C 7C0000            lcall   LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered
+ 0009 7C0010            lcall   LoadConfig_DStage_WBOOS_28pin
+ 000C 7C0000            lcall   LoadConfigTBL_DStage_WBOOS_28pin_Ordered
  000F           
  000F           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
@@ -965,9 +964,9 @@
  000F 7F            ret
  0010           
  0010           ;---------------------------------------------------------------------------
- 0010           ; Load Configuration slc_free_28_pin_feb_16_2013
+ 0010           ; Load Configuration DStage_WBOOS_28pin
  0010           ;
- 0010           ;    Load configuration registers for slc_free_28_pin_feb_16_2013.
+ 0010           ;    Load configuration registers for DStage_WBOOS_28pin.
  0010           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
  0010           ;
  0010           ;       INPUTS: None.
@@ -983,8 +982,8 @@
  0010           ;               Page Pointer Registers Modified: 
  0010           ;               CUR_PP
  0010           ;
- 0010           _LoadConfig_slc_free_28_pin_feb_16_2013:
- 0010            LoadConfig_slc_free_28_pin_feb_16_2013:
+ 0010           _LoadConfig_DStage_WBOOS_28pin:
+ 0010            LoadConfig_DStage_WBOOS_28pin:
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1015,15 +1014,15 @@
  0013 5000          mov     a, 0                    ; Specify bank 0
  0015 67            asr     a                       ; Store in carry flag
  0016                                               ; Load bank 0 table:
- 0016 5000          mov     A, >LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
- 0018 5700          mov     X, <LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
+ 0016 5000          mov     A, >LoadConfigTBL_DStage_WBOOS_28pin_Bank0
+ 0018 5700          mov     X, <LoadConfigTBL_DStage_WBOOS_28pin_Bank0
  001A 7C002B        lcall   LoadConfig              ; Load the bank 0 values
  001D           
  001D 5001          mov     a, 1                    ; Specify bank 1
  001F 67            asr     a                       ; Store in carry flag
  0020                                               ; Load bank 1 table:
- 0020 5000          mov     A, >LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
- 0022 5700          mov     X, <LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
+ 0020 5000          mov     A, >LoadConfigTBL_DStage_WBOOS_28pin_Bank1
+ 0022 5700          mov     X, <LoadConfigTBL_DStage_WBOOS_28pin_Bank1
  0024 7C002B        lcall   LoadConfig              ; Load the bank 1 values
  0027           
  0027 70EF          and   F, ~FLAG_XIO_MASK

@@ -414,7 +414,6 @@
  00E2           OSC_CR2:      equ 0E2h          ; Oscillator Control Register 2            (RW)
  0080           OSC_CR2_PLLGAIN:      equ 80h    ; MASK: High/Low gain
  0004           OSC_CR2_EXTCLKEN:     equ 04h    ; MASK: Enable/Disable External Clock
- 0002           OSC_CR2_IMODIS:       equ 02h    ; MASK: Enable/Disable System (IMO) Clock Net
  0001           OSC_CR2_SYSCLKX2DIS:  equ 01h    ; MASK: Enable/Disable 48MHz clock source
  0000           
  00E3           VLT_CR:       equ 0E3h          ; Voltage Monitor Control Register         (RW)
@@ -495,11 +494,11 @@
  0000               or   F, 0
  0000               macro Resume_CodeCompressor
  0000               add  SP, 0
-                export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
-                export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
-                export LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered
+                export LoadConfigTBL_DStage_WBOOS_28pin_Bank1
+                export LoadConfigTBL_DStage_WBOOS_28pin_Bank0
+                export LoadConfigTBL_DStage_WBOOS_28pin_Ordered
                 AREA lit(rom, rel)
- 0000           LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0:
+ 0000           LoadConfigTBL_DStage_WBOOS_28pin_Bank0:
  0000           ;  Instance name ADCINC, User Module ADCINC
  0000           ;       Instance name ADCINC, Block Name ADC(ASD11)
  0000 8490              db              84h, 90h                ;ADCINC_AtoDcr0(ASD11CR0)
@@ -573,7 +572,7 @@
  0060 B588              db              b5h, 88h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
  0062 B608              db              b6h, 08h                ; Row_0_OutputDrive_1 register (RDI0SRO1)
  0064 FF                db              ffh
- 0065           LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1:
+ 0065           LoadConfigTBL_DStage_WBOOS_28pin_Bank1:
  0065           ;  Instance name ADCINC, User Module ADCINC
  0065           ;       Instance name ADCINC, Block Name ADC(ASD11)
  0065           ;       Instance name ADCINC, Block Name PWM(DBB00)
@@ -627,7 +626,7 @@
  009D DD00              db              ddh, 00h                ; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
  009F FF                db              ffh
                 AREA psoc_config(rom, rel)
- 0000           LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered:
+ 0000           LoadConfigTBL_DStage_WBOOS_28pin_Ordered:
  0000           ;  Ordered Global Register values
  0000 70EF          and   F, ~FLAG_XIO_MASK
  0002 620000            mov     reg[00h], 00h           ; Port_0_Data register (PRT0DR)

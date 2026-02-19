@@ -2,4 +2,4 @@
  -bdata:0.0xFF -rwh:SSCParmBlk:0x00F7.0x00FF  -O -elim:UserModules 
  -o"output/DStage_WBOOS_SLC_Open" 
 obj/main.o 	
- ./lib/libPSoc.a -LC:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/lib/SMM C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/lib/CY8C24000B/cms.a C:/PROGRA~2/Cypress/PSOCDE~1/5.3/Common/CY110F~1/tools/lib/SMM/UASW/MAC/arith.a  
+ ./lib/libPSoc.a -LC:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/lib/SMM C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/lib/CY8C24000B/cms.a C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/lib/SMM/UASW/MAC/arith.a  

@@ -22,8 +22,8 @@ include "GlobalParams.inc"
 
 export LoadConfigInit
 export _LoadConfigInit
-export LoadConfig_slc_free_28_pin_feb_16_2013
-export _LoadConfig_slc_free_28_pin_feb_16_2013
+export LoadConfig_DStage_WBOOS_28pin
+export _LoadConfig_DStage_WBOOS_28pin
 export Port_2_Data_SHADE
 export _Port_2_Data_SHADE
 export Port_2_DriveMode_0_SHADE
@@ -66,17 +66,17 @@ _LoadConfigInit:
 	mov		[Port_2_DriveMode_0_SHADE], ffh
 	mov		[Port_2_DriveMode_1_SHADE], 0h
 
-	lcall	LoadConfig_slc_free_28_pin_feb_16_2013
-	lcall	LoadConfigTBL_slc_free_28_pin_feb_16_2013_Ordered
+	lcall	LoadConfig_DStage_WBOOS_28pin
+	lcall	LoadConfigTBL_DStage_WBOOS_28pin_Ordered
 
 
     RAM_EPILOGUE RAM_USE_CLASS_4
     ret
 
 ;---------------------------------------------------------------------------
-; Load Configuration slc_free_28_pin_feb_16_2013
+; Load Configuration DStage_WBOOS_28pin
 ;
-;    Load configuration registers for slc_free_28_pin_feb_16_2013.
+;    Load configuration registers for DStage_WBOOS_28pin.
 ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
 ;
 ;       INPUTS: None.
@@ -92,8 +92,8 @@ _LoadConfigInit:
 ;               Page Pointer Registers Modified: 
 ;               CUR_PP
 ;
-_LoadConfig_slc_free_28_pin_feb_16_2013:
- LoadConfig_slc_free_28_pin_feb_16_2013:
+_LoadConfig_DStage_WBOOS_28pin:
+ LoadConfig_DStage_WBOOS_28pin:
     RAM_PROLOGUE RAM_USE_CLASS_4
 
 	push	x
@@ -101,15 +101,15 @@ _LoadConfig_slc_free_28_pin_feb_16_2013:
     mov     a, 0                    ; Specify bank 0
     asr     a                       ; Store in carry flag
                                     ; Load bank 0 table:
-    mov     A, >LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
-    mov     X, <LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank0
+    mov     A, >LoadConfigTBL_DStage_WBOOS_28pin_Bank0
+    mov     X, <LoadConfigTBL_DStage_WBOOS_28pin_Bank0
     lcall   LoadConfig              ; Load the bank 0 values
 
     mov     a, 1                    ; Specify bank 1
     asr     a                       ; Store in carry flag
                                     ; Load bank 1 table:
-    mov     A, >LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
-    mov     X, <LoadConfigTBL_slc_free_28_pin_feb_16_2013_Bank1
+    mov     A, >LoadConfigTBL_DStage_WBOOS_28pin_Bank1
+    mov     X, <LoadConfigTBL_DStage_WBOOS_28pin_Bank1
     lcall   LoadConfig              ; Load the bank 1 values
 
     M8C_SetBank0                    ; Force return to bank 0

@@ -420,7 +420,6 @@
  00E2           OSC_CR2:      equ 0E2h          ; Oscillator Control Register 2            (RW)
  0080           OSC_CR2_PLLGAIN:      equ 80h    ; MASK: High/Low gain
  0004           OSC_CR2_EXTCLKEN:     equ 04h    ; MASK: Enable/Disable External Clock
- 0002           OSC_CR2_IMODIS:       equ 02h    ; MASK: Enable/Disable System (IMO) Clock Net
  0001           OSC_CR2_SYSCLKX2DIS:  equ 01h    ; MASK: Enable/Disable 48MHz clock source
  0000           
  00E3           VLT_CR:       equ 0E3h          ; Voltage Monitor Control Register         (RW)
@@ -902,7 +901,6 @@
  00E2           OSC_CR2:      equ 0E2h          ; Oscillator Control Register 2            (RW)
  0080           OSC_CR2_PLLGAIN:      equ 80h    ; MASK: High/Low gain
  0004           OSC_CR2_EXTCLKEN:     equ 04h    ; MASK: Enable/Disable External Clock
- 0002           OSC_CR2_IMODIS:       equ 02h    ; MASK: Enable/Disable System (IMO) Clock Net
  0001           OSC_CR2_SYSCLKX2DIS:  equ 01h    ; MASK: Enable/Disable 48MHz clock source
  0000           
  00E3           VLT_CR:       equ 0E3h          ; Voltage Monitor Control Register         (RW)
@@ -1297,7 +1295,7 @@
                 export _bPWM8_Heater_ReadCounter       ; deprecated
                 
                 
-                AREA slc_free_28_pin_feb_16_2013_RAM (RAM,REL)
+                AREA DStage_WBOOS_28pin_RAM (RAM,REL)
                 
                 ;-----------------------------------------------
                 ;  Constant Definitions

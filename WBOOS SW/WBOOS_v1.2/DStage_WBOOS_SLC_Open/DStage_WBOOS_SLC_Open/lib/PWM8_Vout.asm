@@ -51,7 +51,7 @@ export  bPWM8_Vout_ReadCounter       ; deprecated
 export _bPWM8_Vout_ReadCounter       ; deprecated
 
 
-AREA slc_free_28_pin_feb_16_2013_RAM (RAM,REL)
+AREA DStage_WBOOS_28pin_RAM (RAM,REL)
 
 ;-----------------------------------------------
 ;  Constant Definitions
