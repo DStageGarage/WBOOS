@@ -8,5 +8,12 @@ DStage Wide Band Oxygen Sensor Controller, or WBOOS for short is based and a tri
 ## LED display
 ![AFR LED](photo/DStage_WBOOS_v1.2_LED_AFR.jpg)
 
-Since SW version v1.2 it is now possible to use 7-segment LED diplay module based on TM1637 chip. By default it is connected to SCL and SDA programming lines (CLK and DIO signals respectively). Programming interface on WBOOS also provides Power and Ground pins, so 4 wires go to the LED module in total. There is also a possibility to switch the displayed value between AFR and Lambda. By default the switch is set to P1.7 which is a free pin provided on both WBOOS and DSpeed projects. It is recomended to add an esternal 1-4,7k pull-up resistor and switch the mode by connecting the line to ground with a switch. Alternatively switching between 5V and ground is also an option. 
+Since SW version v1.2 it is now possible to use 7-segment LED diplay module based on TM1637 chip. By default it is connected to SCL and SDA programming lines (CLK and DIO signals respectively). Programming interface on WBOOS also provides Power and Ground pins, so 4 wires go to the LED module in total. There is also a possibility to switch the displayed value between AFR and Lambda. By default the switch is set to P1.7 which is a free pin provided on both WBOOS and DSpeed projects. It is recomended to add an external 1-4,7k pull-up resistor and switch the mode by connecting the line to ground with a switch. Alternatively switching between 5V and ground is also an option. 
 ![LED pins](photo/v1.2_LED_display_pins.jpg)
+
+## Analogue outputs
+There are two analogue outputs marked NB and WB. Both signals are created using PWM which is filtered using a 2nd order active filter. This is one of the improvements over the original SLC Free, as it was using a simple 1st order passive filter; here the output signal is smoother with less ripple or, in simple words, is less bumpy. 
+
+The NB stands for "narrow band". It is dedicated to simulating a simple narrowband oxygen sensor, for example, when user changes one originally mounted in the vehicle and wishes to feed the signal to the original ECU. The ECU can then operate normally, not noticing a wideband oxygen sensor was installed in the place of the old one. The voltage at the NB output jumps between 0 V for rich conditions and 0,9V for lean. By default it also has a "mid stop" at 0,45V during the transition between rich and lean to smooth out the output signal. 
+
+The WB stands for "wideband" and it has a linear relationship between the output voltage and the measured air-fuel mixture conditions. A 0V represents an AFR of 10.0 or lambda 0,68 while 5V means an AFR of 19.9 or lambda 0,35.
